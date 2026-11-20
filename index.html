@@ -2,158 +2,274 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Your Study Tracker</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-:root{--bg:#0f172a;--cbg:#1e293b;--txt:#f8fafc;--mut:#94a3b8;--pri:#3b82f6;--new:#f59e0b;--old:#3b82f6;--dng:#ef4444;--suc:#10b981;--bord:#334155}
-*{box-sizing:border-box}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:15px;min-height:100vh;overflow-x:hidden;-webkit-overflow-scrolling:touch}
-.container{width:100%;max-width:500px;margin:0 auto;background:var(--cbg);padding:20px;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,0.5);margin-bottom:50px}
-h1{font-size:24px;margin-top:0;margin-bottom:5px}
-.subtitle{color:var(--mut);font-size:14px;margin-bottom:20px}
-h2{font-size:16px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-top:25px;margin-bottom:10px;border-bottom:1px solid var(--bord);padding-bottom:5px}
-.nav{display:flex;gap:8px;margin-bottom:20px;background:var(--bg);padding:6px;border-radius:12px}
-.nav button{flex:1;background:transparent;border:none;color:var(--mut);font-size:14px;cursor:pointer;padding:10px;border-radius:8px;font-weight:600;transition:all .2s}
-.nav button.active{background:var(--cbg);color:var(--txt);box-shadow:0 2px 5px rgba(0,0,0,0.2)}
-.action-btns{display:flex;gap:5px}
-.icon-btn{background:transparent;border:none;font-size:18px;cursor:pointer;padding:5px;color:var(--mut)}
-.icon-btn:active{color:#fff}
-input[type="text"],input[type="number"],input[type="date"],textarea{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid var(--bord);background:var(--bg);color:#fff;font-size:14px;font-family:'Inter',sans-serif}
-textarea{resize:vertical;min-height:150px}
-input:focus,textarea:focus{outline:none;border-color:var(--pri)}
-.btn{background:var(--pri);color:#fff;padding:14px;border:none;border-radius:10px;cursor:pointer;width:100%;font-size:16px;font-weight:600;margin-top:10px}
-.btn:active{opacity:.8}
-.btn-red{background:var(--dng)}
-.btn-orange{background:var(--new)}
-.btn-green{background:var(--suc)}
-.btn-grey{background:#475569}
-.mini-btn{padding:8px 10px;font-size:12px;margin-top:0;border-radius:6px}
-.review-buttons{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;margin-top:15px}
-.hide{display:none}
-small{color:var(--mut);font-size:12px}
-.empty-state{text-align:center;padding:40px 20px;color:var(--mut);font-size:15px;line-height:1.5}
-.flex-between{display:flex;justify-content:space-between;align-items:center}
-.progress-container{width:100%;background:var(--bord);border-radius:10px;height:8px;margin-bottom:20px;overflow:hidden}
-.progress-bar{height:100%;background:var(--suc);width:0%;transition:width .3s}
-.stats-banner{background:var(--bg);border-radius:10px;padding:10px 15px;margin-bottom:15px;display:flex;justify-content:space-between;font-size:13px;color:var(--mut);border:1px solid var(--bord)}
-details.course-group{margin-bottom:12px;background:var(--bg);border-radius:12px;border:1px solid var(--bord);overflow:hidden}
-details.course-group summary{padding:15px;display:flex;justify-content:space-between;align-items:center;font-size:18px;color:var(--txt);background:var(--cbg);cursor:pointer;list-style:none;font-weight:600}
-details.course-group summary::-webkit-details-marker{display:none}
-details.course-group summary .badge{background:var(--bg);color:var(--mut);font-size:12px;padding:4px 8px;border-radius:20px}
-details.course-group[open] summary{border-bottom:1px solid var(--bord)}
-details.course-group summary::after{content:'▼';font-size:12px;color:var(--mut);transition:transform 0.2s}
-details.course-group[open] summary::after{transform:rotate(180deg)}
-.goal-setting{display:flex;align-items:center;gap:10px;margin-bottom:15px;background:var(--bg);padding:10px;border-radius:8px;border:1px solid var(--bord)}
-.goal-setting input{width:60px;margin:0;padding:8px;text-align:center}
-.reps-badge{font-size:10px;background:var(--cbg);padding:2px 6px;border-radius:4px;border:1px solid var(--bord);color:var(--mut)}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* CARDS CSS */
-.course-content{padding:10px;display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;background:var(--cbg)}
-.grid-card{background:#334155;padding:10px;border-radius:8px;border-left:4px solid var(--pri);display:flex;flex-direction:column;justify-content:space-between;position:relative;transition:box-shadow 0.15s}
-.grid-card.selectable{cursor:pointer}
-.grid-card.selected{box-shadow:0 0 0 2px var(--dng);background:rgba(239, 68, 68, 0.22) !important}
-.card{background:#334155;padding:15px;margin-bottom:12px;border-radius:10px;border-left:8px solid var(--pri);display:block;position:relative}
-.priority-high{border-left-color:var(--new)}
-.priority-low{border-left-color:var(--old)}
-.priority-focus{border-left-color:var(--dng) !important; background:rgba(239, 68, 68, 0.15) !important}
-.grid-card .code{font-weight:700;font-size:14px;color:#fff;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
-.grid-card .title{font-size:11px;color:#cbd5e1;line-height:1.2;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex-grow:1}
-.grid-card .actions{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
-.grid-card .actions button{background:transparent;border:none;color:var(--mut);cursor:pointer;font-size:14px;padding:2px}
-.exam-tag{font-size:9px;background:rgba(239, 68, 68, 0.2);color:#ef4444;padding:2px 4px;border-radius:4px;font-weight:bold;margin-left:4px}
-.date-picker-row{display:flex;gap:8px;align-items:center;margin-top:8px;font-size:12px;color:var(--mut);flex-wrap:wrap}
-.date-picker-row input[type="date"]{padding:4px 8px;font-size:12px;width:auto;margin:0;background:var(--cbg);border-color:var(--bord)}
-.countdown{font-weight:700;color:var(--dng);background:rgba(239, 68, 68, 0.1);padding:4px 8px;border-radius:6px;border:1px solid rgba(239,68,68,0.3)}
-.focus-btn{background:transparent;border:1px solid var(--bord);color:var(--mut);border-radius:12px;padding:2px 8px;font-size:10px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:4px}
-.focus-btn.focused{background:rgba(239, 68, 68, 0.15);color:#ef4444;border-color:rgba(239, 68, 68, 0.3)}
+:root {
+    --bg: #0b1120; 
+    --cbg: #1e293b; 
+    --txt: #f8fafc; 
+    --mut: #94a3b8; 
+    --pri: #3b82f6; 
+    --new: #f59e0b; 
+    --old: #06b6d4; /* Cyan for older */
+    --dng: #ef4444; 
+    --suc: #10b981; 
+    --bord: #334155;
+}
 
-/* Batch Delete CSS */
-.select-toggle-btn{background:var(--bg);border:1px solid var(--bord);color:var(--mut);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s}
-.select-toggle-btn.active{background:rgba(239, 68, 68, 0.15);color:#ef4444;border-color:rgba(239, 68, 68, 0.3)}
-.batch-bar{display:none;justify-content:space-between;align-items:center;gap:8px;background:var(--bg);border:1px solid rgba(239, 68, 68, 0.35);padding:10px 12px;border-radius:10px;margin:8px 0 12px 0;font-size:13px}
-.batch-bar.show{display:flex}
-.batch-bar-btns{display:flex;gap:6px;align-items:center}
-.batch-bar button{width:auto;margin:0;padding:6px 10px;font-size:12px;border-radius:6px;border:none;color:#fff;font-weight:600;cursor:pointer}
-.batch-bar button:disabled{opacity:0.4;cursor:not-allowed}
-.card-checkbox{width:15px;height:15px;accent-color:var(--dng);cursor:pointer;margin:0}
-.course-select-btn{background:var(--bg);border:1px solid var(--bord);color:var(--txt);border-radius:6px;padding:2px 7px;font-size:10px;font-weight:600;cursor:pointer}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--txt);
+    margin:0;
+    padding:15px;
+    padding-bottom:90px; /* Space for bottom nav */
+    min-height:100vh;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+}
 
-/* Split Banners CSS */
-#urgent-focus-alert {display:none; padding:12px; border-radius:10px; margin-bottom:10px; font-size:13px; font-weight:600; text-align:center; line-height:1.4; background:rgba(239, 68, 68, 0.15); border:1px solid rgba(239, 68, 68, 0.3); color:#ef4444;}
-#upcoming-exams-alert {display:none; padding:12px; border-radius:10px; margin-bottom:20px; font-size:13px; font-weight:600; text-align:center; line-height:1.4; background:rgba(59, 130, 246, 0.15); border:1px solid rgba(59, 130, 246, 0.3); color:#3b82f6;}
-</style></head><body>
+.container{width:100%;max-width:500px;margin:0 auto;}
+h1{font-size:24px;margin-top:0;margin-bottom:5px;}
+.subtitle{color:var(--mut);font-size:14px;margin-bottom:20px;}
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(30, 41, 59, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0 20px 0;
+    border-top: 1px solid var(--bord);
+    z-index: 100;
+}
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--mut);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 5px 20px;
+}
+.nav-btn .icon { font-size: 20px; }
+.nav-btn.active { color: var(--pri); }
+
+/* Modals */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: flex-end; /* Slide up from bottom */
+    z-index: 200;
+}
+.modal-overlay.show { display: flex; }
+.modal-content {
+    background: var(--cbg);
+    width: 100%;
+    max-width: 500px;
+    border-radius: 20px 20px 0 0;
+    padding: 25px 20px;
+    box-shadow: 0 -10px 25px rgba(0,0,0,0.5);
+    animation: slideUp 0.3s ease-out;
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.modal-title { font-size: 20px; font-weight: 700; color: var(--txt); margin: 0; }
+
+/* Forms & Inputs */
+input[type="text"], input[type="number"], input[type="date"], textarea {
+    width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px;
+    border: 1px solid var(--bord); background: var(--bg); color: #fff;
+    font-size: 14px; font-family: 'Inter', sans-serif;
+}
+textarea { resize: vertical; min-height: 120px; }
+input:focus, textarea:focus { outline: none; border-color: var(--pri); }
+
+/* Buttons */
+.btn { background: var(--pri); color: #fff; padding: 14px; border: none; border-radius: 10px; cursor: pointer; width: 100%; font-size: 15px; font-weight: 600; margin-top: 10px; transition: opacity 0.2s; }
+.btn:active { opacity: 0.7; }
+.btn-red { background: var(--dng); }
+.btn-grey { background: #475569; }
+.btn-outline { background: transparent; border: 1px solid var(--bord); color: var(--txt); }
+
+/* Toolbar */
+.toolbar { display: flex; gap: 8px; margin-bottom: 15px; }
+.toolbar input { margin: 0; flex-grow: 1; }
+.toolbar-btn { background: var(--cbg); border: 1px solid var(--bord); color: var(--mut); border-radius: 10px; padding: 0 12px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.toolbar-btn.active { background: rgba(239, 68, 68, 0.15); color: var(--dng); border-color: var(--dng); }
+
+/* Dashboard Folders */
+details.course-group { margin-bottom: 12px; background: var(--cbg); border-radius: 12px; border: 1px solid var(--bord); overflow: hidden; }
+details.course-group summary { padding: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; color: var(--txt); cursor: pointer; list-style: none; font-weight: 700; }
+details.course-group summary::-webkit-details-marker { display: none; }
+details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
+.folder-badge { background: var(--bg); color: var(--mut); font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+.focus-pill { font-size: 10px; padding: 3px 8px; border-radius: 12px; font-weight: 700; background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+/* Grid vs List */
+.course-content { padding: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.course-content.list-view { grid-template-columns: 1fr; gap: 10px; }
+
+.grid-card { background: #2a3a52; padding: 12px; border-radius: 10px; border-left: 4px solid var(--old); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+.grid-card.priority-high { border-left-color: var(--new); }
+.grid-card.priority-focus { border-left-color: var(--dng) !important; background: rgba(239, 68, 68, 0.15) !important; }
+.grid-card .code { font-weight: 700; font-size: 14px; color: #fff; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
+.grid-card .title { font-size: 11px; color: #cbd5e1; line-height: 1.3; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex-grow: 1; }
+.list-view .grid-card .title { font-size: 14px; -webkit-line-clamp: 2; margin-bottom: 10px; }
+.grid-card .actions { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px; }
+.grid-card .actions button { background: transparent; border: none; color: var(--mut); cursor: pointer; font-size: 14px; padding: 2px; }
+.reps-badge { font-size: 10px; background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px; color: var(--mut); font-weight: 600;}
+.warn-badge { font-size: 9px; background: rgba(239, 68, 68, 0.2); color: #ef4444; padding: 2px 5px; border-radius: 4px; font-weight: 700; }
+
+/* Alerts */
+#urgent-alert { display:none; padding:12px; border-radius:10px; margin-bottom:15px; font-size:13px; font-weight:600; text-align:center; line-height:1.4; background:rgba(239, 68, 68, 0.15); border:1px solid rgba(239, 68, 68, 0.3); color:#ef4444;}
+#upcoming-alert { display:none; padding:12px; border-radius:10px; margin-bottom:15px; font-size:13px; font-weight:600; text-align:center; line-height:1.4; background:rgba(59, 130, 246, 0.15); border:1px solid rgba(59, 130, 246, 0.3); color:#3b82f6;}
+
+/* Today's Mix Cards */
+.mix-card { background: var(--cbg); padding: 15px; margin-bottom: 12px; border-radius: 12px; border-left: 6px solid var(--old); position: relative; }
+.mix-card.priority-high { border-left-color: var(--new); }
+.mix-card.priority-focus { border-left-color: var(--dng) !important; background: rgba(239, 68, 68, 0.1) !important; }
+.mix-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.mix-title { color: #e2e8f0; font-size: 15px; font-weight: 500; margin-bottom: 15px; line-height: 1.4; }
+.mix-actions { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; }
+.mix-btn { padding: 10px 0; font-size: 12px; font-weight: 700; border-radius: 8px; border: none; color: #fff; cursor: pointer; transition: opacity 0.1s; }
+.mix-btn:active { opacity: 0.7; }
+
+.stats-banner { background: var(--cbg); border-radius: 12px; padding: 12px 15px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 13px; color: var(--mut); border: 1px solid var(--bord); font-weight: 600;}
+.progress-container { width: 100%; background: var(--bg); border-radius: 10px; height: 8px; margin-bottom: 20px; overflow: hidden; }
+.progress-bar { height: 100%; background: var(--suc); width: 0%; transition: width 0.3s ease; }
+.goal-setting { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; background: var(--cbg); padding: 10px 15px; border-radius: 12px; border: 1px solid var(--bord); }
+.goal-setting input { width: 60px; margin: 0; padding: 8px; text-align: center; font-weight: 700; font-size: 16px; }
+.hide { display: none !important; }
+</style>
+</head>
+<body>
+
 <div id="debug-error" style="color:#ef4444;font-size:12px;text-align:center;margin-bottom:10px;font-weight:bold"></div>
+
 <div class="container">
+    <!-- Global Alerts -->
+    <div id="urgent-alert"></div>
+    <div id="upcoming-alert"></div>
 
-<!-- Navigation Tabs -->
-<div class="nav">
-    <button onclick="showTab('dashboard')" id="tab-dash" class="active">Dashboard</button>
-    <button onclick="showTab('review')" id="tab-rev">Today's Mix</button>
-    <button onclick="showTab('add')" id="tab-add">Manage</button>
-</div>
+    <!-- DASHBOARD TAB -->
+    <div id="dashboard" class="tab-content">
+        <h1>Your Study Tracker</h1>
+        <div class="subtitle">Spaced Repetition & Material Manager</div>
+        
+        <div class="toolbar">
+            <input type="text" id="searchBar" placeholder="🔍 Search..." oninput="renderDashboard()">
+            <button id="trouble-btn" class="toolbar-btn" title="Filter Trouble Spots" onclick="toggleTroubleMode()">⚠️</button>
+            <button id="view-btn" class="toolbar-btn" title="Toggle List/Grid" onclick="toggleViewMode()">☰</button>
+        </div>
+        
+        <div class="flex-between" style="margin-bottom:10px;">
+            <h2 style="border:none;margin:0;padding:0;font-size:14px;color:var(--mut);">ALL MATERIALS</h2>
+            <span id="total-count" style="color:var(--mut);font-size:13px;font-weight:600;"></span>
+        </div>
+        <div id="list-container"></div>
+    </div>
 
-<!-- Global Focus Alert Banners -->
-<div id="urgent-focus-alert"></div>
-<div id="upcoming-exams-alert"></div>
+    <!-- TODAY'S MIX TAB -->
+    <div id="review" class="tab-content hide">
+        <div class="flex-between" style="margin-bottom:15px">
+            <h1 style="margin:0">Today's Mix</h1>
+            <button class="btn btn-grey" style="width:auto;padding:6px 12px;font-size:12px;margin:0" onclick="toggleCramMode()" id="cram-btn">Cram Mode: OFF</button>
+        </div>
+        
+        <div class="goal-setting">
+            <label style="font-size:14px;font-weight:600;color:var(--mut);">Daily Goal:</label>
+            <input type="number" id="dailyGoal" value="2" min="1" onchange="updateGoal()">
+            <span style="font-size:12px;color:var(--mut);">docs / day</span>
+        </div>
+        
+        <div class="stats-banner">
+            <span>🔥 Streak: <b id="streak-count">0</b> days</span>
+            <span>✅ Read: <b id="reviewed-count">0</b> / <b id="goal-count">0</b></span>
+        </div>
+        
+        <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+        <div id="review-area"></div>
+    </div>
 
-<div id="dashboard" class="tab-content">
-<h1>Your Study Tracker</h1><div class="subtitle">Spaced Repetition & Material Manager</div>
-<div class="flex-between">
-    <h2 style="border:none;margin-top:0;padding:0;">All Materials</h2>
-    <div style="display:flex;align-items:center;gap:10px;">
-        <span id="total-count" style="color:var(--mut);font-size:14px"></span>
-        <button id="select-mode-btn" class="select-toggle-btn" onclick="toggleSelectMode()">☑️ Select</button>
+    <!-- MANAGE TAB -->
+    <div id="add" class="tab-content hide">
+        <h1 id="form-title">Add Material</h1>
+        <input type="text" id="courseCode" placeholder="Course (e.g., MMB)">
+        <input type="number" id="itemNumber" placeholder="Number (e.g., 24)">
+        <input type="text" id="title" placeholder="Document/Topic Name">
+        <input type="hidden" id="editId">
+        <button class="btn" id="save-btn" onclick="saveMaterial()">Save Material</button>
+        
+        <hr style="border-color:var(--bord);margin:30px 0">
+        
+        <h2 style="font-size:16px;margin-bottom:5px;">Bulk Import</h2>
+        <small style="color:var(--mut);font-size:12px;display:block;margin-bottom:10px;">Paste your list here. If it stops at 10, paste the next batch.</small>
+        <textarea id="bulkData" placeholder="CPT&#10;1. History ✅&#10;2. Intro ✅"></textarea>
+        <button class="btn btn-grey" id="import-btn" onclick="bulkImport()">Import All</button>
+        
+        <hr style="border-color:var(--bord);margin:30px 0">
+        
+        <h2 style="font-size:16px;margin-bottom:5px;">Backup & Reset</h2>
+        <button class="btn btn-grey" onclick="exportData()">Copy Backup Data</button>
+        <button class="btn btn-grey" onclick="importData()">Restore From Backup</button>
+        <button class="btn btn-red" onclick="deleteAllData()" style="margin-top:20px">🗑️ Delete ALL Data</button>
     </div>
 </div>
-<input type="text" id="searchBar" placeholder="🔍 Search..." oninput="renderDashboard()">
-<div id="batch-bar" class="batch-bar">
-    <span>Selected: <b id="selected-count">0</b></span>
-    <div class="batch-bar-btns">
-        <button id="delete-selected-btn" class="btn-red" onclick="deleteSelected()" disabled>🗑️ Delete</button>
-        <button class="btn-grey" onclick="toggleSelectMode()">Cancel</button>
+
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav">
+    <button class="nav-btn active" onclick="showTab('dashboard')" id="nav-dash"><span class="icon">🏠</span>Home</button>
+    <button class="nav-btn" onclick="showTab('review')" id="nav-rev"><span class="icon">📖</span>Mix</button>
+    <button class="nav-btn" onclick="showTab('add')" id="nav-add"><span class="icon">⚙️</span>Manage</button>
+</div>
+
+<!-- COURSE OPTIONS MODAL -->
+<div class="modal-overlay" id="courseModal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-course-name">Course</h3>
+            <button class="icon-btn" onclick="closeModal()" style="font-size:24px;background:none;border:none;color:var(--mut);">✕</button>
+        </div>
+        
+        <label style="font-size:12px;color:var(--mut);font-weight:600;">RENAME FOLDER</label>
+        <input type="text" id="modal-rename-input" placeholder="New Folder Name">
+        
+        <label style="font-size:12px;color:var(--mut);font-weight:600;margin-top:10px;display:block;">EXAM DATE</label>
+        <input type="date" id="modal-date-input" onchange="modalDateChanged()">
+        <div id="modal-countdown" style="text-align:center;font-size:13px;margin-top:5px;font-weight:600;"></div>
+        
+        <button class="btn" onclick="saveCourseSettings()" style="margin-top:20px;">Save Changes</button>
+        <button class="btn btn-red" onclick="deleteCourseFromModal()" style="margin-top:10px;">🗑️ Delete Entire Course</button>
     </div>
 </div>
-<div id="list-container"></div>
-</div>
 
-<div id="review" class="tab-content hide">
-<div class="flex-between" style="margin-bottom:10px"><h1 style="margin:0">Today's Mix</h1><button class="btn btn-grey" style="width:auto;padding:5px 10px;font-size:12px;margin:0" onclick="toggleCramMode()" id="cram-btn">Cram Mode: OFF</button></div>
-<div class="goal-setting"><label style="font-size:14px;font-weight:600">Daily Goal:</label><input type="number" id="dailyGoal" value="2" min="1" onchange="updateGoal()"><span style="font-size:12px;color:var(--mut)">docs / day</span></div>
-<div class="stats-banner"><span>🔥 Streak: <b id="streak-count">0</b> days</span><span>✅ Read: <b id="reviewed-count">0</b> / <b id="goal-count">0</b></span></div>
-<div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
-<div id="review-area"></div>
-</div>
-
-<div id="add" class="tab-content hide">
-<h1 id="form-title">Add Material</h1>
-<input type="text" id="courseCode" placeholder="Course (e.g., MMB)"><input type="number" id="itemNumber" placeholder="Number (e.g., 24)"><input type="text" id="title" placeholder="Document/Topic Name"><input type="hidden" id="editId">
-<button class="btn" id="save-btn" onclick="saveMaterial()">Save Material</button>
-<hr style="border-color:var(--bord);margin:30px 0">
-<h2>Bulk Import</h2><small>Paste your list here in batches of 10.</small>
-<textarea id="bulkData" placeholder="Paste your list here..."></textarea>
-<button class="btn btn-grey" id="import-btn" onclick="bulkImport()">Import All</button>
-<hr style="border-color:var(--bord);margin:30px 0">
-<h2>Backup & Reset</h2>
-<button class="btn btn-grey" onclick="exportData()">Copy Backup Data</button><button class="btn btn-grey" onclick="importData()">Restore From Backup</button>
-<button class="btn btn-red" onclick="deleteAllData()" style="margin-top:20px">🗑️ Delete ALL Data</button>
-</div>
-
-</div>
 <script>
-window.onerror = function(m) { document.getElementById('debug-error').innerText = "System Error: " + m; return false; };
+window.onerror = function(m) { document.getElementById('debug-error').innerText = "Error: " + m; return false; };
 
 let materials=[], courseDates={}, focusedCourses={}, stats={date:new Date().toDateString(), reviewed:0, streak:0}, isCramMode=false, bonusMode=false;
-let selectMode=false, selectedIds=new Set();
 let dailyQueue={date:new Date().toDateString(), ids:[], cram:false, lockKey:''};
+let isTroubleMode = false;
+let isListView = false;
+let activeModalCourse = '';
 
-// CRASH-PROOF INITIALIZATION
+// INIT
 try {
-    let m = localStorage.getItem('medSRS_final');
-    if (m) materials = JSON.parse(m) || [];
-    if (!Array.isArray(materials)) materials = [];
-    
-    // Sanitize any corrupt data
+    let m = localStorage.getItem('medSRS_final'); if(m) materials = JSON.parse(m) || [];
     materials = materials.filter(item => item && typeof item === 'object' && item.course);
     materials.forEach(item => {
         if(item.starred === undefined) item.starred = false;
@@ -163,147 +279,23 @@ try {
     });
 } catch(e) { materials = []; }
 
-try { let s = localStorage.getItem('medSRS_stats'); if(s) { let ps = JSON.parse(s); if(ps) stats = ps; } } catch(e) {}
-try { let g = localStorage.getItem('medSRS_goal'); if(g) { const el = document.getElementById('dailyGoal'); if(el) el.value = g; } } catch(e) {}
-try { let cd = localStorage.getItem('medSRS_dates'); if(cd) courseDates = JSON.parse(cd) || {}; } catch(e) {}
-try { let fc = localStorage.getItem('medSRS_focus'); if(fc) focusedCourses = JSON.parse(fc) || {}; } catch(e) {}
-try {
-    let q = localStorage.getItem('medSRS_queue');
-    if(q) {
-        let pq = JSON.parse(q);
-        if(pq && Array.isArray(pq.ids)) dailyQueue = pq;
-    }
-} catch(e) {}
+try { let s = localStorage.getItem('medSRS_stats'); if(s) stats = JSON.parse(s); } catch(e) {}
+try { let g = localStorage.getItem('medSRS_goal'); if(g) document.getElementById('dailyGoal').value = g; } catch(e) {}
+try { let cd = localStorage.getItem('medSRS_dates'); if(cd) courseDates = JSON.parse(cd); } catch(e) {}
+try { let fc = localStorage.getItem('medSRS_focus'); if(fc) focusedCourses = JSON.parse(fc); } catch(e) {}
+try { let q = localStorage.getItem('medSRS_queue'); if(q) { let pq = JSON.parse(q); if(pq && Array.isArray(pq.ids)) dailyQueue = pq; } } catch(e) {}
 
-// --- FIXED STREAK & DATE LOGIC ---
 let todayStr = new Date().toDateString();
 if(stats.date !== todayStr){
-    let prevDate = new Date(stats.date);
-    let todayDate = new Date(todayStr);
-    let diffTime = Math.abs(todayDate - prevDate);
-    let diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-    
-    stats.date = todayStr;
-    stats.reviewed = 0;
-    
-    if(diffDays > 1) {
-        stats.streak = 0;
-    }
-    
+    let diffDays = Math.round(Math.abs(new Date(todayStr) - new Date(stats.date)) / (1000 * 60 * 60 * 24));
+    stats.date = todayStr; stats.reviewed = 0; if(diffDays > 1) stats.streak = 0;
     dailyQueue = {date: todayStr, ids:[], cram:false, lockKey:''};
-    try { 
-        localStorage.setItem('medSRS_queue', JSON.stringify(dailyQueue)); 
-        localStorage.setItem('medSRS_stats', JSON.stringify(stats));
-    } catch(e) {}
+    try { localStorage.setItem('medSRS_queue', JSON.stringify(dailyQueue)); localStorage.setItem('medSRS_stats', JSON.stringify(stats)); } catch(e) {}
 }
 
-function saveQueue() {
-    try { localStorage.setItem('medSRS_queue', JSON.stringify(dailyQueue)); } catch(e) {}
-}
-
-// Math/Date Helpers for Lock-In
-function getDiffDays(course) {
-    if(!courseDates[course]) return null;
-    const examDate = new Date(courseDates[course]);
-    if (isNaN(examDate.getTime())) return null;
-    const today = new Date(); today.setHours(0,0,0,0);
-    return Math.ceil((examDate - today) / (1000 * 60 * 60 * 24));
-}
-
-function isLockedIn(course) {
-    const diff = getDiffDays(course);
-    return diff !== null && diff >= 0 && diff <= 7;
-}
-
-function isVisuallyFocused(course) {
-    return (focusedCourses[course] === true) || isLockedIn(course);
-}
-
-// 50% Recency Calculator Function
-function isTopHalf(course, id) {
-    let courseItems = materials.filter(m => m.course === course).sort((a,b) => b.number - a.number);
-    let limit = Math.ceil(courseItems.length / 2);
-    let idx = courseItems.findIndex(m => m.id === id);
-    return idx !== -1 && idx < limit;
-}
-
-// Remove metadata for courses that have 0 remaining materials
-function cleanupEmptyCourses() {
-    const activeCourses = new Set(materials.map(m => m.course));
-    Object.keys(courseDates).forEach(c => { if(!activeCourses.has(c)) delete courseDates[c]; });
-    Object.keys(focusedCourses).forEach(c => { if(!activeCourses.has(c)) delete focusedCourses[c]; });
-}
-
-function updateGlobalAlert() {
+function saveQueue() { try { localStorage.setItem('medSRS_queue', JSON.stringify(dailyQueue)); } catch(e) {} }
+function saveData() {
     try {
-        let allCourses = [...new Set(materials.map(m => m.course))];
-        let urgentList = [];
-        let upcomingList = [];
-        
-        allCourses.forEach(c => {
-            const diff = getDiffDays(c);
-            const isFoc = focusedCourses[c] === true;
-            const isLock = isLockedIn(c);
-            
-            if (isFoc || isLock) {
-                urgentList.push({ course: c, diffDays: diff, isFocused: isFoc, isLocked: isLock });
-            } else if (diff !== null) {
-                upcomingList.push({ course: c, diffDays: diff });
-            }
-        });
-        
-        const urgentDiv = document.getElementById('urgent-focus-alert');
-        const upcomingDiv = document.getElementById('upcoming-exams-alert');
-        
-        const sortFn = (a, b) => {
-            if (a.diffDays === null && b.diffDays === null) return 0;
-            if (a.diffDays === null) return 1;
-            if (b.diffDays === null) return -1;
-            return a.diffDays - b.diffDays;
-        };
-        
-        urgentList.sort(sortFn);
-        upcomingList.sort(sortFn);
-        
-        if (urgentDiv) {
-            if (urgentList.length === 0) {
-                urgentDiv.style.display = 'none';
-            } else {
-                let texts = urgentList.map(item => {
-                    let cdText = item.diffDays !== null ? (item.diffDays < 0 ? " (Past)" : ` (⏳ ${item.diffDays} days left)`) : "";
-                    let prefix = (item.isLocked && !item.isFocused) ? "🚨 AUTO: " : "🔥 ";
-                    return `${prefix}${item.course}${cdText}`;
-                });
-                urgentDiv.innerHTML = `<b>ACTIVE FOCUS:</b> ${texts.join(' • ')}`;
-                urgentDiv.style.display = 'block';
-            }
-        }
-        
-        if (upcomingDiv) {
-            if (upcomingList.length === 0) {
-                upcomingDiv.style.display = 'none';
-            } else {
-                let texts = upcomingList.map(item => {
-                    let cdText = item.diffDays < 0 ? " (Past)" : ` (⏳ ${item.diffDays} days left)`;
-                    return `📅 ${item.course}${cdText}`;
-                });
-                upcomingDiv.style.marginBottom = '20px';
-                upcomingDiv.innerHTML = `<b>UPCOMING EXAMS:</b> ${texts.join(' • ')}`;
-                upcomingDiv.style.display = 'block';
-            }
-        }
-    } catch(err) {
-        console.error("Banner Error:", err);
-    }
-}
-
-function updateGoal(){
-    try{localStorage.setItem('medSRS_goal',document.getElementById('dailyGoal').value);}catch(e){}
-    renderTodayMix();
-}
-
-function saveData(){
-    try{
         localStorage.setItem('medSRS_final',JSON.stringify(materials));
         localStorage.setItem('medSRS_stats',JSON.stringify(stats));
         localStorage.setItem('medSRS_dates',JSON.stringify(courseDates));
@@ -313,600 +305,386 @@ function saveData(){
     renderDashboard();
 }
 
-// --- BATCH DELETE & MULTI-SELECT FUNCTIONS ---
-function updateBatchBar() {
-    const bar = document.getElementById('batch-bar');
-    const btn = document.getElementById('select-mode-btn');
-    const countEl = document.getElementById('selected-count');
-    const delBtn = document.getElementById('delete-selected-btn');
-    if (bar) bar.classList.toggle('show', selectMode);
-    if (btn) {
-        btn.classList.toggle('active', selectMode);
-        btn.innerText = selectMode ? 'Done' : '☑️ Select';
-    }
-    if (countEl) countEl.innerText = selectedIds.size;
-    if (delBtn) {
-        delBtn.disabled = selectedIds.size === 0;
-        delBtn.innerText = selectedIds.size > 0 ? `🗑️ Delete (${selectedIds.size})` : '🗑️ Delete';
-    }
-}
-
-function toggleSelectMode() {
-    selectMode = !selectMode;
-    if (!selectMode) selectedIds.clear();
-    updateBatchBar();
-    renderDashboard();
-}
-
-function toggleSelectItem(id) {
-    const key = String(id);
-    if (selectedIds.has(key)) selectedIds.delete(key);
-    else selectedIds.add(key);
-    updateBatchBar();
-    renderDashboard();
-}
-
-function toggleSelectCourse(course) {
-    const courseItems = materials.filter(m => m.course === course);
-    const allSelected = courseItems.length > 0 && courseItems.every(m => selectedIds.has(String(m.id)));
-    courseItems.forEach(m => {
-        const key = String(m.id);
-        if (allSelected) selectedIds.delete(key);
-        else selectedIds.add(key);
-    });
-    updateBatchBar();
-    renderDashboard();
-}
-
-function deleteSelected() {
-    if (selectedIds.size === 0) return;
-    if (!confirm(`Delete ${selectedIds.size} selected item(s)?`)) return;
-    materials = materials.filter(m => !selectedIds.has(String(m.id)));
-    dailyQueue.ids = dailyQueue.ids.filter(qid => !selectedIds.has(String(qid)));
-    selectedIds.clear();
-    selectMode = false;
-    cleanupEmptyCourses();
-    saveData();
-    updateGlobalAlert();
-    updateBatchBar();
-}
-
-function deleteCourse(course) {
-    const count = materials.filter(m => m.course === course).length;
-    if (!confirm(`Delete entire "${course}" folder (${count} item${count===1?'':'s'})?`)) return;
-    const removedIds = new Set(materials.filter(m => m.course === course).map(m => String(m.id)));
-    materials.forEach(m => { if (m.course === course) selectedIds.delete(String(m.id)); });
-    materials = materials.filter(m => m.course !== course);
-    dailyQueue.ids = dailyQueue.ids.filter(qid => !removedIds.has(String(qid)));
-    delete courseDates[course];
-    delete focusedCourses[course];
-    saveData();
-    updateGlobalAlert();
-    updateBatchBar();
-}
-
-function toggleStar(id) {
-    let m = materials.find(x => x.id === id);
-    if(m) {
-        m.starred = !m.starred;
-        saveData();
-        const dash = document.getElementById('dashboard');
-        const rev = document.getElementById('review');
-        if(dash && !dash.classList.contains('hide')) renderDashboard();
-        if(rev && !rev.classList.contains('hide')) renderTodayMix();
-    }
-}
-
-function toggleFocus(course) {
-    focusedCourses[course] = !focusedCourses[course];
-    saveData();
-    updateGlobalAlert();
-    renderDashboard();
-    const rev = document.getElementById('review');
-    if(rev && !rev.classList.contains('hide')) renderTodayMix();
-}
-
-function renameCourse(oldCode){
-    const newCode=prompt("Enter new folder name for "+oldCode+":",oldCode);
-    if(newCode&&newCode.trim()!==""){
-        const n=newCode.toUpperCase().trim();
-        materials.forEach(m=>{if(m.course===oldCode)m.course=n;});
-        if(courseDates[oldCode]){courseDates[n]=courseDates[oldCode];delete courseDates[oldCode];}
-        if(focusedCourses[oldCode]){focusedCourses[n]=focusedCourses[oldCode];delete focusedCourses[oldCode];}
-        saveData();
-        updateGlobalAlert();
-    }
-}
-
-function setCourseDate(code,dateStr){
-    if(dateStr)courseDates[code]=dateStr;else delete courseDates[code];
-    saveData();
-    updateGlobalAlert();
-    const rev = document.getElementById('review');
-    if(rev && !rev.classList.contains('hide')) renderTodayMix();
-}
-
-function getCountdown(code){
-    const diff = getDiffDays(code);
-    if(diff === null) return "";
-    if(diff < 0) return `<span class="countdown" style="color:var(--mut);border-color:var(--bord);background:var(--cbg)">Past</span>`;
-    return `<span class="countdown">⏳ ${diff} days left</span>`;
-}
-
 function showTab(t){
-    try {
-        if (t !== 'dashboard' && selectMode) {
-            selectMode = false;
-            selectedIds.clear();
-            updateBatchBar();
+    document.querySelectorAll('.tab-content').forEach(e=>e.classList.add('hide'));
+    document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));
+    document.getElementById(t).classList.remove('hide');
+    let btnId = 'nav-dash'; if(t === 'review') btnId = 'nav-rev'; if(t === 'add') btnId = 'nav-add';
+    document.getElementById(btnId).classList.add('active');
+    
+    if(t==='dashboard') renderDashboard();
+    if(t==='review') renderTodayMix();
+    if(t==='add') resetForm();
+}
+
+function toggleTroubleMode() {
+    isTroubleMode = !isTroubleMode;
+    document.getElementById('trouble-btn').classList.toggle('active', isTroubleMode);
+    renderDashboard();
+}
+
+function toggleViewMode() {
+    isListView = !isListView;
+    document.getElementById('view-btn').innerText = isListView ? '⊞' : '☰';
+    renderDashboard();
+}
+
+function getDiffDays(course) {
+    if(!courseDates[course]) return null;
+    const examDate = new Date(courseDates[course]);
+    if (isNaN(examDate.getTime())) return null;
+    const today = new Date(); today.setHours(0,0,0,0);
+    return Math.ceil((examDate - today) / (1000 * 60 * 60 * 24));
+}
+function isLockedIn(course) { const diff = getDiffDays(course); return diff !== null && diff >= 0 && diff <= 7; }
+function isVisuallyFocused(course) { return (focusedCourses[course] === true) || isLockedIn(course); }
+function isTopHalf(course, id) {
+    let courseItems = materials.filter(m => m.course === course).sort((a,b) => b.number - a.number);
+    let limit = Math.ceil(courseItems.length / 2);
+    let idx = courseItems.findIndex(m => m.id === id);
+    return idx !== -1 && idx < limit;
+}
+
+function updateGlobalAlert() {
+    let allCourses = [...new Set(materials.map(m => m.course))];
+    let urgentList = [], upcomingList = [];
+    
+    allCourses.forEach(c => {
+        const diff = getDiffDays(c);
+        if (isVisuallyFocused(c)) urgentList.push({ course: c, diffDays: diff });
+        else if (diff !== null) upcomingList.push({ course: c, diffDays: diff });
+    });
+    
+    const sortFn = (a, b) => (a.diffDays ?? 999) - (b.diffDays ?? 999);
+    urgentList.sort(sortFn); upcomingList.sort(sortFn);
+    
+    const urgentDiv = document.getElementById('urgent-alert');
+    if (urgentDiv) {
+        if (urgentList.length === 0) urgentDiv.style.display = 'none';
+        else {
+            let texts = urgentList.map(item => {
+                let cd = item.diffDays !== null ? (item.diffDays < 0 ? " (Past)" : ` (⏳ ${item.diffDays}d)`) : "";
+                return `🔥 ${item.course}${cd}`;
+            });
+            urgentDiv.innerHTML = `<b>ACTIVE FOCUS:</b> ${texts.join(' • ')}`;
+            urgentDiv.style.display = 'block';
         }
-        document.querySelectorAll('.tab-content').forEach(e=>e.classList.add('hide'));
-        document.querySelectorAll('.nav button').forEach(e=>e.classList.remove('active'));
-        
-        const targetTab = document.getElementById(t);
-        if(targetTab) targetTab.classList.remove('hide');
-        
-        let btnId = 'tab-dash';
-        if(t === 'review') btnId = 'tab-rev';
-        if(t === 'add') btnId = 'tab-add';
-        
-        const btn = document.getElementById(btnId);
-        if(btn) btn.classList.add('active');
-        
-        if(t==='dashboard') renderDashboard();
-        if(t==='review') renderTodayMix();
-        if(t==='add') resetForm();
-    } catch(err) {
-        console.error("Tab Error:", err);
+    }
+    
+    const upcomingDiv = document.getElementById('upcoming-alert');
+    if (upcomingDiv) {
+        if (upcomingList.length === 0) upcomingDiv.style.display = 'none';
+        else {
+            let texts = upcomingList.map(item => `📅 ${item.course} (⏳ ${item.diffDays}d)`);
+            upcomingDiv.innerHTML = `<b>UPCOMING:</b> ${texts.join(' • ')}`;
+            upcomingDiv.style.display = 'block';
+        }
     }
 }
 
+/* MODAL LOGIC */
+function openCourseModal(course) {
+    activeModalCourse = course;
+    document.getElementById('modal-course-name').innerText = `Settings: ${course}`;
+    document.getElementById('modal-rename-input').value = course;
+    document.getElementById('modal-date-input').value = courseDates[course] || '';
+    updateModalCountdown();
+    document.getElementById('courseModal').classList.add('show');
+}
+function closeModal(e) {
+    if(e && e.target !== document.getElementById('courseModal')) return;
+    document.getElementById('courseModal').classList.remove('show');
+}
+function updateModalCountdown() {
+    let dateVal = document.getElementById('modal-date-input').value;
+    let div = document.getElementById('modal-countdown');
+    if(!dateVal) { div.innerText = ""; return; }
+    let diff = Math.ceil((new Date(dateVal) - new Date().setHours(0,0,0,0)) / (1000 * 60 * 60 * 24));
+    div.innerHTML = diff < 0 ? `<span style="color:var(--mut)">Date is in the past</span>` : `<span style="color:var(--dng)">⏳ ${diff} days until exam</span>`;
+}
+function modalDateChanged() { updateModalCountdown(); }
+function saveCourseSettings() {
+    let newName = document.getElementById('modal-rename-input').value.toUpperCase().trim();
+    let newDate = document.getElementById('modal-date-input').value;
+    if(!newName) return;
+
+    if(newName !== activeModalCourse) {
+        materials.forEach(m => { if(m.course === activeModalCourse) m.course = newName; });
+        if(courseDates[activeModalCourse]) { courseDates[newName] = courseDates[activeModalCourse]; delete courseDates[activeModalCourse]; }
+        if(focusedCourses[activeModalCourse]) { focusedCourses[newName] = focusedCourses[activeModalCourse]; delete focusedCourses[activeModalCourse]; }
+    }
+    if(newDate) courseDates[newName] = newDate; else delete courseDates[newName];
+
+    saveData(); updateGlobalAlert(); closeModal();
+}
+function deleteCourseFromModal() {
+    if(!confirm(`Delete entire "${activeModalCourse}" folder?`)) return;
+    materials = materials.filter(m => m.course !== activeModalCourse);
+    delete courseDates[activeModalCourse]; delete focusedCourses[activeModalCourse];
+    saveData(); updateGlobalAlert(); closeModal();
+}
+
+/* DASHBOARD */
+function renderDashboard(){
+    const container = document.getElementById('list-container');
+    const searchQuery = document.getElementById('searchBar').value.toLowerCase().trim();
+    
+    let filtered = materials.filter(m => {
+        const matchSearch = m.course.toLowerCase().includes(searchQuery) || m.title.toLowerCase().includes(searchQuery) || m.number.toString().includes(searchQuery);
+        const matchTrouble = isTroubleMode ? (m.ease < 2.0) : true;
+        return matchSearch && matchTrouble;
+    });
+    
+    document.getElementById('total-count').innerText = `${filtered.length} items`;
+    
+    if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-state">No materials found.</div>';
+        return;
+    }
+    
+    const grouped = {};
+    filtered.forEach(m => { if(!grouped[m.course]) grouped[m.course] = []; grouped[m.course].push(m); });
+    
+    let html = '';
+    Object.keys(grouped).sort().forEach(course => {
+        const safeCourse = course.replace(/'/g, "\\'");
+        const isOpen = (searchQuery.length > 0 || isTroubleMode) ? 'open' : '';
+        const isFocused = isVisuallyFocused(course);
+        const examDate = courseDates[course] || '';
+        const diff = getDiffDays(course);
+        
+        let focusBadge = isLockedIn(course) ? `<span class="focus-pill">🚨 Lock-In</span>` : (focusedCourses[course] ? `<span class="focus-pill">🔥 Focus</span>` : '');
+        let countdownBadge = diff !== null ? `<span style="font-size:10px;color:var(--mut);margin-left:5px;">(${diff}d)</span>` : '';
+        
+        html += `<details class="course-group" ${isOpen}>
+            <summary onclick="event.preventDefault(); openCourseModal('${safeCourse}')">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span>${course}</span> ${focusBadge} ${countdownBadge}
+                </div>
+                <span class="folder-badge">${grouped[course].length} ▼</span>
+            </summary>
+            <div class="course-content ${isListView ? 'list-view' : ''}">`;
+        
+        grouped[course].sort((a,b) => b.number - a.number);
+        grouped[course].forEach(m => {
+            const isPri = isTopHalf(course, m.id);
+            const cardClass = isFocused ? 'priority-focus' : (isPri ? 'priority-high' : '');
+            const warnBadge = m.ease < 2.0 ? '<span class="warn-badge">⚠️ Review</span>' : '';
+            const starIcon = m.starred ? '⭐' : '☆';
+            
+            html += `<div class="grid-card ${cardClass}">
+                <div>
+                    <div class="code">
+                        <span>
+                            ${m.course} ${String(m.number).padStart(2,'0')} 
+                            <span class="reps-badge">R:${m.reps}</span>
+                            ${warnBadge}
+                        </span>
+                        <span style="cursor:pointer; font-size:16px;" onclick="toggleStar(${m.id}, event)">${starIcon}</span>
+                    </div>
+                    <div class="title">${m.title}</div>
+                </div>
+                <div class="actions">
+                    <button onclick="editMaterial(${m.id})">✏️</button>
+                    <button onclick="deleteMaterial(${m.id})">✕</button>
+                </div>
+            </div>`;
+        });
+        html += `</div></details>`;
+    });
+    container.innerHTML = html;
+}
+
+function toggleStar(id, event) {
+    if(event) event.stopPropagation();
+    let m = materials.find(x => x.id === id);
+    if(m) { m.starred = !m.starred; saveData(); renderDashboard(); }
+}
+
+/* MANAGE TAB & UTILS */
 function saveMaterial(){
     const c=document.getElementById('courseCode').value.toUpperCase().trim(),n=parseInt(document.getElementById('itemNumber').value),t=document.getElementById('title').value.trim(),e=document.getElementById('editId').value;
     if(!c||isNaN(n)||!t){document.getElementById('debug-error').innerText="Fill all fields first.";return;}
     document.getElementById('debug-error').innerText="";
-    if(e){
-        const i=materials.findIndex(m=>m.id==e);
-        if(i>-1){materials[i].course=c;materials[i].number=n;materials[i].title=t;}
-    }else{
-        materials.push({id:Date.now(),course:c,number:n,title:t,nextReview:new Date().toISOString().split('T')[0],interval:1,ease:2.5,reps:0,starred:false});
-    }
-    saveData();updateGlobalAlert();showTab('dashboard');
+    if(e){ const i=materials.findIndex(m=>m.id==e); if(i>-1){materials[i].course=c;materials[i].number=n;materials[i].title=t;} }
+    else{ materials.push({id:Date.now(),course:c,number:n,title:t,nextReview:new Date().toISOString().split('T')[0],interval:1,ease:2.5,reps:0,starred:false}); }
+    saveData(); updateGlobalAlert(); showTab('dashboard');
 }
-
 function editMaterial(id){
-    const m=materials.find(x=>x.id===id);if(!m)return;
-    document.getElementById('courseCode').value=m.course;document.getElementById('itemNumber').value=m.number;
-    document.getElementById('title').value=m.title;document.getElementById('editId').value=m.id;
-    document.getElementById('form-title').innerText="Edit Material";document.getElementById('save-btn').innerText="Update Material";
+    const m=materials.find(x=>x.id===id); if(!m)return;
+    document.getElementById('courseCode').value=m.course; document.getElementById('itemNumber').value=m.number;
+    document.getElementById('title').value=m.title; document.getElementById('editId').value=m.id;
+    document.getElementById('form-title').innerText="Edit Material"; document.getElementById('save-btn').innerText="Update Material";
     showTab('add');
 }
-
 function resetForm(){
-    document.getElementById('courseCode').value='';document.getElementById('itemNumber').value='';
-    document.getElementById('title').value='';document.getElementById('editId').value='';
-    document.getElementById('form-title').innerText="Add Material";document.getElementById('save-btn').innerText="Save Material";
+    document.getElementById('courseCode').value=''; document.getElementById('itemNumber').value='';
+    document.getElementById('title').value=''; document.getElementById('editId').value='';
+    document.getElementById('form-title').innerText="Add Material"; document.getElementById('save-btn').innerText="Save Material";
 }
-
 function deleteMaterial(id){
-    const key = String(id);
-    selectedIds.delete(key);
-    dailyQueue.ids = dailyQueue.ids.filter(qid => String(qid) !== key);
-    materials=materials.filter(m=>m.id!==id);
-    cleanupEmptyCourses();
-    saveData();
-    updateGlobalAlert();
-    updateBatchBar();
+    if(!confirm("Delete this item?")) return;
+    dailyQueue.ids = dailyQueue.ids.filter(qid => String(qid) !== String(id));
+    materials=materials.filter(m=>m.id!==id); saveData(); updateGlobalAlert();
 }
-
 function bulkImport(){
-    const text=document.getElementById('bulkData').value;if(!text)return;
-    let added=0;let currentCourse="GEN";
+    const text=document.getElementById('bulkData').value; if(!text)return;
+    let added=0, currentCourse="GEN";
     const lines=text.replace(/[\u200B-\u200D\uFEFF]/g,'').replace(/\r/g,'').split('\n');
     lines.forEach(l=>{
-        let t=l.trim();if(!t)return;
+        let t=l.trim(); if(!t)return;
         if(/^[A-Za-z]{2,4}$/.test(t)){currentCourse=t.toUpperCase();return;}
         let numMatch=t.match(/(\d+)/);
         if(numMatch){
             let num=parseInt(numMatch[1]);
-            let remainder=t.substring(numMatch.index+numMatch[1].length);
-            remainder=remainder.replace(/^[\s\.\-\)]+/,'');
+            let remainder=t.substring(numMatch.index+numMatch[1].length).replace(/^[\s\.\-\)]+/,'');
             let title=remainder.replace(/[✅✓]/g,'').trim();
-            if(title){
-                if(!materials.some(m=>m.course===currentCourse&&m.number===num)){
-                    materials.push({id:Date.now()+Math.random(),course:currentCourse,number:num,title:title,nextReview:new Date().toISOString().split('T')[0],interval:1,ease:2.5,reps:0,starred:false});
-                    added++;
-                }
+            if(title && !materials.some(m=>m.course===currentCourse&&m.number===num)){
+                materials.push({id:Date.now()+Math.random(),course:currentCourse,number:num,title:title,nextReview:new Date().toISOString().split('T')[0],interval:1,ease:2.5,reps:0,starred:false});
+                added++;
             }
         }
     });
-    saveData();updateGlobalAlert();document.getElementById('bulkData').value='';
-    document.getElementById('debug-error').innerText=`✅ Imported ${added} items!`;
-    document.getElementById('debug-error').style.color='var(--suc)';
+    saveData(); updateGlobalAlert(); document.getElementById('bulkData').value='';
+    document.getElementById('debug-error').innerText=`✅ Imported ${added} items!`; document.getElementById('debug-error').style.color='var(--suc)';
     showTab('dashboard');
 }
-
-function renderDashboard(){
-    try {
-        const container = document.getElementById('list-container');
-        const searchInput = document.getElementById('searchBar');
-        if(!container) return;
-
-        // Preserve open folders across re-renders
-        const openCourses = new Set();
-        container.querySelectorAll('details.course-group[open]').forEach(d => {
-            if (d.dataset.course) openCourses.add(d.dataset.course);
-        });
-        
-        const searchQuery = searchInput ? searchInput.value.toLowerCase().trim() : '';
-        
-        let filtered = materials.filter(m => {
-            const cStr = (m.course || '').toString().toLowerCase();
-            const tStr = (m.title || '').toString().toLowerCase();
-            const nStr = (m.number || '').toString();
-            return cStr.includes(searchQuery) || tStr.includes(searchQuery) || nStr.includes(searchQuery);
-        });
-        
-        const countSpan = document.getElementById('total-count');
-        if (countSpan) countSpan.innerText = `${filtered.length} items`;
-        
-        if (filtered.length === 0) {
-            container.innerHTML = '<div class="empty-state">No materials found.<br>Go to "Manage" to add!</div>';
-            return;
-        }
-        
-        const grouped = {};
-        filtered.forEach(m => {
-            if(!grouped[m.course]) grouped[m.course] = [];
-            grouped[m.course].push(m);
-        });
-        
-        let html = '';
-        Object.keys(grouped).sort().forEach(course => {
-            const safeCourse = course.replace(/'/g, "\\'");
-            const isOpen = (searchQuery.length > 0 || openCourses.has(course)) ? 'open' : '';
-            const examDate = courseDates[course] || '';
-            const countdown = getCountdown(course);
-            const isFocused = isVisuallyFocused(course);
-            
-            let focusBtnHtml = "";
-            if (isLockedIn(course)) {
-                focusBtnHtml = `<button class="focus-btn focused" style="cursor:default;" onclick="event.preventDefault(); event.stopPropagation();">🚨 Locked In (≤7d)</button>`;
-            } else {
-                focusBtnHtml = `<button class="focus-btn ${focusedCourses[course] ? 'focused' : ''}" onclick="event.preventDefault(); event.stopPropagation(); toggleFocus('${safeCourse}')">${focusedCourses[course] ? '🔥 Focused' : '⚪ Focus'}</button>`;
-            }
-
-            const allCourseSelected = grouped[course].every(m => selectedIds.has(String(m.id)));
-            const selectCourseBtnHtml = selectMode
-                ? `<button class="course-select-btn" onclick="event.preventDefault(); event.stopPropagation(); toggleSelectCourse('${safeCourse}')">${allCourseSelected ? 'Unselect' : 'All'}</button>`
-                : '';
-            
-            html += `<details class="course-group" data-course="${course}" ${isOpen}>
-                <summary>
-                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-                        <span>${course}</span> 
-                        ${focusBtnHtml}
-                        <span class="badge">${grouped[course].length}</span> 
-                    </div>
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        ${selectCourseBtnHtml}
-                        <button class="icon-btn" style="font-size:14px;padding:0;" title="Rename Course" onclick="event.preventDefault(); event.stopPropagation(); renameCourse('${safeCourse}')">⚙️</button>
-                        <button class="icon-btn" style="font-size:14px;padding:0;" title="Delete Course" onclick="event.preventDefault(); event.stopPropagation(); deleteCourse('${safeCourse}')">🗑️</button>
-                    </div>
-                </summary>
-                <div style="padding:10px 15px 0 15px;background:var(--cbg);">
-                    <div class="date-picker-row">
-                        <span>Exam Date:</span>
-                        <input type="date" value="${examDate}" onchange="setCourseDate('${safeCourse}', this.value)">
-                        ${countdown}
-                    </div>
-                </div>
-                <div class="course-content">`;
-            
-            grouped[course].sort((a,b) => b.number - a.number);
-            grouped[course].forEach(m => {
-                const isPri = isTopHalf(course, m.id);
-                const cardClass = isFocused ? 'priority-focus' : (isPri ? 'priority-high' : 'priority-low');
-                const isSelected = selectMode && selectedIds.has(String(m.id));
-                const warnBadge = m.ease < 2.0 ? '<span class="reps-badge" style="background:rgba(239, 68, 68, 0.15);color:#ef4444;border-color:rgba(239, 68, 68, 0.3);">⚠️ Review</span>' : '';
-                const starIcon = m.starred ? '⭐' : '☆';
-                const cardClick = selectMode ? `onclick="toggleSelectItem(${m.id})"` : '';
-                const topRight = selectMode
-                    ? `<input type="checkbox" class="card-checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleSelectItem(${m.id})">`
-                    : `<span style="cursor:pointer; font-size:14px;" onclick="toggleStar(${m.id})">${starIcon}</span>`;
-                const cardActions = selectMode
-                    ? ''
-                    : `<div class="actions"><button onclick="editMaterial(${m.id})">✏️</button><button onclick="deleteMaterial(${m.id})">✕</button></div>`;
-                
-                html += `<div class="grid-card ${cardClass} ${selectMode ? 'selectable' : ''} ${isSelected ? 'selected' : ''}" ${cardClick}>
-                    <div>
-                        <div class="code">
-                            <span>
-                                ${m.course} ${String(m.number).padStart(2,'0')} 
-                                <span class="reps-badge" style="font-size:9px;padding:1px 4px;">R:${m.reps}</span>
-                                ${warnBadge}
-                            </span>
-                            ${topRight}
-                        </div>
-                        <div class="title">${m.title}</div>
-                    </div>
-                    ${cardActions}
-                </div>`;
-            });
-            html += `</div></details>`;
-        });
-        container.innerHTML = html;
-    } catch (err) {
-        const container = document.getElementById('list-container');
-        if(container) container.innerHTML = `<div class="empty-state" style="color:#ef4444;">Render Error: ${err.message}</div>`;
-    }
+function exportData(){ navigator.clipboard.writeText(JSON.stringify(materials)).then(()=>{ document.getElementById('debug-error').innerText="✅ Copied to clipboard!"; document.getElementById('debug-error').style.color='var(--suc)'; }); }
+function importData(){
+    const d=prompt("Paste backup code:"); if(!d) return;
+    try { const p=JSON.parse(d); if(Array.isArray(p)){ p.forEach(m => { if(m.starred === undefined) m.starred = false; }); materials=p; dailyQueue={date:new Date().toDateString(),ids:[],cram:isCramMode,lockKey:''}; saveData(); updateGlobalAlert(); showTab('dashboard'); } } catch(e){}
+}
+function deleteAllData(){
+    if(!confirm("Delete ALL materials, dates, and reset focus?")) return;
+    materials=[]; courseDates={}; focusedCourses={}; dailyQueue={date:new Date().toDateString(),ids:[],cram:false,lockKey:''}; stats={date:new Date().toDateString(),reviewed:0,streak:0};
+    saveData(); updateGlobalAlert(); renderDashboard();
 }
 
+/* TODAY'S MIX */
 function toggleCramMode(){
     isCramMode=!isCramMode;
     const btn=document.getElementById('cram-btn');
-    if(btn) {
-        btn.innerText=`Cram Mode: ${isCramMode?'ON':'OFF'}`;
-        btn.style.background=isCramMode?'var(--pri)':'#475569';
-    }
-    dailyQueue.ids = [];
-    dailyQueue.cram = isCramMode;
-    saveQueue();
-    renderTodayMix();
+    btn.innerText=`Cram Mode: ${isCramMode?'ON':'OFF'}`; btn.style.background=isCramMode?'var(--pri)':'#475569';
+    dailyQueue.ids=[]; dailyQueue.cram=isCramMode; saveQueue(); renderTodayMix();
 }
+function updateGoal(){ localStorage.setItem('medSRS_goal',document.getElementById('dailyGoal').value); renderTodayMix(); }
 
 function getDiverseItems(pool,count,usedCourses){
     if(count<=0||!pool||pool.length===0)return[];
-    let result=[];
-    let tempPool=[...pool];
-    
+    let result=[], tempPool=[...pool];
     let allCourses=[...new Set(tempPool.map(m=>m.course))];
     let freshCourses=allCourses.filter(c=>!usedCourses.includes(c));
     let courses=freshCourses.length>0?freshCourses:allCourses;
-    
     let idx=0;
     while(result.length<count&&tempPool.length>0){
-        if(courses.length===0){
-            courses=[...new Set(tempPool.map(m=>m.course))];
-            if(courses.length===0)break;
-        }
+        if(courses.length===0){ courses=[...new Set(tempPool.map(m=>m.course))]; if(courses.length===0)break; }
         let course=courses[idx%courses.length];
         let itemIdx=tempPool.findIndex(m=>m.course===course);
-        
-        if(itemIdx>-1){
-            let item=tempPool.splice(itemIdx,1)[0];
-            result.push(item);
-            if(!usedCourses.includes(item.course))usedCourses.push(item.course);
-            idx++;
-        }else{
-            courses.splice(idx%courses.length,1);
-        }
+        if(itemIdx>-1){ let item=tempPool.splice(itemIdx,1)[0]; result.push(item); if(!usedCourses.includes(item.course))usedCourses.push(item.course); idx++; }
+        else{ courses.splice(idx%courses.length,1); }
     }
-    
-    if(result.length<count){
-        result=result.concat(tempPool.slice(0,count-result.length));
-    }
+    if(result.length<count) result=result.concat(tempPool.slice(0,count-result.length));
     return result;
 }
 
 function renderTodayMix(){
-    try {
-        const area=document.getElementById('review-area');
-        if(!area) return;
-        
-        const today=new Date().toISOString().split('T')[0];
-        const todayStr=new Date().toDateString();
-        const goalInput = document.getElementById('dailyGoal');
-        const goal = goalInput ? (parseInt(goalInput.value) || 2) : 2;
-        
-        let due=isCramMode?[...materials]:materials.filter(m=>m.nextReview<=today);
-        
-        const streakEl = document.getElementById('streak-count');
-        const reviewedEl = document.getElementById('reviewed-count');
-        const goalCountEl = document.getElementById('goal-count');
-        const bar = document.getElementById('progress-bar');
-        
-        if(streakEl) streakEl.innerText = stats.streak;
-        if(reviewedEl) reviewedEl.innerText = stats.reviewed;
-        if(goalCountEl) goalCountEl.innerText = goal;
-        if(bar) bar.style.width=`${Math.min((stats.reviewed/goal)*100,100)}%`;
-        
-        if(due.length===0){
-            area.innerHTML='<div class="empty-state"><h3>All caught up! 🎉</h3><p>You have finished everything due today.</p></div>';
-            return;
-        }
-        
-        let quota=goal-stats.reviewed;
-        if(bonusMode){
-            quota=1;bonusMode=false;
-            if(stats.reviewed>=goal){stats.reviewed=goal-1;saveData();}
-        }
-        
-        if(quota<=0&&!isCramMode){
-            dailyQueue.ids = [];
-            saveQueue();
-            area.innerHTML='<div class="empty-state"><h3>Daily Goal Met! ✅</h3><p>You have read your required documents for today.</p><button class="btn" style="margin-top:20px;background:var(--pri)" onclick="bonusMode=true;renderTodayMix();">➕ Read a Bonus Document</button></div>';
-            return;
-        }
-        if(quota<=0&&isCramMode) quota = goal;
-
-        // --- ALGORITHM HIJACK LOGIC (LOCK-IN RULES) ---
-        let lockedCoursesInDue = [...new Set(materials.map(m=>m.course))].filter(c => isLockedIn(c)).sort();
-        const lockKey = lockedCoursesInDue.join(',');
-        if(lockedCoursesInDue.length > 0) {
-            due = due.filter(m => lockedCoursesInDue.includes(m.course));
-        }
-
-        // Reset locked queue if day changed, Cram Mode changed, or ≤7-day Lock-In state changed
-        if (dailyQueue.date !== todayStr || dailyQueue.cram !== isCramMode || dailyQueue.lockKey !== lockKey) {
-            dailyQueue = { date: todayStr, ids: [], cram: isCramMode, lockKey: lockKey };
-        }
-
-        // Keep only items from the locked queue that are still valid in the current due pool
-        const dueById = new Map(due.map(m => [String(m.id), m]));
-        let dailyMix = [];
-        const queuedIdSet = new Set();
-        dailyQueue.ids.forEach(qid => {
-            const key = String(qid);
-            if (dueById.has(key) && !queuedIdSet.has(key)) {
-                dailyMix.push(dueById.get(key));
-                queuedIdSet.add(key);
-            }
-        });
-
-        // If Daily Goal was lowered, trim from the bottom
-        if (dailyMix.length > quota) {
-            dailyMix = dailyMix.slice(0, quota);
-        }
-
-        // Only fill missing slots (initial load, raised goal, bonus doc, or deleted item)
-        if (dailyMix.length < quota) {
-            const missing = quota - dailyMix.length;
-            const currentIdSet = new Set(dailyMix.map(m => String(m.id)));
-            let remainingDue = due.filter(m => !currentIdSet.has(String(m.id)));
-            remainingDue.sort((a,b) => b.number - a.number);
-
-            let highPool = remainingDue.filter(m => isTopHalf(m.course, m.id));
-            let lowPool = remainingDue.filter(m => !isTopHalf(m.course, m.id));
-
-            let existingNew = dailyMix.filter(m => isTopHalf(m.course, m.id)).length;
-            let targetNew = quota === 1 ? 1 : Math.floor(quota / 2);
-            let newNeeded = Math.max(0, Math.min(missing, targetNew - existingNew));
-            let oldNeeded = missing - newNeeded;
-
-            let usedTracker = [...new Set(dailyMix.map(m => m.course))];
-            let added = getDiverseItems(highPool, newNeeded, usedTracker);
-            let addedIds = new Set(added.map(m => String(m.id)));
-
-            let remLow = lowPool.filter(m => !addedIds.has(String(m.id)));
-            if (added.length < newNeeded) {
-                let extra = getDiverseItems(remLow, newNeeded - added.length, usedTracker);
-                extra.forEach(m => addedIds.add(String(m.id)));
-                added = added.concat(extra);
-                remLow = lowPool.filter(m => !addedIds.has(String(m.id)));
-            }
-
-            let oldMix = getDiverseItems(remLow, oldNeeded, usedTracker);
-            oldMix.forEach(m => addedIds.add(String(m.id)));
-            added = added.concat(oldMix);
-
-            if (added.length < missing) {
-                let remDue = remainingDue.filter(m => !addedIds.has(String(m.id)));
-                added = added.concat(getDiverseItems(remDue, missing - added.length, usedTracker));
-            }
-
-            dailyMix = dailyMix.concat(added);
-        }
-
-        // Persist the locked queue
-        dailyQueue.ids = dailyMix.map(m => m.id);
-        saveQueue();
-        
-        let html='';
-        if(dailyMix.length===0){
-            html+='<div class="empty-state">No documents selected for this session.</div>';
-        }else{
-            html+=`<h2 style="color:var(--new);font-size:14px;margin-bottom:10px;">📋 Your Mix for Today (${dailyMix.length})</h2>`;
-            dailyMix.forEach(m=>{
-                const isPri = isTopHalf(m.course, m.id);
-                const isFocused = isVisuallyFocused(m.course);
-                
-                const cardClass = isFocused ? 'priority-focus' : (isPri ? 'priority-high' : 'priority-low');
-                const bgStyle = isFocused ? 'background: rgba(239, 68, 68, 0.15);' : '';
-                const warnBadge = m.ease < 2.0 ? '<span class="reps-badge" style="background:rgba(239, 68, 68, 0.15);color:#ef4444;border-color:rgba(239, 68, 68, 0.3);margin-left:6px;">⚠️ Review</span>' : '';
-                const starIcon = m.starred ? '⭐' : '☆';
-                
-                let examBadge = "";
-                if (isLockedIn(m.course)) examBadge = '<span style="font-size:9px;background:#ef4444;color:#fff;padding:3px 6px;border-radius:12px;font-weight:800;letter-spacing:0.5px;">🚨 LOCK-IN</span>';
-                else if (isFocused) examBadge = '<span style="font-size:9px;background:#ef4444;color:#fff;padding:3px 6px;border-radius:12px;font-weight:800;letter-spacing:0.5px;">🔥 EXAM FOCUS</span>';
-
-                html+=`<div class="card ${cardClass}" style="${bgStyle}">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                        <div style="font-weight:700;font-size:18px;color:#fff;">
-                            ${m.course} ${String(m.number).padStart(2,'0')} 
-                            <span class="reps-badge">Reps: ${m.reps}</span>
-                            ${warnBadge}
-                        </div>
-                        <div style="display:flex; gap:8px; align-items:center;">
-                            ${examBadge}
-                            <span style="cursor:pointer; font-size:18px;" onclick="toggleStar(${m.id})">${starIcon}</span>
-                        </div>
-                    </div>
-                    <div style="color:#cbd5e1;font-size:15px;margin-top:5px;margin-bottom:15px;font-weight:600;">${m.title}</div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;">
-                        <button class="btn btn-red mini-btn" onclick="processReview(${m.id}, 0)">Again</button>
-                        <button class="btn btn-orange mini-btn" onclick="processReview(${m.id}, 3)">Hard</button>
-                        <button class="btn btn-grey mini-btn" style="background:var(--pri)" onclick="processReview(${m.id}, 4)">Good</button>
-                        <button class="btn btn-green mini-btn" onclick="processReview(${m.id}, 5)">Easy</button>
-                    </div>
-                </div>`;
-            });
-        }
-        area.innerHTML=html;
-    } catch(err) {
-        const area = document.getElementById('review-area');
-        if(area) area.innerHTML = `<div class="empty-state" style="color:#ef4444;">Review Error: ${err.message}</div>`;
+    const area=document.getElementById('review-area');
+    const today=new Date().toISOString().split('T')[0], todayStr=new Date().toDateString();
+    const goal=parseInt(document.getElementById('dailyGoal').value)||2;
+    let due=isCramMode?[...materials]:materials.filter(m=>m.nextReview<=today);
+    
+    document.getElementById('streak-count').innerText=stats.streak;
+    document.getElementById('reviewed-count').innerText=stats.reviewed;
+    document.getElementById('goal-count').innerText=goal;
+    document.getElementById('progress-bar').style.width=`${Math.min((stats.reviewed/goal)*100,100)}%`;
+    
+    if(due.length===0){ area.innerHTML='<div class="empty-state"><h3>All caught up! 🎉</h3></div>'; return; }
+    
+    let quota=goal-stats.reviewed;
+    if(bonusMode){ quota=1; bonusMode=false; if(stats.reviewed>=goal){stats.reviewed=goal-1; saveData();} }
+    
+    if(quota<=0&&!isCramMode){
+        dailyQueue.ids=[]; saveQueue();
+        area.innerHTML='<div class="empty-state"><h3>Daily Goal Met! ✅</h3><button class="btn" style="margin-top:20px;background:var(--pri)" onclick="bonusMode=true;renderTodayMix();">➕ Read a Bonus Document</button></div>';
+        return;
     }
+    if(quota<=0&&isCramMode) quota=goal;
+
+    let lockedCoursesInDue=[...new Set(materials.map(m=>m.course))].filter(c=>isLockedIn(c)).sort();
+    const lockKey=lockedCoursesInDue.join(',');
+    if(lockedCoursesInDue.length>0) due=due.filter(m=>lockedCoursesInDue.includes(m.course));
+    if(dailyQueue.date!==todayStr||dailyQueue.cram!==isCramMode||dailyQueue.lockKey!==lockKey) dailyQueue={date:todayStr,ids:[],cram:isCramMode,lockKey:lockKey};
+    
+    const dueById=new Map(due.map(m=>[String(m.id),m]));
+    let dailyMix=[]; const queuedIdSet=new Set();
+    dailyQueue.ids.forEach(qid=>{ const key=String(qid); if(dueById.has(key)&&!queuedIdSet.has(key)){ dailyMix.push(dueById.get(key)); queuedIdSet.add(key); } });
+    if(dailyMix.length>quota) dailyMix=dailyMix.slice(0,quota);
+
+    if(dailyMix.length<quota){
+        const missing=quota-dailyMix.length; const currentIdSet=new Set(dailyMix.map(m=>String(m.id)));
+        let remainingDue=due.filter(m=>!currentIdSet.has(String(m.id))); remainingDue.sort((a,b)=>b.number-a.number);
+        let highPool=remainingDue.filter(m=>isTopHalf(m.course,m.id)), lowPool=remainingDue.filter(m=>!isTopHalf(m.course,m.id));
+        let existingNew=dailyMix.filter(m=>isTopHalf(m.course,m.id)).length, targetNew=quota===1?1:Math.floor(quota/2);
+        let newNeeded=Math.max(0,Math.min(missing,targetNew-existingNew)), oldNeeded=missing-newNeeded;
+        let usedTracker=[...new Set(dailyMix.map(m=>m.course))];
+        
+        let added=getDiverseItems(highPool,newNeeded,usedTracker); let addedIds=new Set(added.map(m=>String(m.id)));
+        let remLow=lowPool.filter(m=>!addedIds.has(String(m.id)));
+        if(added.length<newNeeded){ let extra=getDiverseItems(remLow,newNeeded-added.length,usedTracker); extra.forEach(m=>addedIds.add(String(m.id))); added=added.concat(extra); remLow=lowPool.filter(m=>!addedIds.has(String(m.id))); }
+        let oldMix=getDiverseItems(remLow,oldNeeded,usedTracker); oldMix.forEach(m=>addedIds.add(String(m.id))); added=added.concat(oldMix);
+        if(added.length<missing){ let remDue=remainingDue.filter(m=>!addedIds.has(String(m.id))); added=added.concat(getDiverseItems(remDue,missing-added.length,usedTracker)); }
+        dailyMix=dailyMix.concat(added);
+    }
+
+    dailyQueue.ids=dailyMix.map(m=>m.id); saveQueue();
+    
+    let html=`<h2 style="color:var(--new);font-size:14px;margin-bottom:10px;">📋 YOUR MIX (${dailyMix.length})</h2>`;
+    dailyMix.forEach(m=>{
+        const isPri=isTopHalf(m.course,m.id), isFocused=isVisuallyFocused(m.course);
+        const cardClass=isFocused?'priority-focus':(isPri?'priority-high':'');
+        const warnBadge=m.ease<2.0?'<span class="warn-badge">⚠️ Review</span>':'';
+        const starIcon=m.starred?'⭐':'☆';
+        let examBadge="";
+        if(isLockedIn(m.course)) examBadge='<span class="warn-badge" style="background:var(--dng);color:#fff;">🚨 LOCK-IN</span>';
+        else if(isFocused) examBadge='<span class="warn-badge" style="background:var(--dng);color:#fff;">🔥 FOCUS</span>';
+
+        html+=`<div class="mix-card ${cardClass}">
+            <div class="mix-header">
+                <div style="font-weight:700;font-size:16px;color:#fff;">
+                    ${m.course} ${String(m.number).padStart(2,'0')} 
+                    <span class="reps-badge" style="margin-left:5px;">Reps: ${m.reps}</span>
+                    ${warnBadge}
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    ${examBadge}
+                    <span style="cursor:pointer;font-size:18px;" onclick="toggleStar(${m.id},event)">${starIcon}</span>
+                </div>
+            </div>
+            <div class="mix-title">${m.title}</div>
+            <div class="mix-actions">
+                <button class="mix-btn" style="background:var(--dng);" onclick="processReview(${m.id},0)">Again</button>
+                <button class="mix-btn" style="background:var(--new);" onclick="processReview(${m.id},3)">Hard</button>
+                <button class="mix-btn" style="background:var(--pri);" onclick="processReview(${m.id},4)">Good</button>
+                <button class="mix-btn" style="background:var(--suc);" onclick="processReview(${m.id},5)">Easy</button>
+            </div>
+        </div>`;
+    });
+    area.innerHTML=html;
 }
 
 function processReview(id,q){
-    let m=materials.find(x=>x.id===id);if(!m)return;
-    if(q>=3){
-        if(m.reps===0)m.interval=1;
-        else if(m.reps===1)m.interval=6;
-        else m.interval=Math.round(m.interval*m.ease);
-        m.reps++;
-    }else{
-        m.reps=0;m.interval=1;
-    }
-    m.ease=m.ease+(0.1-(5-q)*(0.08+(5-q)*0.02));if(m.ease<1.3)m.ease=1.3;
-    let next=new Date();next.setDate(next.getDate()+m.interval);
-    m.nextReview=next.toISOString().split('T')[0];
-    
-    // --- FIXED STREAK INCREMENT ---
-    if (stats.reviewed === 0) {
-        stats.streak++; // Increment streak on first review of the day
-    }
+    let m=materials.find(x=>x.id===id); if(!m)return;
+    if(q>=3){ if(m.reps===0)m.interval=1; else if(m.reps===1)m.interval=6; else m.interval=Math.round(m.interval*m.ease); m.reps++; }
+    else{ m.reps=0; m.interval=1; }
+    m.ease=m.ease+(0.1-(5-q)*(0.08+(5-q)*0.02)); if(m.ease<1.3)m.ease=1.3;
+    let next=new Date(); next.setDate(next.getDate()+m.interval); m.nextReview=next.toISOString().split('T')[0];
+    if(stats.reviewed===0) stats.streak++;
     stats.reviewed++;
-    
-    dailyQueue.ids = dailyQueue.ids.filter(qid => String(qid) !== String(id));
-    saveData();renderTodayMix();
+    dailyQueue.ids=dailyQueue.ids.filter(qid=>String(qid)!==String(id));
+    saveData(); renderTodayMix();
 }
 
-function exportData(){
-    navigator.clipboard.writeText(JSON.stringify(materials)).then(()=>{
-        document.getElementById('debug-error').innerText="✅ Copied to clipboard!";
-        document.getElementById('debug-error').style.color='var(--suc)';
-    });
-}
-
-function importData(){
-    const d=prompt("Paste backup code:");
-    if(d){
-        try{
-            const p=JSON.parse(d);
-            if(Array.isArray(p)){
-                p.forEach(m => { if(m.starred === undefined) m.starred = false; });
-                materials=p;
-                dailyQueue = {date:new Date().toDateString(), ids:[], cram:isCramMode, lockKey:''};
-                saveData(); updateGlobalAlert(); showTab('dashboard');
-            }
-        }catch(e){}
-    }
-}
-
-function deleteAllData(){
-    if(!confirm("Delete ALL study materials and reset dates/focus?")) return;
-    materials=[]; courseDates={}; focusedCourses={}; selectedIds.clear(); selectMode=false;
-    dailyQueue = {date:new Date().toDateString(), ids:[], cram:false, lockKey:''};
-    stats = {date:new Date().toDateString(), reviewed:0, streak:0}; // Reset streak too
-    saveData(); updateGlobalAlert(); updateBatchBar();
-    document.getElementById('debug-error').innerText="Data deleted.";
-    document.getElementById('debug-error').style.color='var(--mut)';
-    renderDashboard();
-}
-
-// Initial Boot Call
+// BOOT
 updateGlobalAlert();
 renderDashboard();
 </script>
