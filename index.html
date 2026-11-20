@@ -121,6 +121,10 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 .settings-gear { background: transparent; border: none; font-size: 18px; cursor: pointer; padding: 5px; color: var(--mut); transition: color 0.2s; }
 .settings-gear:active { color: var(--txt); }
 
+/* Mastery Progress Bar */
+.mastery-bar-bg { width: 60px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; margin-left: 8px; }
+.mastery-bar-fill { height: 100%; background: var(--suc); border-radius: 3px; }
+
 /* Grid vs List */
 .course-content { padding: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .course-content.list-view { grid-template-columns: 1fr; gap: 10px; }
@@ -133,6 +137,7 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 .list-view .grid-card .title { font-size: 14px; -webkit-line-clamp: 2; margin-bottom: 10px; }
 .grid-card .actions { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px; }
 .grid-card .actions button { background: transparent; border: none; color: var(--mut); cursor: pointer; font-size: 14px; padding: 2px; }
+.grid-card .actions button:active { color: var(--txt); }
 .reps-badge { font-size: 10px; background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px; color: var(--mut); font-weight: 600;}
 .warn-badge { font-size: 9px; background: rgba(239, 68, 68, 0.2); color: #ef4444; padding: 2px 5px; border-radius: 4px; font-weight: 700; }
 
@@ -146,9 +151,13 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 .mix-card.priority-focus { border-left-color: var(--dng) !important; background: rgba(239, 68, 68, 0.1) !important; }
 .mix-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
 .mix-title { color: #e2e8f0; font-size: 15px; font-weight: 500; margin-bottom: 15px; line-height: 1.4; }
+
 .mix-actions { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; }
 .mix-btn { padding: 10px 0; font-size: 12px; font-weight: 700; border-radius: 8px; border: none; color: #fff; cursor: pointer; transition: opacity 0.1s; }
 .mix-btn:active { opacity: 0.7; }
+
+/* Interval Forecast Row */
+.interval-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; margin-top: 4px; text-align: center; font-size: 10px; font-weight: 600; color: var(--mut); }
 
 .stats-banner { background: var(--cbg); border-radius: 12px; padding: 12px 15px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 13px; color: var(--mut); border: 1px solid var(--bord); font-weight: 600;}
 .progress-container { width: 100%; background: var(--bg); border-radius: 10px; height: 8px; margin-bottom: 20px; overflow: hidden; }
@@ -157,7 +166,7 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 .goal-setting input { width: 60px; margin: 0; padding: 8px; text-align: center; font-weight: 700; font-size: 16px; }
 .hide { display: none !important; }
 
-/* --- NEW HISTORY TAB STYLES --- */
+/* HISTORY TAB STYLES */
 .section-title { font-size: 14px; font-weight: 700; color: var(--mut); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; margin-top: 20px; }
 .heatmap-container { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; background: var(--cbg); padding: 15px; border-radius: 12px; border: 1px solid var(--bord); }
 .heatmap-box { aspect-ratio: 1; border-radius: 6px; background: #2a3a52; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; border: 1px solid transparent; transition: transform 0.1s; }
@@ -166,7 +175,6 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 .heatmap-box .month { font-size: 9px; font-weight: 700; text-transform: uppercase; opacity: 0.7; margin-bottom: 2px; }
 .heatmap-box .day { font-size: 16px; font-weight: 700; color: #fff; }
 
-/* Heatmap Colors */
 .heatmap-box.level-1 { background: #065f46; } 
 .heatmap-box.level-2 { background: #10b981; } 
 .heatmap-box.level-3 { background: #34d399; } 
@@ -317,8 +325,9 @@ let dailyQueue={date:new Date().toDateString(), ids:[], cram:false, lockKey:''};
 let isTroubleMode = false;
 let isListView = false;
 let activeModalCourse = '';
+let lastReviewedCourse = ''; // For Bonus Diversity
 
-// HISTORY DATA STRUCTURES
+// HISTORY DATA
 let historyLog = []; 
 let courseReviewCounts = {}; 
 let dailyStats = {}; 
@@ -404,7 +413,9 @@ function getDiffDays(course) {
     return Math.ceil((examDate - today) / (1000 * 60 * 60 * 24));
 }
 function isLockedIn(course) { const diff = getDiffDays(course); return diff !== null && diff >= 0 && diff <= 7; }
-function isVisuallyFocused(course) { return (focusedCourses[course] === true) || isLockedIn(course); }
+function isManuallyFocused(course) { return focusedCourses[course] === true; }
+function isVisuallyFocused(course) { return isManuallyFocused(course) || isLockedIn(course); }
+
 function isTopHalf(course, id) {
     let courseItems = materials.filter(m => m.course === course).sort((a,b) => b.number - a.number);
     let limit = Math.ceil(courseItems.length / 2);
@@ -412,7 +423,6 @@ function isTopHalf(course, id) {
     return idx !== -1 && idx < limit;
 }
 
-/* --- RE-ADDED GLOBAL ALERT FUNCTION --- */
 function updateGlobalAlert() {
     let allCourses = [...new Set(materials.map(m => m.course))];
     let urgentList = [], upcomingList = [];
@@ -432,7 +442,8 @@ function updateGlobalAlert() {
         else {
             let texts = urgentList.map(item => {
                 let cd = item.diffDays !== null ? (item.diffDays < 0 ? " (Past)" : ` (⏳ ${item.diffDays}d)`) : "";
-                return `🔥 ${item.course}${cd}`;
+                let icon = isLockedIn(item.course) ? "🚨" : "🔥";
+                return `${icon} ${item.course}${cd}`;
             });
             urgentDiv.innerHTML = `<b>ACTIVE FOCUS:</b> ${texts.join(' • ')}`;
             urgentDiv.style.display = 'block';
@@ -448,6 +459,25 @@ function updateGlobalAlert() {
             upcomingDiv.style.display = 'block';
         }
     }
+}
+
+/* --- INTERVAL FORECAST MATH --- */
+function getIntervals(m) {
+    let int = m.interval;
+    let ease = m.ease;
+    let reps = m.reps;
+    let res = {a: 1, h: 1, g: 1, e: 4}; // Default for new cards
+    
+    if (reps === 1) { res = {a: 1, h: 3, g: 6, e: 10}; }
+    else if (reps > 1) {
+        res.a = 1;
+        res.h = Math.max(1, Math.round(int * 1.2)); // Hard = slight increase
+        res.g = Math.max(1, Math.round(int * ease)); // Good = normal ease
+        res.e = Math.max(1, Math.round(int * ease * 1.3)); // Easy = bonus
+    }
+    
+    let fmt = (d) => d === 1 ? `<1d` : `${d}d`;
+    return { a: fmt(res.a), h: fmt(res.h), g: fmt(res.g), e: fmt(res.e) };
 }
 
 /* HISTORY RENDER LOGIC */
@@ -477,7 +507,6 @@ function renderHeatmap() {
         
         let monthStr = d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
         let dayStr = d.getDate();
-        
         let isSelected = (dStr === selectedHeatmapDate) ? 'active' : '';
         
         html += `<div class="heatmap-box ${level} ${isSelected}" onclick="selectHeatmapDate('${dStr}')">
@@ -623,7 +652,7 @@ function deleteCourseFromModal() {
     saveData(); updateGlobalAlert(); closeModal();
 }
 
-/* DASHBOARD */
+/* DASHBOARD & FORCE READ */
 function renderDashboard(){
     const container = document.getElementById('list-container');
     const searchQuery = document.getElementById('searchBar').value.toLowerCase().trim();
@@ -651,6 +680,10 @@ function renderDashboard(){
         const isFocused = isVisuallyFocused(course);
         const diff = getDiffDays(course);
         
+        // Calculate Mastery %
+        let masteredCount = grouped[course].filter(m => m.reps >= 2).length;
+        let masteryPct = Math.round((masteredCount / grouped[course].length) * 100);
+        
         let focusBadge = isLockedIn(course) ? `<span class="focus-pill">🚨 Lock-In</span>` : (focusedCourses[course] ? `<span class="focus-pill">🔥 Focus</span>` : '');
         let countdownBadge = diff !== null ? `<span style="font-size:11px;color:var(--mut);font-weight:600;">(${diff}d)</span>` : '';
         
@@ -658,6 +691,7 @@ function renderDashboard(){
             <summary>
                 <div style="display:flex;align-items:center;gap:8px;">
                     <span>${course}</span> ${focusBadge} ${countdownBadge}
+                    <div class="mastery-bar-bg" title="${masteryPct}% Mastered"><div class="mastery-bar-fill" style="width:${masteryPct}%"></div></div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;">
                     <span class="folder-badge">${grouped[course].length}</span>
@@ -686,6 +720,7 @@ function renderDashboard(){
                     <div class="title">${m.title}</div>
                 </div>
                 <div class="actions">
+                    <button onclick="forceRead(${m.id}, event)" title="Read Now">📖</button>
                     <button onclick="editMaterial(${m.id})">✏️</button>
                     <button onclick="deleteMaterial(${m.id})">✕</button>
                 </div>
@@ -700,6 +735,21 @@ function toggleStar(id, event) {
     if(event) event.stopPropagation();
     let m = materials.find(x => x.id === id);
     if(m) { m.starred = !m.starred; saveData(); renderDashboard(); }
+}
+
+function forceRead(id, event) {
+    if(event) event.stopPropagation();
+    let m = materials.find(x => x.id === id);
+    if(!m) return;
+    
+    // Inject into today's queue
+    m.nextReview = new Date().toISOString().split('T')[0]; // Make due today
+    if(!dailyQueue.ids.includes(m.id)) {
+        dailyQueue.ids.push(m.id);
+    }
+    
+    saveData();
+    showTab('review');
 }
 
 /* MANAGE TAB & UTILS */
@@ -762,7 +812,7 @@ function deleteAllData(){
     saveData(); updateGlobalAlert(); renderDashboard();
 }
 
-/* TODAY'S MIX */
+/* TODAY'S MIX & ALGORITHMS */
 function toggleCramMode(){
     isCramMode=!isCramMode;
     const btn=document.getElementById('cram-btn');
@@ -812,9 +862,40 @@ function renderTodayMix(){
     }
     if(quota<=0&&isCramMode) quota=goal;
 
-    let lockedCoursesInDue=[...new Set(materials.map(m=>m.course))].filter(c=>isLockedIn(c)).sort();
-    const lockKey=lockedCoursesInDue.join(',');
-    if(lockedCoursesInDue.length>0) due=due.filter(m=>lockedCoursesInDue.includes(m.course));
+    // --- 70/30 Focus & Lock-In Logic ---
+    let lockedCourses = [...new Set(materials.map(m=>m.course))].filter(c=>isLockedIn(c));
+    
+    if(lockedCourses.length > 0) {
+        // 100% Lock-in
+        due = due.filter(m=>lockedCourses.includes(m.course));
+    } else {
+        let manualFocus = [...new Set(materials.map(m=>m.course))].filter(c=>isManuallyFocused(c));
+        if(manualFocus.length > 0) {
+            // 70/30 Manual Focus
+            let focusPool = due.filter(m => manualFocus.includes(m.course));
+            let otherPool = due.filter(m => !manualFocus.includes(m.course));
+            
+            // Exact math for 70/30
+            let focusQuota = Math.ceil(quota * 0.7);
+            let otherQuota = quota - focusQuota;
+            
+            let focusItems = getDiverseItems(focusPool, focusQuota, []);
+            let otherItems = getDiverseItems(otherPool, otherQuota, focusItems.map(m=>m.course));
+            
+            // If we're short on one, pull from the other
+            if(focusItems.length < focusQuota) {
+                let remNeeded = focusQuota - focusItems.length;
+                otherItems = otherItems.concat(getDiverseItems(otherPool, remNeeded, otherItems.map(m=>m.course)));
+            } else if (otherItems.length < otherQuota) {
+                let remNeeded = otherQuota - otherItems.length;
+                focusItems = focusItems.concat(getDiverseItems(focusPool, remNeeded, focusItems.map(m=>m.course)));
+            }
+            
+            due = focusItems.concat(otherItems);
+        }
+    }
+
+    const lockKey=lockedCourses.join(',');
     if(dailyQueue.date!==todayStr||dailyQueue.cram!==isCramMode||dailyQueue.lockKey!==lockKey) dailyQueue={date:todayStr,ids:[],cram:isCramMode,lockKey:lockKey};
     
     const dueById=new Map(due.map(m=>[String(m.id),m]));
@@ -850,6 +931,8 @@ function renderTodayMix(){
         if(isLockedIn(m.course)) examBadge='<span class="warn-badge" style="background:var(--dng);color:#fff;">🚨 LOCK-IN</span>';
         else if(isFocused) examBadge='<span class="warn-badge" style="background:var(--dng);color:#fff;">🔥 FOCUS</span>';
 
+        let ints = getIntervals(m); // Get forecast
+
         html+=`<div class="mix-card ${cardClass}">
             <div class="mix-header">
                 <div style="font-weight:700;font-size:16px;color:#fff;">
@@ -869,9 +952,33 @@ function renderTodayMix(){
                 <button class="mix-btn" style="background:var(--pri);" onclick="processReview(${m.id},4)">Good</button>
                 <button class="mix-btn" style="background:var(--suc);" onclick="processReview(${m.id},5)">Easy</button>
             </div>
+            <div class="interval-row">
+                <span>${ints.a}</span>
+                <span>${ints.h}</span>
+                <span>${ints.g}</span>
+                <span>${ints.e}</span>
+            </div>
+            <div style="text-align:right; margin-top:10px;">
+                <button class="btn btn-grey mini-btn" style="width:auto; padding:5px 10px; font-size:11px; display:inline-block; margin:0;" onclick="markMastered(${m.id})">✓ Mark as Mastered</button>
+            </div>
         </div>`;
     });
     area.innerHTML=html;
+}
+
+function markMastered(id) {
+    let m=materials.find(x=>x.id===id); if(!m)return;
+    
+    // Push 60 days out, max reps
+    let next = new Date(); next.setDate(next.getDate() + 60);
+    m.nextReview = next.toISOString().split('T')[0];
+    m.reps = 5; 
+    m.ease = 2.5;
+    
+    dailyQueue.ids = dailyQueue.ids.filter(qid => String(qid) !== String(id));
+    
+    saveData(); 
+    renderTodayMix();
 }
 
 function processReview(id,q){
@@ -903,6 +1010,7 @@ function processReview(id,q){
     });
     if(historyLog.length > 50) historyLog.pop(); 
     
+    lastReviewedCourse = m.course; // Note for Bonus logic
     dailyQueue.ids=dailyQueue.ids.filter(qid=>String(qid)!==String(id));
     
     saveData(); 
