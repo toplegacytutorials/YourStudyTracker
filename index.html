@@ -14,7 +14,7 @@
     --mut: #94a3b8; 
     --pri: #3b82f6; 
     --new: #f59e0b; 
-    --old: #06b6d4; /* Cyan for older */
+    --old: #06b6d4; 
     --dng: #ef4444; 
     --suc: #10b981; 
     --bord: #334155;
@@ -27,7 +27,7 @@ body{
     color:var(--txt);
     margin:0;
     padding:15px;
-    padding-bottom:90px; /* Space for bottom nav */
+    padding-bottom:90px; 
     min-height:100vh;
     overflow-x:hidden;
     -webkit-overflow-scrolling:touch;
@@ -37,7 +37,7 @@ body{
 h1{font-size:24px;margin-top:0;margin-bottom:5px;}
 .subtitle{color:var(--mut);font-size:14px;margin-bottom:20px;}
 
-/* Bottom Navigation */
+/* Bottom Navigation (Now 4 Tabs) */
 .bottom-nav {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -54,7 +54,7 @@ h1{font-size:24px;margin-top:0;margin-bottom:5px;}
     background: transparent;
     border: none;
     color: var(--mut);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     display: flex;
     flex-direction: column;
@@ -62,7 +62,7 @@ h1{font-size:24px;margin-top:0;margin-bottom:5px;}
     gap: 4px;
     cursor: pointer;
     transition: color 0.2s;
-    padding: 5px 20px;
+    padding: 5px 10px;
 }
 .nav-btn .icon { font-size: 20px; }
 .nav-btn.active { color: var(--pri); }
@@ -73,7 +73,7 @@ h1{font-size:24px;margin-top:0;margin-bottom:5px;}
     background: rgba(0,0,0,0.7);
     display: none;
     justify-content: center;
-    align-items: flex-end; /* Slide up from bottom */
+    align-items: flex-end; 
     z-index: 200;
 }
 .modal-overlay.show { display: flex; }
@@ -104,7 +104,6 @@ input:focus, textarea:focus { outline: none; border-color: var(--pri); }
 .btn:active { opacity: 0.7; }
 .btn-red { background: var(--dng); }
 .btn-grey { background: #475569; }
-.btn-outline { background: transparent; border: 1px solid var(--bord); color: var(--txt); }
 
 /* Toolbar */
 .toolbar { display: flex; gap: 8px; margin-bottom: 15px; }
@@ -157,6 +156,29 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 .goal-setting { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; background: var(--cbg); padding: 10px 15px; border-radius: 12px; border: 1px solid var(--bord); }
 .goal-setting input { width: 60px; margin: 0; padding: 8px; text-align: center; font-weight: 700; font-size: 16px; }
 .hide { display: none !important; }
+
+/* HISTORY TAB STYLES */
+.section-title { font-size: 14px; font-weight: 700; color: var(--mut); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; margin-top: 20px; }
+.heatmap-container { display: flex; flex-wrap: wrap; gap: 4px; background: var(--cbg); padding: 15px; border-radius: 12px; border: 1px solid var(--bord); }
+.heatmap-box { width: calc(10% - 4px); aspect-ratio: 1; border-radius: 4px; background: #2a3a52; }
+.heatmap-box.level-1 { background: #065f46; } /* Faded green */
+.heatmap-box.level-2 { background: #10b981; } /* Bright green */
+.heatmap-box.level-3 { background: #34d399; } /* Super bright */
+.course-bars { background: var(--cbg); padding: 15px; border-radius: 12px; border: 1px solid var(--bord); }
+.course-bar-row { margin-bottom: 12px; }
+.course-bar-row:last-child { margin-bottom: 0; }
+.course-bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.course-bar-bg { width: 100%; height: 10px; background: #2a3a52; border-radius: 5px; overflow: hidden; }
+.course-bar-fill { height: 100%; background: var(--pri); border-radius: 5px; transition: width 0.5s ease; }
+.activity-feed { background: var(--cbg); padding: 15px; border-radius: 12px; border: 1px solid var(--bord); }
+.activity-date { font-size: 13px; font-weight: 700; color: var(--txt); margin-bottom: 10px; border-bottom: 1px solid var(--bord); padding-bottom: 5px; }
+.activity-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 8px; color: #cbd5e1; }
+.activity-time { font-size: 11px; color: var(--mut); margin-left: 8px; }
+.rating-tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-transform: uppercase; }
+.rating-hard { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+.rating-good { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+.rating-easy { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+.rating-again { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
 </style>
 </head>
 <body>
@@ -164,7 +186,6 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 <div id="debug-error" style="color:#ef4444;font-size:12px;text-align:center;margin-bottom:10px;font-weight:bold"></div>
 
 <div class="container">
-    <!-- Global Alerts -->
     <div id="urgent-alert"></div>
     <div id="upcoming-alert"></div>
 
@@ -208,6 +229,27 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
         <div id="review-area"></div>
     </div>
 
+    <!-- HISTORY TAB -->
+    <div id="history" class="tab-content hide">
+        <h1>History & Analytics</h1>
+        <div class="subtitle">Your study journey over time</div>
+
+        <div class="section-title">30-Day Consistency</div>
+        <div class="heatmap-container" id="heatmap-container">
+            <!-- Injected via JS -->
+        </div>
+
+        <div class="section-title">Most Read Courses</div>
+        <div class="course-bars" id="course-bars-container">
+            <!-- Injected via JS -->
+        </div>
+
+        <div class="section-title">Recent Activity</div>
+        <div class="activity-feed" id="activity-feed-container">
+            <!-- Injected via JS -->
+        </div>
+    </div>
+
     <!-- MANAGE TAB -->
     <div id="add" class="tab-content hide">
         <h1 id="form-title">Add Material</h1>
@@ -237,6 +279,7 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 <div class="bottom-nav">
     <button class="nav-btn active" onclick="showTab('dashboard')" id="nav-dash"><span class="icon">🏠</span>Home</button>
     <button class="nav-btn" onclick="showTab('review')" id="nav-rev"><span class="icon">📖</span>Mix</button>
+    <button class="nav-btn" onclick="showTab('history')" id="nav-hist"><span class="icon">📊</span>History</button>
     <button class="nav-btn" onclick="showTab('add')" id="nav-add"><span class="icon">⚙️</span>Manage</button>
 </div>
 
@@ -269,6 +312,11 @@ let isTroubleMode = false;
 let isListView = false;
 let activeModalCourse = '';
 
+// HISTORY DATA STRUCTURES
+let historyLog = []; 
+let courseReviewCounts = {}; 
+let dailyStats = {}; 
+
 // INIT
 try {
     let m = localStorage.getItem('medSRS_final'); if(m) materials = JSON.parse(m) || [];
@@ -286,13 +334,16 @@ try { let g = localStorage.getItem('medSRS_goal'); if(g) document.getElementById
 try { let cd = localStorage.getItem('medSRS_dates'); if(cd) courseDates = JSON.parse(cd); } catch(e) {}
 try { let fc = localStorage.getItem('medSRS_focus'); if(fc) focusedCourses = JSON.parse(fc); } catch(e) {}
 try { let q = localStorage.getItem('medSRS_queue'); if(q) { let pq = JSON.parse(q); if(pq && Array.isArray(pq.ids)) dailyQueue = pq; } } catch(e) {}
+try { let hl = localStorage.getItem('medSRS_history'); if(hl) historyLog = JSON.parse(hl); } catch(e) {}
+try { let cc = localStorage.getItem('medSRS_courseCounts'); if(cc) courseReviewCounts = JSON.parse(cc); } catch(e) {}
+try { let ds = localStorage.getItem('medSRS_dailyStats'); if(ds) dailyStats = JSON.parse(ds); } catch(e) {}
 
 let todayStr = new Date().toDateString();
 if(stats.date !== todayStr){
     let diffDays = Math.round(Math.abs(new Date(todayStr) - new Date(stats.date)) / (1000 * 60 * 60 * 24));
     stats.date = todayStr; stats.reviewed = 0; if(diffDays > 1) stats.streak = 0;
     dailyQueue = {date: todayStr, ids:[], cram:false, lockKey:''};
-    try { localStorage.setItem('medSRS_queue', JSON.stringify(dailyQueue)); localStorage.setItem('medSRS_stats', JSON.stringify(stats)); } catch(e) {}
+    saveData();
 }
 
 function saveQueue() { try { localStorage.setItem('medSRS_queue', JSON.stringify(dailyQueue)); } catch(e) {} }
@@ -303,6 +354,9 @@ function saveData() {
         localStorage.setItem('medSRS_dates',JSON.stringify(courseDates));
         localStorage.setItem('medSRS_focus',JSON.stringify(focusedCourses));
         localStorage.setItem('medSRS_queue',JSON.stringify(dailyQueue));
+        localStorage.setItem('medSRS_history', JSON.stringify(historyLog));
+        localStorage.setItem('medSRS_courseCounts', JSON.stringify(courseReviewCounts));
+        localStorage.setItem('medSRS_dailyStats', JSON.stringify(dailyStats));
     }catch(e){}
     renderDashboard();
 }
@@ -311,12 +365,17 @@ function showTab(t){
     document.querySelectorAll('.tab-content').forEach(e=>e.classList.add('hide'));
     document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));
     document.getElementById(t).classList.remove('hide');
-    let btnId = 'nav-dash'; if(t === 'review') btnId = 'nav-rev'; if(t === 'add') btnId = 'nav-add';
+    
+    let btnId = 'nav-dash'; 
+    if(t === 'review') btnId = 'nav-rev'; 
+    if(t === 'add') btnId = 'nav-add';
+    if(t === 'history') btnId = 'nav-hist';
     document.getElementById(btnId).classList.add('active');
     
     if(t==='dashboard') renderDashboard();
     if(t==='review') renderTodayMix();
     if(t==='add') resetForm();
+    if(t==='history') renderHistory();
 }
 
 function toggleTroubleMode() {
@@ -347,41 +406,109 @@ function isTopHalf(course, id) {
     return idx !== -1 && idx < limit;
 }
 
-function updateGlobalAlert() {
-    let allCourses = [...new Set(materials.map(m => m.course))];
-    let urgentList = [], upcomingList = [];
+/* HISTORY RENDER LOGIC */
+function renderHistory() {
+    renderHeatmap();
+    renderCourseBars();
+    renderActivityFeed();
+}
+
+function renderHeatmap() {
+    const container = document.getElementById('heatmap-container');
+    let html = '';
+    const today = new Date();
     
-    allCourses.forEach(c => {
-        const diff = getDiffDays(c);
-        if (isVisuallyFocused(c)) urgentList.push({ course: c, diffDays: diff });
-        else if (diff !== null) upcomingList.push({ course: c, diffDays: diff });
+    // Loop backwards 30 days
+    for (let i = 29; i >= 0; i--) {
+        let d = new Date(today);
+        d.setDate(today.getDate() - i);
+        let dStr = d.toISOString().split('T')[0];
+        let count = dailyStats[dStr] || 0;
+        
+        let level = '';
+        if(count === 1 || count === 2) level = 'level-1';
+        else if(count === 3 || count === 4) level = 'level-2';
+        else if(count >= 5) level = 'level-3';
+        
+        // Tooltip via title
+        let displayDate = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        html += `<div class="heatmap-box ${level}" title="${displayDate}: ${count} reviews"></div>`;
+    }
+    container.innerHTML = html;
+}
+
+function renderCourseBars() {
+    const container = document.getElementById('course-bars-container');
+    let entries = Object.entries(courseReviewCounts).sort((a,b) => b[1] - a[1]);
+    
+    if (entries.length === 0) {
+        container.innerHTML = '<div style="text-align:center;color:var(--mut);font-size:13px;padding:10px;">No reviews yet. Start reading!</div>';
+        return;
+    }
+    
+    let maxCount = entries[0][1]; // Highest count for 100% width
+    let html = '';
+    entries.forEach(([course, count]) => {
+        let percent = Math.max((count / maxCount) * 100, 5); // Min 5% so it's visible
+        html += `<div class="course-bar-row">
+            <div class="course-bar-label">
+                <span>${course}</span>
+                <span>${count} reviews</span>
+            </div>
+            <div class="course-bar-bg">
+                <div class="course-bar-fill" style="width: ${percent}%;"></div>
+            </div>
+        </div>`;
+    });
+    container.innerHTML = html;
+}
+
+function renderActivityFeed() {
+    const container = document.getElementById('activity-feed-container');
+    if (historyLog.length === 0) {
+        container.innerHTML = '<div style="text-align:center;color:var(--mut);font-size:13px;padding:10px;">No activity yet.</div>';
+        return;
+    }
+    
+    // Group by date
+    const grouped = {};
+    historyLog.forEach(log => {
+        if(!grouped[log.date]) grouped[log.date] = [];
+        grouped[log.date].push(log);
     });
     
-    const sortFn = (a, b) => (a.diffDays ?? 999) - (b.diffDays ?? 999);
-    urgentList.sort(sortFn); upcomingList.sort(sortFn);
+    let html = '';
+    const today = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
     
-    const urgentDiv = document.getElementById('urgent-alert');
-    if (urgentDiv) {
-        if (urgentList.length === 0) urgentDiv.style.display = 'none';
+    Object.keys(grouped).forEach(dateStr => {
+        let dateLabel = dateStr;
+        if (dateStr === today) dateLabel = "Today";
+        else if (dateStr === yesterday) dateLabel = "Yesterday";
         else {
-            let texts = urgentList.map(item => {
-                let cd = item.diffDays !== null ? (item.diffDays < 0 ? " (Past)" : ` (⏳ ${item.diffDays}d)`) : "";
-                return `🔥 ${item.course}${cd}`;
-            });
-            urgentDiv.innerHTML = `<b>ACTIVE FOCUS:</b> ${texts.join(' • ')}`;
-            urgentDiv.style.display = 'block';
+            let d = new Date(dateStr);
+            dateLabel = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
         }
-    }
-    
-    const upcomingDiv = document.getElementById('upcoming-alert');
-    if (upcomingDiv) {
-        if (upcomingList.length === 0) upcomingDiv.style.display = 'none';
-        else {
-            let texts = upcomingList.map(item => `📅 ${item.course} (⏳ ${item.diffDays}d)`);
-            upcomingDiv.innerHTML = `<b>UPCOMING:</b> ${texts.join(' • ')}`;
-            upcomingDiv.style.display = 'block';
-        }
-    }
+        
+        html += `<div class="activity-date">📅 ${dateLabel}</div>`;
+        
+        grouped[dateStr].forEach(log => {
+            let rClass = "rating-good";
+            let rText = "Good";
+            if(log.rating === 0) { rClass="rating-again"; rText="Again"; }
+            if(log.rating === 3) { rClass="rating-hard"; rText="Hard"; }
+            if(log.rating === 5) { rClass="rating-easy"; rText="Easy"; }
+            
+            html += `<div class="activity-item">
+                <div>
+                    <b>${log.course} ${String(log.number).padStart(2,'0')}</b>
+                    <span class="activity-time">${log.time}</span>
+                </div>
+                <span class="rating-tag ${rClass}">${rText}</span>
+            </div>`;
+        });
+    });
+    container.innerHTML = html;
 }
 
 /* MODAL LOGIC */
@@ -414,6 +541,7 @@ function saveCourseSettings() {
         materials.forEach(m => { if(m.course === activeModalCourse) m.course = newName; });
         if(courseDates[activeModalCourse]) { courseDates[newName] = courseDates[activeModalCourse]; delete courseDates[activeModalCourse]; }
         if(focusedCourses[activeModalCourse]) { focusedCourses[newName] = focusedCourses[activeModalCourse]; delete focusedCourses[activeModalCourse]; }
+        if(courseReviewCounts[activeModalCourse]) { courseReviewCounts[newName] = courseReviewCounts[activeModalCourse]; delete courseReviewCounts[activeModalCourse]; }
     }
     if(newDate) courseDates[newName] = newDate; else delete courseDates[newName];
 
@@ -422,7 +550,7 @@ function saveCourseSettings() {
 function deleteCourseFromModal() {
     if(!confirm(`Delete entire "${activeModalCourse}" folder?`)) return;
     materials = materials.filter(m => m.course !== activeModalCourse);
-    delete courseDates[activeModalCourse]; delete focusedCourses[activeModalCourse];
+    delete courseDates[activeModalCourse]; delete focusedCourses[activeModalCourse]; delete courseReviewCounts[activeModalCourse];
     saveData(); updateGlobalAlert(); closeModal();
 }
 
@@ -457,7 +585,6 @@ function renderDashboard(){
         let focusBadge = isLockedIn(course) ? `<span class="focus-pill">🚨 Lock-In</span>` : (focusedCourses[course] ? `<span class="focus-pill">🔥 Focus</span>` : '');
         let countdownBadge = diff !== null ? `<span style="font-size:11px;color:var(--mut);font-weight:600;">(${diff}d)</span>` : '';
         
-        // FIXED: summary toggles the dropdown, gear icon opens the modal
         html += `<details class="course-group" ${isOpen}>
             <summary>
                 <div style="display:flex;align-items:center;gap:8px;">
@@ -560,8 +687,9 @@ function importData(){
     try { const p=JSON.parse(d); if(Array.isArray(p)){ p.forEach(m => { if(m.starred === undefined) m.starred = false; }); materials=p; dailyQueue={date:new Date().toDateString(),ids:[],cram:isCramMode,lockKey:''}; saveData(); updateGlobalAlert(); showTab('dashboard'); } } catch(e){}
 }
 function deleteAllData(){
-    if(!confirm("Delete ALL materials, dates, and reset focus?")) return;
+    if(!confirm("Delete ALL materials, dates, history, and reset focus?")) return;
     materials=[]; courseDates={}; focusedCourses={}; dailyQueue={date:new Date().toDateString(),ids:[],cram:false,lockKey:''}; stats={date:new Date().toDateString(),reviewed:0,streak:0};
+    historyLog=[]; courseReviewCounts={}; dailyStats={};
     saveData(); updateGlobalAlert(); renderDashboard();
 }
 
@@ -679,14 +807,42 @@ function renderTodayMix(){
 
 function processReview(id,q){
     let m=materials.find(x=>x.id===id); if(!m)return;
+    
+    // SR LOGIC
     if(q>=3){ if(m.reps===0)m.interval=1; else if(m.reps===1)m.interval=6; else m.interval=Math.round(m.interval*m.ease); m.reps++; }
     else{ m.reps=0; m.interval=1; }
     m.ease=m.ease+(0.1-(5-q)*(0.08+(5-q)*0.02)); if(m.ease<1.3)m.ease=1.3;
     let next=new Date(); next.setDate(next.getDate()+m.interval); m.nextReview=next.toISOString().split('T')[0];
+    
     if(stats.reviewed===0) stats.streak++;
     stats.reviewed++;
+    
+    // HISTORY TRACKING
+    let today = new Date().toISOString().split('T')[0];
+    let nowTime = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    
+    // 1. Daily Stats for Heatmap
+    dailyStats[today] = (dailyStats[today] || 0) + 1;
+    
+    // 2. Course Counts for Ranking
+    courseReviewCounts[m.course] = (courseReviewCounts[m.course] || 0) + 1;
+    
+    // 3. Activity Log
+    historyLog.unshift({
+        date: today,
+        time: nowTime,
+        course: m.course,
+        number: m.number,
+        title: m.title,
+        rating: q
+    });
+    if(historyLog.length > 50) historyLog.pop(); // Keep last 50
+    
+    // Remove from queue
     dailyQueue.ids=dailyQueue.ids.filter(qid=>String(qid)!==String(id));
-    saveData(); renderTodayMix();
+    
+    saveData(); 
+    renderTodayMix();
 }
 
 // BOOT
