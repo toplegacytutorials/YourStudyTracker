@@ -119,6 +119,8 @@ details.course-group summary::-webkit-details-marker { display: none; }
 details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 .folder-badge { background: var(--bg); color: var(--mut); font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
 .focus-pill { font-size: 10px; padding: 3px 8px; border-radius: 12px; font-weight: 700; background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+.settings-gear { background: transparent; border: none; font-size: 18px; cursor: pointer; padding: 5px; color: var(--mut); transition: color 0.2s; }
+.settings-gear:active { color: var(--txt); }
 
 /* Grid vs List */
 .course-content { padding: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -219,7 +221,7 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
         
         <h2 style="font-size:16px;margin-bottom:5px;">Bulk Import</h2>
         <small style="color:var(--mut);font-size:12px;display:block;margin-bottom:10px;">Paste your list here. If it stops at 10, paste the next batch.</small>
-        <textarea id="bulkData" placeholder="CPT&#10;1. History ✅&#10;2. Intro ✅"></textarea>
+        <textarea id="bulkData" placeholder="Paste your list here..."></textarea>
         <button class="btn btn-grey" id="import-btn" onclick="bulkImport()">Import All</button>
         
         <hr style="border-color:var(--bord);margin:30px 0">
@@ -450,18 +452,21 @@ function renderDashboard(){
         const safeCourse = course.replace(/'/g, "\\'");
         const isOpen = (searchQuery.length > 0 || isTroubleMode) ? 'open' : '';
         const isFocused = isVisuallyFocused(course);
-        const examDate = courseDates[course] || '';
         const diff = getDiffDays(course);
         
         let focusBadge = isLockedIn(course) ? `<span class="focus-pill">🚨 Lock-In</span>` : (focusedCourses[course] ? `<span class="focus-pill">🔥 Focus</span>` : '');
-        let countdownBadge = diff !== null ? `<span style="font-size:10px;color:var(--mut);margin-left:5px;">(${diff}d)</span>` : '';
+        let countdownBadge = diff !== null ? `<span style="font-size:11px;color:var(--mut);font-weight:600;">(${diff}d)</span>` : '';
         
+        // FIXED: summary toggles the dropdown, gear icon opens the modal
         html += `<details class="course-group" ${isOpen}>
-            <summary onclick="event.preventDefault(); openCourseModal('${safeCourse}')">
-                <div style="display:flex;align-items:center;gap:10px;">
+            <summary>
+                <div style="display:flex;align-items:center;gap:8px;">
                     <span>${course}</span> ${focusBadge} ${countdownBadge}
                 </div>
-                <span class="folder-badge">${grouped[course].length} ▼</span>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span class="folder-badge">${grouped[course].length}</span>
+                    <button class="settings-gear" onclick="event.preventDefault(); event.stopPropagation(); openCourseModal('${safeCourse}')">⚙️</button>
+                </div>
             </summary>
             <div class="course-content ${isListView ? 'list-view' : ''}">`;
         
