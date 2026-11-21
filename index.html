@@ -133,8 +133,9 @@ input:focus, textarea:focus { outline: none; border-color: var(--pri); }
 /* Toolbar */
 .toolbar { display: flex; gap: 8px; margin-bottom: 12px; }
 .toolbar input { margin: 0; flex-grow: 1; }
-.toolbar-btn { background: var(--cbg); border: 1px solid var(--bord); color: var(--mut); border-radius: 10px; padding: 0 12px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.toolbar-btn { background: var(--cbg); border: 1px solid var(--bord); color: var(--mut); border-radius: 10px; padding: 0 11px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .toolbar-btn.active { background: rgba(239, 68, 68, 0.15); color: var(--dng); border-color: var(--dng); }
+.toolbar-btn.active-star { background: rgba(245, 158, 11, 0.18); color: #f59e0b; border-color: #f59e0b; }
 
 /* Batch Select & Delete */
 .select-toggle-btn { background: var(--cbg); border: 1px solid var(--bord); color: var(--mut); border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
@@ -230,10 +231,45 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 .course-bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
 .course-bar-bg { width: 100%; height: 10px; background: #2a3a52; border-radius: 5px; overflow: hidden; }
 .course-bar-fill { height: 100%; background: var(--pri); border-radius: 5px; transition: width 0.5s ease; }
-.activity-feed { background: var(--cbg); padding: 15px; border-radius: 12px; border: 1px solid var(--bord); }
-.activity-date { font-size: 13px; font-weight: 700; color: var(--txt); margin-bottom: 10px; margin-top: 12px; border-bottom: 1px solid var(--bord); padding-bottom: 5px; }
-.activity-date:first-child { margin-top: 0; }
+
+/* Collapsible Recent Activity */
+.activity-feed { background: var(--cbg); padding: 12px 15px; border-radius: 12px; border: 1px solid var(--bord); }
+details.activity-group { border-bottom: 1px solid var(--bord); padding: 8px 0; }
+details.activity-group:first-child { padding-top: 2px; }
+details.activity-group:last-child { border-bottom: none; padding-bottom: 2px; }
+details.activity-group summary.activity-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--txt);
+    cursor: pointer;
+    list-style: none;
+    padding: 4px 0;
+    user-select: none;
+}
+details.activity-group summary.activity-date::-webkit-details-marker { display: none; }
+.activity-arrow {
+    display: inline-block;
+    width: 14px;
+    color: var(--mut);
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: 700;
+    margin-right: 4px;
+}
+details.activity-group .activity-arrow::before { content: '>'; }
+details.activity-group[open] .activity-arrow::before { content: 'v'; }
+.activity-count {
+    font-size: 11px;
+    color: var(--mut);
+    font-weight: 600;
+    margin-left: 4px;
+}
+.activity-list { margin-top: 8px; padding-left: 4px; }
 .activity-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 8px; color: #cbd5e1; }
+.activity-item:last-child { margin-bottom: 2px; }
 .activity-time { font-size: 11px; color: var(--mut); margin-left: 8px; }
 .rating-tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-transform: uppercase; }
 .rating-hard { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
@@ -258,6 +294,7 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
         
         <div class="toolbar">
             <input type="text" id="searchBar" placeholder="🔍 Search..." oninput="renderDashboard()">
+            <button id="star-btn" class="toolbar-btn" title="Filter Starred" onclick="toggleStarMode()">⭐</button>
             <button id="trouble-btn" class="toolbar-btn" title="Filter Trouble Spots" onclick="toggleTroubleMode()">⚠️</button>
             <button id="view-btn" class="toolbar-btn" title="Toggle List/Grid" onclick="toggleViewMode()">☰</button>
         </div>
@@ -422,9 +459,11 @@ let isCramMode = false;
 let dailyQueue = { date: new Date().toDateString(), ids: [], forcedIds: [], bonusIds: [], cram: false, lockKey: '', focusKey: '' };
 
 let isTroubleMode = false;
+let isStarMode = false;
 let isListView = false;
 let activeTab = 'dashboard';
 let openFolders = new Set();
+let filterOpenFolders = new Set();
 let isRenderingDashboard = false;
 
 let selectMode = false;
@@ -539,10 +578,11 @@ function cleanupEmptyCourses() {
     Object.keys(courseDates).forEach(c => { if (!activeCourses.has(c)) delete courseDates[c]; });
     Object.keys(focusedCourses).forEach(c => { if (!activeCourses.has(c)) delete focusedCourses[c]; });
     [...openFolders].forEach(c => { if (!activeCourses.has(c)) openFolders.delete(c); });
+    [...filterOpenFolders].forEach(c => { if (!activeCourses.has(c)) filterOpenFolders.delete(c); });
     saveOpenFolders();
 }
 
-/* --- NAVIGATION --- */
+/* --- NAVIGATION & FILTERS --- */
 function showTab(t) {
     if (!['dashboard', 'review', 'history', 'add'].includes(t)) t = 'dashboard';
     if (t !== 'dashboard' && selectMode) {
@@ -569,8 +609,16 @@ function showTab(t) {
     if (t === 'history') renderHistory();
 }
 
+function toggleStarMode() {
+    isStarMode = !isStarMode;
+    filterOpenFolders.clear();
+    document.getElementById('star-btn').classList.toggle('active-star', isStarMode);
+    renderDashboard();
+}
+
 function toggleTroubleMode() {
     isTroubleMode = !isTroubleMode;
+    filterOpenFolders.clear();
     document.getElementById('trouble-btn').classList.toggle('active', isTroubleMode);
     renderDashboard();
 }
@@ -582,7 +630,7 @@ function toggleViewMode() {
     renderDashboard();
 }
 
-/* --- FOCUS & PRIORITY HELPERS --- */
+/* --- FOCUS, MASTERY & PRIORITY HELPERS --- */
 function getDiffDays(course) {
     if (!courseDates[course]) return null;
     const examDate = parseLocalISO(courseDates[course]);
@@ -610,6 +658,32 @@ function isTopHalf(course, id) {
     let limit = Math.ceil(courseItems.length / 2);
     let idx = courseItems.findIndex(m => String(m.id) === String(id));
     return idx !== -1 && idx < limit;
+}
+
+function getCourseMasteryRatio(course) {
+    const courseItems = materials.filter(m => m.course === course);
+    if (courseItems.length === 0) return 0;
+    const masteredCount = courseItems.filter(m => m.reps >= 2).length;
+    return masteredCount / courseItems.length;
+}
+
+// Higher rank = longer untouched (Infinity if never reviewed in historyLog)
+function getCourseUntouchedRank(course) {
+    const idx = historyLog.findIndex(log => log && log.course === course);
+    return idx === -1 ? Infinity : idx;
+}
+
+// Card priority inside a chosen course & recency half: Trouble Spots -> Starred -> Highest Lecture #
+function compareCardsByPriority(a, b) {
+    const aTrouble = (a.ease ?? 2.5) < 2.0 ? 0 : 1;
+    const bTrouble = (b.ease ?? 2.5) < 2.0 ? 0 : 1;
+    if (aTrouble !== bTrouble) return aTrouble - bTrouble;
+
+    const aStar = a.starred ? 0 : 1;
+    const bStar = b.starred ? 0 : 1;
+    if (aStar !== bStar) return aStar - bStar;
+
+    return b.number - a.number;
 }
 
 function updateGlobalAlert() {
@@ -797,9 +871,19 @@ function renderActivityFeed() {
             if (d) dateLabel = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
         }
 
-        html += `<div class="activity-date">📅 ${dateLabel}</div>`;
+        const isTodayOpen = dateStr === today ? 'open' : '';
+        const dayEntries = grouped[dateStr];
 
-        grouped[dateStr].forEach(log => {
+        html += `<details class="activity-group" ${isTodayOpen}>
+            <summary class="activity-date">
+                <span>
+                    <span class="activity-arrow"></span>📅 ${dateLabel}
+                    <span class="activity-count">(${dayEntries.length})</span>
+                </span>
+            </summary>
+            <div class="activity-list">`;
+
+        dayEntries.forEach(log => {
             let rClass = "rating-good", rText = "Good";
             if (log.rating === 0) { rClass = "rating-again"; rText = "Again"; }
             else if (log.rating === 3) { rClass = "rating-hard"; rText = "Hard"; }
@@ -814,6 +898,8 @@ function renderActivityFeed() {
                 <span class="rating-tag ${rClass}">${rText}</span>
             </div>`;
         });
+
+        html += `</div></details>`;
     });
     container.innerHTML = html;
 }
@@ -900,6 +986,10 @@ function saveCourseSettings() {
             openFolders.add(newName);
             saveOpenFolders();
         }
+        if (filterOpenFolders.has(activeModalCourse)) {
+            filterOpenFolders.delete(activeModalCourse);
+            filterOpenFolders.add(newName);
+        }
         if (lastReviewedCourse === activeModalCourse) lastReviewedCourse = newName;
     }
 
@@ -917,7 +1007,7 @@ function saveCourseSettings() {
 
 function deleteCourseFromModal() {
     const count = materials.filter(m => m.course === activeModalCourse).length;
-    if (!confirm(`Delete entire "${activeModalCourse}" folder (${count} item${count === 1 ? '' : 's'})?`)) return;
+    if (!confirm(`Delete entire "${activeModalCourse}" folder (${count} item${count === 1 ? '' : 's'})? Your review history & course totals will stay intact.`)) return;
 
     const removedIds = new Set(materials.filter(m => m.course === activeModalCourse).map(m => String(m.id)));
     materials = materials.filter(m => m.course !== activeModalCourse);
@@ -928,8 +1018,9 @@ function deleteCourseFromModal() {
 
     delete courseDates[activeModalCourse];
     delete focusedCourses[activeModalCourse];
-    delete courseReviewCounts[activeModalCourse];
+    // Preserve courseReviewCounts, dailyStats, and historyLog so re-importing merges cleanly
     openFolders.delete(activeModalCourse);
+    filterOpenFolders.delete(activeModalCourse);
     saveOpenFolders();
 
     saveData();
@@ -939,6 +1030,18 @@ function deleteCourseFromModal() {
 }
 
 /* --- MULTI-SELECT BATCH DELETE --- */
+function getFilteredMaterials() {
+    const searchQuery = document.getElementById('searchBar').value.toLowerCase().trim();
+    return materials.filter(m => {
+        const matchSearch = m.course.toLowerCase().includes(searchQuery) ||
+            m.title.toLowerCase().includes(searchQuery) ||
+            String(m.number).includes(searchQuery);
+        const matchTrouble = isTroubleMode ? (m.ease < 2.0) : true;
+        const matchStar = isStarMode ? !!m.starred : true;
+        return matchSearch && matchTrouble && matchStar;
+    });
+}
+
 function updateBatchBar() {
     const bar = document.getElementById('batch-bar');
     const btn = document.getElementById('select-mode-btn');
@@ -973,7 +1076,7 @@ function toggleSelectItem(id) {
 }
 
 function toggleSelectCourse(course) {
-    const courseItems = materials.filter(m => m.course === course);
+    const courseItems = getFilteredMaterials().filter(m => m.course === course);
     const allSelected = courseItems.length > 0 && courseItems.every(m => selectedIds.has(String(m.id)));
     courseItems.forEach(m => {
         const key = String(m.id);
@@ -1003,7 +1106,14 @@ function deleteSelected() {
 function handleFolderToggle(course, isOpen) {
     if (isRenderingDashboard) return;
     const searchQuery = document.getElementById('searchBar').value.trim();
-    if (searchQuery.length > 0 || isTroubleMode) return;
+    if (searchQuery.length > 0) return;
+
+    if (isTroubleMode || isStarMode) {
+        if (isOpen) filterOpenFolders.add(course);
+        else filterOpenFolders.delete(course);
+        return;
+    }
+
     if (isOpen) openFolders.add(course);
     else openFolders.delete(course);
     saveOpenFolders();
@@ -1014,19 +1124,17 @@ function renderDashboard() {
     try {
         const container = document.getElementById('list-container');
         const searchQuery = document.getElementById('searchBar').value.toLowerCase().trim();
-
-        let filtered = materials.filter(m => {
-            const matchSearch = m.course.toLowerCase().includes(searchQuery) ||
-                m.title.toLowerCase().includes(searchQuery) ||
-                String(m.number).includes(searchQuery);
-            const matchTrouble = isTroubleMode ? (m.ease < 2.0) : true;
-            return matchSearch && matchTrouble;
-        });
+        const isFilterActive = isTroubleMode || isStarMode;
+        const filtered = getFilteredMaterials();
 
         document.getElementById('total-count').innerText = `${filtered.length} items`;
 
         if (filtered.length === 0) {
-            container.innerHTML = '<div class="empty-state">No materials found.</div>';
+            let emptyMsg = 'No materials found.';
+            if (isStarMode && isTroubleMode && !searchQuery) emptyMsg = 'No starred trouble spots found.';
+            else if (isStarMode && !searchQuery) emptyMsg = 'No starred materials yet.';
+            else if (isTroubleMode && !searchQuery) emptyMsg = 'No trouble spots right now.';
+            container.innerHTML = `<div class="empty-state">${emptyMsg}</div>`;
             return;
         }
 
@@ -1058,12 +1166,18 @@ function renderDashboard() {
         sortedCourses.forEach(course => {
             const safeCourseJs = escJs(course);
             const safeCourseHtml = escHtml(course);
-            const isOpen = (searchQuery.length > 0 || isTroubleMode || openFolders.has(course)) ? 'open' : '';
+
+            // Search auto-expands; Star/Trouble filters default collapsed (preserving manual taps while active); unfiltered uses saved openFolders
+            let shouldOpen = false;
+            if (searchQuery.length > 0) shouldOpen = true;
+            else if (isFilterActive) shouldOpen = filterOpenFolders.has(course);
+            else shouldOpen = openFolders.has(course);
+
+            const isOpen = shouldOpen ? 'open' : '';
             const isFocused = isVisuallyFocused(course);
             const diff = getDiffDays(course);
 
-            let masteredCount = grouped[course].filter(m => m.reps >= 2).length;
-            let masteryPct = Math.round((masteredCount / grouped[course].length) * 100);
+            let masteryPct = Math.round(getCourseMasteryRatio(course) * 100);
 
             let focusBadge = isLockedIn(course)
                 ? `<span class="focus-pill">🚨 Lock-In</span>`
@@ -1324,6 +1438,7 @@ function deleteAllData() {
     selectedIds.clear();
     selectMode = false;
     openFolders.clear();
+    filterOpenFolders.clear();
     saveOpenFolders();
     dailyQueue = { date: new Date().toDateString(), ids: [], forcedIds: [], bonusIds: [], cram: false, lockKey: '', focusKey: '' };
     stats = { date: new Date().toDateString(), reviewed: 0, streak: 0 };
@@ -1337,7 +1452,7 @@ function deleteAllData() {
     renderDashboard();
 }
 
-/* --- TODAY'S MIX & 60/40 QUEUE ENGINE --- */
+/* --- TODAY'S MIX & FAIR COURSE ROTATION ENGINE --- */
 function toggleCramMode() {
     isCramMode = !isCramMode;
     const btn = document.getElementById('cram-btn');
@@ -1356,48 +1471,75 @@ function updateGoal() {
     renderTodayMix();
 }
 
+// Rank courses fairly: Fresh (not in today's mix) -> Longest Untouched -> Lowest Mastery % -> Random tie-breaker
+function rankCoursesFairly(courseNames, usedCourses) {
+    const meta = courseNames.map(c => ({
+        course: c,
+        alreadyUsed: usedCourses.includes(c) ? 1 : 0,
+        untouchedRank: getCourseUntouchedRank(c),
+        masteryRatio: getCourseMasteryRatio(c),
+        rand: Math.random()
+    }));
+
+    meta.sort((a, b) => {
+        if (a.alreadyUsed !== b.alreadyUsed) return a.alreadyUsed - b.alreadyUsed;
+        if (a.untouchedRank !== b.untouchedRank) {
+            if (a.untouchedRank === Infinity) return -1;
+            if (b.untouchedRank === Infinity) return 1;
+            return b.untouchedRank - a.untouchedRank;
+        }
+        if (Math.abs(a.masteryRatio - b.masteryRatio) > 1e-6) return a.masteryRatio - b.masteryRatio;
+        return a.rand - b.rand;
+    });
+
+    return meta.map(m => m.course);
+}
+
 function getDiverseItems(pool, count, usedCourses, excludeIds) {
     if (count <= 0 || !pool || pool.length === 0) return [];
     let result = [];
     let tempPool = pool.filter(m => !excludeIds.has(String(m.id)));
-    let allCourses = [...new Set(tempPool.map(m => m.course))];
-    let freshCourses = allCourses.filter(c => !usedCourses.includes(c));
-    let courses = freshCourses.length > 0 ? freshCourses : allCourses;
+    if (tempPool.length === 0) return [];
 
+    // Bucket available cards by course, prioritized by Trouble Spots -> Starred -> Highest Lecture #
+    const buckets = {};
+    tempPool.forEach(m => {
+        if (!buckets[m.course]) buckets[m.course] = [];
+        buckets[m.course].push(m);
+    });
+    Object.keys(buckets).forEach(c => buckets[c].sort(compareCardsByPriority));
+
+    let orderedCourses = rankCoursesFairly(Object.keys(buckets), usedCourses);
     let idx = 0;
-    while (result.length < count && tempPool.length > 0) {
-        if (courses.length === 0) {
-            courses = [...new Set(tempPool.map(m => m.course))];
-            if (courses.length === 0) break;
-        }
-        let course = courses[idx % courses.length];
-        let itemIdx = tempPool.findIndex(m => m.course === course);
-        if (itemIdx > -1) {
-            let item = tempPool.splice(itemIdx, 1)[0];
+
+    while (result.length < count && orderedCourses.length > 0) {
+        let course = orderedCourses[idx % orderedCourses.length];
+        let bucket = buckets[course];
+        if (bucket && bucket.length > 0) {
+            let item = bucket.shift();
             result.push(item);
             excludeIds.add(String(item.id));
-            if (!usedCourses.includes(item.course)) usedCourses.push(item.course);
-            idx++;
+            if (!usedCourses.includes(course)) usedCourses.push(course);
+            if (bucket.length === 0) {
+                orderedCourses.splice(idx % orderedCourses.length, 1);
+            } else {
+                idx++;
+            }
         } else {
-            courses.splice(idx % courses.length, 1);
+            orderedCourses.splice(idx % orderedCourses.length, 1);
         }
     }
 
-    if (result.length < count && tempPool.length > 0) {
-        let extra = tempPool.slice(0, count - result.length);
-        extra.forEach(item => excludeIds.add(String(item.id)));
-        result = result.concat(extra);
-    }
     return result;
 }
 
 function pickBalancedRecency(pool, count, existingItems, excludeIds, usedCourses) {
     if (count <= 0 || !pool || pool.length === 0) return [];
-    let sorted = pool.filter(m => !excludeIds.has(String(m.id))).sort((a, b) => b.number - a.number);
-    if (sorted.length === 0) return [];
+    let available = pool.filter(m => !excludeIds.has(String(m.id)));
+    if (available.length === 0) return [];
 
-    let highPool = sorted.filter(m => isTopHalf(m.course, m.id));
-    let lowPool = sorted.filter(m => !isTopHalf(m.course, m.id));
+    let highPool = available.filter(m => isTopHalf(m.course, m.id));
+    let lowPool = available.filter(m => !isTopHalf(m.course, m.id));
 
     let totalTarget = existingItems.length + count;
     let existingNew = existingItems.filter(m => isTopHalf(m.course, m.id)).length;
@@ -1411,7 +1553,7 @@ function pickBalancedRecency(pool, count, existingItems, excludeIds, usedCourses
     }
     picked = picked.concat(getDiverseItems(lowPool, oldNeeded, usedCourses, excludeIds));
     if (picked.length < count) {
-        picked = picked.concat(getDiverseItems(sorted, count - picked.length, usedCourses, excludeIds));
+        picked = picked.concat(getDiverseItems(available, count - picked.length, usedCourses, excludeIds));
     }
     return picked;
 }
@@ -1443,7 +1585,7 @@ function readBonusDoc() {
         : candidates;
     if (diverseCandidates.length === 0) diverseCandidates = candidates;
 
-    // If manual focus is active and no lock-in, slightly favor focused course if it's not the one just reviewed
+    // If manual focus is active and no lock-in, favor focused course if it's not the one just reviewed
     const manualFocus = [...new Set(materials.map(m => m.course))].filter(c => isManuallyFocused(c));
     let pickPool = diverseCandidates;
     if (lockedCourses.length === 0 && manualFocus.length > 0) {
@@ -1686,7 +1828,7 @@ function logReviewActivity(m, rating) {
         title: m.title,
         rating: rating
     });
-    if (historyLog.length > 50) historyLog.pop();
+    if (historyLog.length > 500) historyLog.length = 500;
 
     lastReviewedCourse = m.course;
 
