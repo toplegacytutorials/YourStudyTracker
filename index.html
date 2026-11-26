@@ -36,8 +36,6 @@ body{
 .container{width:100%;max-width:500px;margin:0 auto;}
 h1{font-size:24px;margin-top:0;margin-bottom:5px;}
 .subtitle{color:var(--mut);font-size:14px;margin-bottom:20px;}
-.flex-between{display:flex;justify-content:space-between;align-items:center;}
-.empty-state{text-align:center;padding:40px 20px;color:var(--mut);font-size:15px;line-height:1.5;}
 
 /* Bottom Navigation */
 .bottom-nav {
@@ -86,33 +84,11 @@ h1{font-size:24px;margin-top:0;margin-bottom:5px;}
     border-radius: 20px 20px 0 0;
     padding: 25px 20px;
     box-shadow: 0 -10px 25px rgba(0,0,0,0.5);
-    animation: slideUp 0.25s ease-out;
+    animation: slideUp 0.3s ease-out;
 }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .modal-title { font-size: 20px; font-weight: 700; color: var(--txt); margin: 0; }
-
-.focus-modal-btn {
-    width: 100%;
-    padding: 12px 14px;
-    margin: 8px 0 4px 0;
-    border-radius: 10px;
-    border: 1px solid var(--bord);
-    background: var(--bg);
-    color: var(--mut);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 0.2s;
-}
-.focus-modal-btn.active {
-    background: rgba(239, 68, 68, 0.15);
-    border-color: rgba(239, 68, 68, 0.45);
-    color: #ef4444;
-}
 
 /* Forms & Inputs */
 input[type="text"], input[type="number"], input[type="date"], textarea {
@@ -128,51 +104,35 @@ input:focus, textarea:focus { outline: none; border-color: var(--pri); }
 .btn:active { opacity: 0.7; }
 .btn-red { background: var(--dng); }
 .btn-grey { background: #475569; }
-.mini-btn { padding: 6px 10px; font-size: 11px; margin-top: 0; border-radius: 6px; }
 
 /* Toolbar */
-.toolbar { display: flex; gap: 8px; margin-bottom: 12px; }
+.toolbar { display: flex; gap: 8px; margin-bottom: 15px; }
 .toolbar input { margin: 0; flex-grow: 1; }
-.toolbar-btn { background: var(--cbg); border: 1px solid var(--bord); color: var(--mut); border-radius: 10px; padding: 0 11px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.toolbar-btn { background: var(--cbg); border: 1px solid var(--bord); color: var(--mut); border-radius: 10px; padding: 0 12px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .toolbar-btn.active { background: rgba(239, 68, 68, 0.15); color: var(--dng); border-color: var(--dng); }
-.toolbar-btn.active-star { background: rgba(245, 158, 11, 0.18); color: #f59e0b; border-color: #f59e0b; }
-
-/* Batch Select & Delete */
-.select-toggle-btn { background: var(--cbg); border: 1px solid var(--bord); color: var(--mut); border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-.select-toggle-btn.active { background: rgba(239, 68, 68, 0.15); color: #ef4444; border-color: rgba(239, 68, 68, 0.35); }
-.batch-bar { display: none; justify-content: space-between; align-items: center; gap: 8px; background: var(--cbg); border: 1px solid rgba(239, 68, 68, 0.35); padding: 10px 12px; border-radius: 10px; margin-bottom: 12px; font-size: 13px; }
-.batch-bar.show { display: flex; }
-.batch-bar-btns { display: flex; gap: 6px; align-items: center; }
-.batch-bar button { width: auto; margin: 0; padding: 6px 10px; font-size: 12px; border-radius: 6px; border: none; color: #fff; font-weight: 600; cursor: pointer; }
-.batch-bar button:disabled { opacity: 0.4; cursor: not-allowed; }
-.card-checkbox { width: 16px; height: 16px; accent-color: var(--dng); cursor: pointer; margin: 0; }
-.course-select-btn { background: var(--bg); border: 1px solid var(--bord); color: var(--txt); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 600; cursor: pointer; }
 
 /* Dashboard Folders */
 details.course-group { margin-bottom: 12px; background: var(--cbg); border-radius: 12px; border: 1px solid var(--bord); overflow: hidden; }
-details.course-group.focused-folder { border-color: rgba(239, 68, 68, 0.4); }
-details.course-group summary { padding: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 17px; color: var(--txt); cursor: pointer; list-style: none; font-weight: 700; gap: 8px; }
+details.course-group summary { padding: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; color: var(--txt); cursor: pointer; list-style: none; font-weight: 700; }
 details.course-group summary::-webkit-details-marker { display: none; }
 details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 .folder-badge { background: var(--bg); color: var(--mut); font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
 .focus-pill { font-size: 10px; padding: 3px 8px; border-radius: 12px; font-weight: 700; background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
-.settings-gear { background: transparent; border: none; font-size: 18px; cursor: pointer; padding: 4px; color: var(--mut); transition: color 0.2s; }
+.settings-gear { background: transparent; border: none; font-size: 18px; cursor: pointer; padding: 5px; color: var(--mut); transition: color 0.2s; }
 .settings-gear:active { color: var(--txt); }
 
 /* Mastery Progress Bar */
-.mastery-bar-bg { width: 55px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; }
+.mastery-bar-bg { width: 60px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; margin-left: 8px; }
 .mastery-bar-fill { height: 100%; background: var(--suc); border-radius: 3px; }
 
 /* Grid vs List */
 .course-content { padding: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .course-content.list-view { grid-template-columns: 1fr; gap: 10px; }
 
-.grid-card { background: #2a3a52; padding: 12px; border-radius: 10px; border-left: 4px solid var(--old); display: flex; flex-direction: column; justify-content: space-between; position: relative; transition: box-shadow 0.15s; }
+.grid-card { background: #2a3a52; padding: 12px; border-radius: 10px; border-left: 4px solid var(--old); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
 .grid-card.priority-high { border-left-color: var(--new); }
 .grid-card.priority-focus { border-left-color: var(--dng) !important; background: rgba(239, 68, 68, 0.15) !important; }
-.grid-card.selectable { cursor: pointer; }
-.grid-card.selected { box-shadow: 0 0 0 2px var(--dng); background: rgba(239, 68, 68, 0.26) !important; }
-.grid-card .code { font-weight: 700; font-size: 13px; color: #fff; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; gap: 4px; }
+.grid-card .code { font-weight: 700; font-size: 14px; color: #fff; margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; }
 .grid-card .title { font-size: 11px; color: #cbd5e1; line-height: 1.3; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex-grow: 1; }
 .list-view .grid-card .title { font-size: 14px; -webkit-line-clamp: 2; margin-bottom: 10px; }
 .grid-card .actions { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px; }
@@ -180,18 +140,16 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 .grid-card .actions button:active { color: var(--txt); }
 .reps-badge { font-size: 10px; background: rgba(0,0,0,0.2); padding: 2px 6px; border-radius: 4px; color: var(--mut); font-weight: 600;}
 .warn-badge { font-size: 9px; background: rgba(239, 68, 68, 0.2); color: #ef4444; padding: 2px 5px; border-radius: 4px; font-weight: 700; }
-.forced-badge { font-size: 9px; background: rgba(139, 92, 246, 0.25); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.4); padding: 2px 6px; border-radius: 4px; font-weight: 700; }
-.bonus-badge { font-size: 9px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); padding: 2px 6px; border-radius: 4px; font-weight: 700; }
 
 /* Alerts */
-#urgent-alert { display:none; padding:12px; border-radius:10px; margin-bottom:10px; font-size:13px; font-weight:600; text-align:center; line-height:1.4; background:rgba(239, 68, 68, 0.15); border:1px solid rgba(239, 68, 68, 0.3); color:#ef4444;}
+#urgent-alert { display:none; padding:12px; border-radius:10px; margin-bottom:15px; font-size:13px; font-weight:600; text-align:center; line-height:1.4; background:rgba(239, 68, 68, 0.15); border:1px solid rgba(239, 68, 68, 0.3); color:#ef4444;}
 #upcoming-alert { display:none; padding:12px; border-radius:10px; margin-bottom:15px; font-size:13px; font-weight:600; text-align:center; line-height:1.4; background:rgba(59, 130, 246, 0.15); border:1px solid rgba(59, 130, 246, 0.3); color:#3b82f6;}
 
 /* Today's Mix Cards */
 .mix-card { background: var(--cbg); padding: 15px; margin-bottom: 12px; border-radius: 12px; border-left: 6px solid var(--old); position: relative; }
 .mix-card.priority-high { border-left-color: var(--new); }
 .mix-card.priority-focus { border-left-color: var(--dng) !important; background: rgba(239, 68, 68, 0.1) !important; }
-.mix-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; gap: 8px; }
+.mix-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
 .mix-title { color: #e2e8f0; font-size: 15px; font-weight: 500; margin-bottom: 15px; line-height: 1.4; }
 
 .mix-actions { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; }
@@ -202,7 +160,7 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 .interval-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; margin-top: 4px; text-align: center; font-size: 10px; font-weight: 600; color: var(--mut); }
 
 .stats-banner { background: var(--cbg); border-radius: 12px; padding: 12px 15px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 13px; color: var(--mut); border: 1px solid var(--bord); font-weight: 600;}
-.progress-container { width: 100%; background: var(--cbg); border-radius: 10px; height: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid var(--bord); }
+.progress-container { width: 100%; background: var(--bg); border-radius: 10px; height: 8px; margin-bottom: 20px; overflow: hidden; }
 .progress-bar { height: 100%; background: var(--suc); width: 0%; transition: width 0.3s ease; }
 .goal-setting { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; background: var(--cbg); padding: 10px 15px; border-radius: 12px; border: 1px solid var(--bord); }
 .goal-setting input { width: 60px; margin: 0; padding: 8px; text-align: center; font-weight: 700; font-size: 16px; }
@@ -231,52 +189,15 @@ details.course-group[open] summary { border-bottom: 1px solid var(--bord); }
 .course-bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
 .course-bar-bg { width: 100%; height: 10px; background: #2a3a52; border-radius: 5px; overflow: hidden; }
 .course-bar-fill { height: 100%; background: var(--pri); border-radius: 5px; transition: width 0.5s ease; }
-
-/* Collapsible Recent Activity */
-.activity-feed { background: var(--cbg); padding: 12px 15px; border-radius: 12px; border: 1px solid var(--bord); }
-details.activity-group { border-bottom: 1px solid var(--bord); padding: 8px 0; }
-details.activity-group:first-child { padding-top: 2px; }
-details.activity-group:last-child { border-bottom: none; padding-bottom: 2px; }
-details.activity-group summary.activity-date {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--txt);
-    cursor: pointer;
-    list-style: none;
-    padding: 4px 0;
-    user-select: none;
-}
-details.activity-group summary.activity-date::-webkit-details-marker { display: none; }
-.activity-arrow {
-    display: inline-block;
-    width: 14px;
-    color: var(--mut);
-    font-family: monospace;
-    font-size: 13px;
-    font-weight: 700;
-    margin-right: 4px;
-}
-details.activity-group .activity-arrow::before { content: '>'; }
-details.activity-group[open] .activity-arrow::before { content: 'v'; }
-.activity-count {
-    font-size: 11px;
-    color: var(--mut);
-    font-weight: 600;
-    margin-left: 4px;
-}
-.activity-list { margin-top: 8px; padding-left: 4px; }
+.activity-feed { background: var(--cbg); padding: 15px; border-radius: 12px; border: 1px solid var(--bord); }
+.activity-date { font-size: 13px; font-weight: 700; color: var(--txt); margin-bottom: 10px; border-bottom: 1px solid var(--bord); padding-bottom: 5px; }
 .activity-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 8px; color: #cbd5e1; }
-.activity-item:last-child { margin-bottom: 2px; }
 .activity-time { font-size: 11px; color: var(--mut); margin-left: 8px; }
 .rating-tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-transform: uppercase; }
 .rating-hard { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
 .rating-good { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
 .rating-easy { background: rgba(16, 185, 129, 0.2); color: #10b981; }
 .rating-again { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-.rating-mastered { background: rgba(139, 92, 246, 0.25); color: #c4b5fd; }
 </style>
 </head>
 <body>
@@ -294,27 +215,14 @@ details.activity-group[open] .activity-arrow::before { content: 'v'; }
         
         <div class="toolbar">
             <input type="text" id="searchBar" placeholder="🔍 Search..." oninput="renderDashboard()">
-            <button id="star-btn" class="toolbar-btn" title="Filter Starred" onclick="toggleStarMode()">⭐</button>
             <button id="trouble-btn" class="toolbar-btn" title="Filter Trouble Spots" onclick="toggleTroubleMode()">⚠️</button>
             <button id="view-btn" class="toolbar-btn" title="Toggle List/Grid" onclick="toggleViewMode()">☰</button>
         </div>
         
         <div class="flex-between" style="margin-bottom:10px;">
             <h2 style="border:none;margin:0;padding:0;font-size:14px;color:var(--mut);">ALL MATERIALS</h2>
-            <div style="display:flex;align-items:center;gap:10px;">
-                <span id="total-count" style="color:var(--mut);font-size:13px;font-weight:600;"></span>
-                <button id="select-mode-btn" class="select-toggle-btn" onclick="toggleSelectMode()">☑️ Select</button>
-            </div>
+            <span id="total-count" style="color:var(--mut);font-size:13px;font-weight:600;"></span>
         </div>
-
-        <div id="batch-bar" class="batch-bar">
-            <span>Selected: <b id="selected-count">0</b></span>
-            <div class="batch-bar-btns">
-                <button id="delete-selected-btn" class="btn-red" onclick="deleteSelected()" disabled>🗑️ Delete</button>
-                <button class="btn-grey" onclick="toggleSelectMode()">Cancel</button>
-            </div>
-        </div>
-
         <div id="list-container"></div>
     </div>
 
@@ -359,7 +267,7 @@ details.activity-group[open] .activity-arrow::before { content: 'v'; }
     <!-- MANAGE TAB -->
     <div id="add" class="tab-content hide">
         <h1 id="form-title">Add Material</h1>
-        <input type="text" id="courseCode" placeholder="Course (e.g., CPT 1ST CA)">
+        <input type="text" id="courseCode" placeholder="Course (e.g., MMB)">
         <input type="number" id="itemNumber" placeholder="Number (e.g., 24)">
         <input type="text" id="title" placeholder="Document/Topic Name">
         <input type="hidden" id="editId">
@@ -368,8 +276,8 @@ details.activity-group[open] .activity-arrow::before { content: 'v'; }
         <hr style="border-color:var(--bord);margin:30px 0">
         
         <h2 style="font-size:16px;margin-bottom:5px;">Bulk Import</h2>
-        <small style="color:var(--mut);font-size:12px;display:block;margin-bottom:10px;">Put folder name on its own line (spaces/numbers allowed), then numbered topics below it (e.g. 1. Topic Name).</small>
-        <textarea id="bulkData" placeholder="CPT 1ST CA&#10;1. Bioassay - Prof. Okpo&#10;2. Pharmacogenetics"></textarea>
+        <small style="color:var(--mut);font-size:12px;display:block;margin-bottom:10px;">Paste your list here. If it stops at 10, paste the next batch.</small>
+        <textarea id="bulkData" placeholder="COURSE CODE/TITLE&#10;&#10;1. TOPIC 1&#10;2. TOPIC 2&#10;3. TOPIC 3"></textarea>
         <button class="btn btn-grey" id="import-btn" onclick="bulkImport()">Import All</button>
         
         <hr style="border-color:var(--bord);margin:30px 0">
@@ -394,21 +302,17 @@ details.activity-group[open] .activity-arrow::before { content: 'v'; }
     <div class="modal-content" onclick="event.stopPropagation()">
         <div class="modal-header">
             <h3 class="modal-title" id="modal-course-name">Course</h3>
-            <button onclick="closeModal()" style="font-size:22px;background:none;border:none;color:var(--mut);cursor:pointer;">✕</button>
+            <button class="icon-btn" onclick="closeModal()" style="font-size:24px;background:none;border:none;color:var(--mut);">✕</button>
         </div>
         
         <label style="font-size:12px;color:var(--mut);font-weight:600;">RENAME FOLDER</label>
         <input type="text" id="modal-rename-input" placeholder="New Folder Name">
-
-        <label style="font-size:12px;color:var(--mut);font-weight:600;margin-top:10px;display:block;">MANUAL FOCUS (60/40 MIX)</label>
-        <button type="button" id="modal-focus-btn" class="focus-modal-btn" onclick="toggleModalFocus()"></button>
-        <div id="modal-focus-note" style="font-size:11px;color:var(--mut);min-height:14px;margin-bottom:6px;"></div>
         
-        <label style="font-size:12px;color:var(--mut);font-weight:600;margin-top:6px;display:block;">EXAM DATE</label>
+        <label style="font-size:12px;color:var(--mut);font-weight:600;margin-top:10px;display:block;">EXAM DATE</label>
         <input type="date" id="modal-date-input" onchange="modalDateChanged()">
         <div id="modal-countdown" style="text-align:center;font-size:13px;margin-top:5px;font-weight:600;"></div>
         
-        <button class="btn" onclick="saveCourseSettings()" style="margin-top:18px;">Save Changes</button>
+        <button class="btn" onclick="saveCourseSettings()" style="margin-top:20px;">Save Changes</button>
         <button class="btn btn-red" onclick="deleteCourseFromModal()" style="margin-top:10px;">🗑️ Delete Entire Course</button>
     </div>
 </div>
@@ -416,290 +320,122 @@ details.activity-group[open] .activity-arrow::before { content: 'v'; }
 <script>
 window.onerror = function(m) { document.getElementById('debug-error').innerText = "Error: " + m; return false; };
 
-/* --- DATE HELPERS (LOCAL TIME) --- */
-function getLocalISO(d = new Date()) {
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${y}-${m}-${day}`;
-}
-
-function parseLocalISO(isoStr) {
-    if (!isoStr || typeof isoStr !== 'string') return null;
-    const parts = isoStr.split('-').map(Number);
-    if (parts.length !== 3 || parts.some(isNaN)) return null;
-    return new Date(parts[0], parts[1] - 1, parts[2]);
-}
-
-function addDaysISO(days) {
-    const d = new Date();
-    d.setHours(0, 0, 0, 0);
-    d.setDate(d.getDate() + days);
-    return getLocalISO(d);
-}
-
-function escHtml(str) {
-    return String(str ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-}
-
-function escJs(str) {
-    return String(str ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-}
-
-/* --- STATE --- */
-let materials = [];
-let courseDates = {};
-let focusedCourses = {};
-let stats = { date: new Date().toDateString(), reviewed: 0, streak: 0 };
-let isCramMode = false;
-let dailyQueue = { date: new Date().toDateString(), ids: [], forcedIds: [], bonusIds: [], cram: false, lockKey: '', focusKey: '' };
-
+let materials=[], courseDates={}, focusedCourses={}, stats={date:new Date().toDateString(), reviewed:0, streak:0}, isCramMode=false, bonusMode=false;
+let dailyQueue={date:new Date().toDateString(), ids:[], cram:false, lockKey:''};
 let isTroubleMode = false;
-let isStarMode = false;
 let isListView = false;
-let activeTab = 'dashboard';
-let openFolders = new Set();
-let filterOpenFolders = new Set();
-let isRenderingDashboard = false;
-
-let selectMode = false;
-let selectedIds = new Set();
-
 let activeModalCourse = '';
-let modalFocusState = false;
-let lastReviewedCourse = '';
+let lastReviewedCourse = ''; // For Bonus Diversity
 
-// History State
-let historyLog = [];
-let courseReviewCounts = {};
-let dailyStats = {};
+// HISTORY DATA
+let historyLog = []; 
+let courseReviewCounts = {}; 
+let dailyStats = {}; 
 
-/* --- CRASH-PROOF INIT --- */
+// INIT
 try {
-    let m = localStorage.getItem('medSRS_final');
-    if (m) materials = JSON.parse(m) || [];
-    if (!Array.isArray(materials)) materials = [];
+    let m = localStorage.getItem('medSRS_final'); if(m) materials = JSON.parse(m) || [];
     materials = materials.filter(item => item && typeof item === 'object' && item.course);
     materials.forEach(item => {
-        if (item.starred === undefined) item.starred = false;
-        if (item.reps === undefined) item.reps = 0;
-        if (item.interval === undefined) item.interval = 1;
-        if (item.ease === undefined) item.ease = 2.5;
-        if (!item.nextReview) item.nextReview = getLocalISO();
+        if(item.starred === undefined) item.starred = false;
+        if(item.reps === undefined) item.reps = 0;
+        if(item.interval === undefined) item.interval = 1;
+        if(item.ease === undefined) item.ease = 2.5;
     });
-} catch (e) { materials = []; }
+} catch(e) { materials = []; }
 
-try { let s = localStorage.getItem('medSRS_stats'); if (s) { let ps = JSON.parse(s); if (ps) stats = ps; } } catch (e) {}
-try { let g = localStorage.getItem('medSRS_goal'); if (g) { const el = document.getElementById('dailyGoal'); if (el) el.value = g; } } catch (e) {}
-try { let cd = localStorage.getItem('medSRS_dates'); if (cd) courseDates = JSON.parse(cd) || {}; } catch (e) {}
-try { let fc = localStorage.getItem('medSRS_focus'); if (fc) focusedCourses = JSON.parse(fc) || {}; } catch (e) {}
-try {
-    let q = localStorage.getItem('medSRS_queue');
-    if (q) {
-        let pq = JSON.parse(q);
-        if (pq && Array.isArray(pq.ids)) {
-            dailyQueue = {
-                date: pq.date || new Date().toDateString(),
-                ids: pq.ids || [],
-                forcedIds: Array.isArray(pq.forcedIds) ? pq.forcedIds : [],
-                bonusIds: Array.isArray(pq.bonusIds) ? pq.bonusIds : [],
-                cram: !!pq.cram,
-                lockKey: pq.lockKey || '',
-                focusKey: pq.focusKey || ''
-            };
-        }
-    }
-} catch (e) {}
-try { let hl = localStorage.getItem('medSRS_history'); if (hl) historyLog = JSON.parse(hl) || []; } catch (e) {}
-try { let cc = localStorage.getItem('medSRS_courseCounts'); if (cc) courseReviewCounts = JSON.parse(cc) || {}; } catch (e) {}
-try { let ds = localStorage.getItem('medSRS_dailyStats'); if (ds) dailyStats = JSON.parse(ds) || {}; } catch (e) {}
-try { let lc = localStorage.getItem('medSRS_lastCourse'); if (lc) lastReviewedCourse = lc; } catch (e) {}
-try { let lv = localStorage.getItem('medSRS_listView'); if (lv === 'true') isListView = true; } catch (e) {}
-try {
-    let at = localStorage.getItem('medSRS_activeTab');
-    if (at && ['dashboard', 'review', 'history', 'add'].includes(at)) activeTab = at;
-} catch (e) {}
-try {
-    let of = localStorage.getItem('medSRS_openFolders');
-    if (of) {
-        let arr = JSON.parse(of);
-        if (Array.isArray(arr)) openFolders = new Set(arr);
-    }
-} catch (e) {}
+try { let s = localStorage.getItem('medSRS_stats'); if(s) stats = JSON.parse(s); } catch(e) {}
+try { let g = localStorage.getItem('medSRS_goal'); if(g) document.getElementById('dailyGoal').value = g; } catch(e) {}
+try { let cd = localStorage.getItem('medSRS_dates'); if(cd) courseDates = JSON.parse(cd); } catch(e) {}
+try { let fc = localStorage.getItem('medSRS_focus'); if(fc) focusedCourses = JSON.parse(fc); } catch(e) {}
+try { let q = localStorage.getItem('medSRS_queue'); if(q) { let pq = JSON.parse(q); if(pq && Array.isArray(pq.ids)) dailyQueue = pq; } } catch(e) {}
+try { let hl = localStorage.getItem('medSRS_history'); if(hl) historyLog = JSON.parse(hl); } catch(e) {}
+try { let cc = localStorage.getItem('medSRS_courseCounts'); if(cc) courseReviewCounts = JSON.parse(cc); } catch(e) {}
+try { let ds = localStorage.getItem('medSRS_dailyStats'); if(ds) dailyStats = JSON.parse(ds); } catch(e) {}
 
-// Day Rollover Check
-(function checkNewDay() {
-    const todayStr = new Date().toDateString();
-    if (stats.date !== todayStr) {
-        const prev = new Date(stats.date);
-        const now = new Date(todayStr);
-        const diffDays = isNaN(prev.getTime()) ? 2 : Math.round((now - prev) / (1000 * 60 * 60 * 24));
-        stats.date = todayStr;
-        stats.reviewed = 0;
-        if (diffDays > 1) stats.streak = 0;
-        dailyQueue = { date: todayStr, ids: [], forcedIds: [], bonusIds: [], cram: false, lockKey: '', focusKey: '' };
-        try {
-            localStorage.setItem('medSRS_stats', JSON.stringify(stats));
-            localStorage.setItem('medSRS_queue', JSON.stringify(dailyQueue));
-        } catch (e) {}
-    }
-})();
-
-/* --- PERSISTENCE --- */
-function saveQueue() {
-    try { localStorage.setItem('medSRS_queue', JSON.stringify(dailyQueue)); } catch (e) {}
+let todayStr = new Date().toDateString();
+if(stats.date !== todayStr){
+    let diffDays = Math.round(Math.abs(new Date(todayStr) - new Date(stats.date)) / (1000 * 60 * 60 * 24));
+    stats.date = todayStr; stats.reviewed = 0; if(diffDays > 1) stats.streak = 0;
+    dailyQueue = {date: todayStr, ids:[], cram:false, lockKey:''};
+    saveData();
 }
 
-function saveOpenFolders() {
-    try { localStorage.setItem('medSRS_openFolders', JSON.stringify([...openFolders])); } catch (e) {}
-}
-
+function saveQueue() { try { localStorage.setItem('medSRS_queue', JSON.stringify(dailyQueue)); } catch(e) {} }
 function saveData() {
     try {
-        localStorage.setItem('medSRS_final', JSON.stringify(materials));
-        localStorage.setItem('medSRS_stats', JSON.stringify(stats));
-        localStorage.setItem('medSRS_dates', JSON.stringify(courseDates));
-        localStorage.setItem('medSRS_focus', JSON.stringify(focusedCourses));
-        localStorage.setItem('medSRS_queue', JSON.stringify(dailyQueue));
+        localStorage.setItem('medSRS_final',JSON.stringify(materials));
+        localStorage.setItem('medSRS_stats',JSON.stringify(stats));
+        localStorage.setItem('medSRS_dates',JSON.stringify(courseDates));
+        localStorage.setItem('medSRS_focus',JSON.stringify(focusedCourses));
+        localStorage.setItem('medSRS_queue',JSON.stringify(dailyQueue));
         localStorage.setItem('medSRS_history', JSON.stringify(historyLog));
         localStorage.setItem('medSRS_courseCounts', JSON.stringify(courseReviewCounts));
         localStorage.setItem('medSRS_dailyStats', JSON.stringify(dailyStats));
-        localStorage.setItem('medSRS_lastCourse', lastReviewedCourse);
-    } catch (e) {}
+    }catch(e){}
     renderDashboard();
 }
 
-function cleanupEmptyCourses() {
-    const activeCourses = new Set(materials.map(m => m.course));
-    Object.keys(courseDates).forEach(c => { if (!activeCourses.has(c)) delete courseDates[c]; });
-    Object.keys(focusedCourses).forEach(c => { if (!activeCourses.has(c)) delete focusedCourses[c]; });
-    [...openFolders].forEach(c => { if (!activeCourses.has(c)) openFolders.delete(c); });
-    [...filterOpenFolders].forEach(c => { if (!activeCourses.has(c)) filterOpenFolders.delete(c); });
-    saveOpenFolders();
-}
-
-/* --- NAVIGATION & FILTERS --- */
-function showTab(t) {
-    if (!['dashboard', 'review', 'history', 'add'].includes(t)) t = 'dashboard';
-    if (t !== 'dashboard' && selectMode) {
-        selectMode = false;
-        selectedIds.clear();
-        updateBatchBar();
-    }
-    activeTab = t;
-    try { localStorage.setItem('medSRS_activeTab', activeTab); } catch (e) {}
-
-    document.querySelectorAll('.tab-content').forEach(e => e.classList.add('hide'));
-    document.querySelectorAll('.nav-btn').forEach(e => e.classList.remove('active'));
+function showTab(t){
+    document.querySelectorAll('.tab-content').forEach(e=>e.classList.add('hide'));
+    document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));
     document.getElementById(t).classList.remove('hide');
-
-    let btnId = 'nav-dash';
-    if (t === 'review') btnId = 'nav-rev';
-    if (t === 'add') btnId = 'nav-add';
-    if (t === 'history') btnId = 'nav-hist';
+    
+    let btnId = 'nav-dash'; 
+    if(t === 'review') btnId = 'nav-rev'; 
+    if(t === 'add') btnId = 'nav-add';
+    if(t === 'history') btnId = 'nav-hist';
     document.getElementById(btnId).classList.add('active');
-
-    if (t === 'dashboard') renderDashboard();
-    if (t === 'review') renderTodayMix();
-    if (t === 'add') resetForm();
-    if (t === 'history') renderHistory();
-}
-
-function toggleStarMode() {
-    isStarMode = !isStarMode;
-    filterOpenFolders.clear();
-    document.getElementById('star-btn').classList.toggle('active-star', isStarMode);
-    renderDashboard();
+    
+    if(t==='dashboard') renderDashboard();
+    if(t==='review') renderTodayMix();
+    if(t==='add') resetForm();
+    if(t==='history') renderHistory();
 }
 
 function toggleTroubleMode() {
     isTroubleMode = !isTroubleMode;
-    filterOpenFolders.clear();
     document.getElementById('trouble-btn').classList.toggle('active', isTroubleMode);
     renderDashboard();
 }
 
 function toggleViewMode() {
     isListView = !isListView;
-    try { localStorage.setItem('medSRS_listView', String(isListView)); } catch (e) {}
     document.getElementById('view-btn').innerText = isListView ? '⊞' : '☰';
     renderDashboard();
 }
 
-/* --- FOCUS, MASTERY & PRIORITY HELPERS --- */
 function getDiffDays(course) {
-    if (!courseDates[course]) return null;
-    const examDate = parseLocalISO(courseDates[course]);
-    if (!examDate) return null;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    if(!courseDates[course]) return null;
+    const examDate = new Date(courseDates[course]);
+    if (isNaN(examDate.getTime())) return null;
+    const today = new Date(); today.setHours(0,0,0,0);
     return Math.ceil((examDate - today) / (1000 * 60 * 60 * 24));
 }
-
-function isLockedIn(course) {
-    const diff = getDiffDays(course);
-    return diff !== null && diff >= 0 && diff <= 7;
-}
-
-function isManuallyFocused(course) {
-    return focusedCourses[course] === true;
-}
-
-function isVisuallyFocused(course) {
-    return isManuallyFocused(course) || isLockedIn(course);
-}
+function isLockedIn(course) { const diff = getDiffDays(course); return diff !== null && diff >= 0 && diff <= 7; }
+function isManuallyFocused(course) { return focusedCourses[course] === true; }
+function isVisuallyFocused(course) { return isManuallyFocused(course) || isLockedIn(course); }
 
 function isTopHalf(course, id) {
-    let courseItems = materials.filter(m => m.course === course).sort((a, b) => b.number - a.number);
+    let courseItems = materials.filter(m => m.course === course).sort((a,b) => b.number - a.number);
     let limit = Math.ceil(courseItems.length / 2);
-    let idx = courseItems.findIndex(m => String(m.id) === String(id));
+    let idx = courseItems.findIndex(m => m.id === id);
     return idx !== -1 && idx < limit;
-}
-
-function getCourseMasteryRatio(course) {
-    const courseItems = materials.filter(m => m.course === course);
-    if (courseItems.length === 0) return 0;
-    const masteredCount = courseItems.filter(m => m.reps >= 2).length;
-    return masteredCount / courseItems.length;
-}
-
-// Higher rank = longer untouched (Infinity if never reviewed in historyLog)
-function getCourseUntouchedRank(course) {
-    const idx = historyLog.findIndex(log => log && log.course === course);
-    return idx === -1 ? Infinity : idx;
-}
-
-// Card priority inside a chosen course & recency half: Trouble Spots -> Starred -> Highest Lecture #
-function compareCardsByPriority(a, b) {
-    const aTrouble = (a.ease ?? 2.5) < 2.0 ? 0 : 1;
-    const bTrouble = (b.ease ?? 2.5) < 2.0 ? 0 : 1;
-    if (aTrouble !== bTrouble) return aTrouble - bTrouble;
-
-    const aStar = a.starred ? 0 : 1;
-    const bStar = b.starred ? 0 : 1;
-    if (aStar !== bStar) return aStar - bStar;
-
-    return b.number - a.number;
 }
 
 function updateGlobalAlert() {
     let allCourses = [...new Set(materials.map(m => m.course))];
     let urgentList = [], upcomingList = [];
-
+    
     allCourses.forEach(c => {
         const diff = getDiffDays(c);
         if (isVisuallyFocused(c)) urgentList.push({ course: c, diffDays: diff });
         else if (diff !== null) upcomingList.push({ course: c, diffDays: diff });
     });
-
-    const sortFn = (a, b) => (a.diffDays ?? 999999) - (b.diffDays ?? 999999);
-    urgentList.sort(sortFn);
-    upcomingList.sort(sortFn);
-
+    
+    const sortFn = (a, b) => (a.diffDays ?? 999) - (b.diffDays ?? 999);
+    urgentList.sort(sortFn); upcomingList.sort(sortFn);
+    
     const urgentDiv = document.getElementById('urgent-alert');
     if (urgentDiv) {
         if (urgentList.length === 0) urgentDiv.style.display = 'none';
@@ -707,61 +443,45 @@ function updateGlobalAlert() {
             let texts = urgentList.map(item => {
                 let cd = item.diffDays !== null ? (item.diffDays < 0 ? " (Past)" : ` (⏳ ${item.diffDays}d)`) : "";
                 let icon = isLockedIn(item.course) ? "🚨" : "🔥";
-                return `${icon} ${escHtml(item.course)}${cd}`;
+                return `${icon} ${item.course}${cd}`;
             });
             urgentDiv.innerHTML = `<b>ACTIVE FOCUS:</b> ${texts.join(' • ')}`;
             urgentDiv.style.display = 'block';
         }
     }
-
+    
     const upcomingDiv = document.getElementById('upcoming-alert');
     if (upcomingDiv) {
         if (upcomingList.length === 0) upcomingDiv.style.display = 'none';
         else {
-            let texts = upcomingList.map(item => {
-                let cd = item.diffDays < 0 ? "Past" : `⏳ ${item.diffDays}d`;
-                return `📅 ${escHtml(item.course)} (${cd})`;
-            });
+            let texts = upcomingList.map(item => `📅 ${item.course} (⏳ ${item.diffDays}d)`);
             upcomingDiv.innerHTML = `<b>UPCOMING:</b> ${texts.join(' • ')}`;
             upcomingDiv.style.display = 'block';
         }
     }
 }
 
-/* --- UNIFIED SM-2 INTERVAL ENGINE (FORECAST + SCHEDULER SYNC) --- */
-function computeIntervalDays(m, q) {
-    const int = m.interval || 1;
-    const ease = m.ease || 2.5;
-    const reps = m.reps || 0;
-
-    if (q === 0) return 1; // Again
-    if (reps === 0) {
-        if (q === 3) return 1; // Hard
-        if (q === 4) return 1; // Good
-        return 4;              // Easy
-    }
-    if (reps === 1) {
-        if (q === 3) return 3;  // Hard
-        if (q === 4) return 6;  // Good
-        return 10;              // Easy
-    }
-    if (q === 3) return Math.max(1, Math.round(int * 1.2));
-    if (q === 4) return Math.max(1, Math.round(int * ease));
-    return Math.max(1, Math.round(int * ease * 1.3));
-}
-
+/* --- INTERVAL FORECAST MATH --- */
 function getIntervals(m) {
-    const fmt = (d) => `${d}d`;
-    return {
-        a: fmt(computeIntervalDays(m, 0)),
-        h: fmt(computeIntervalDays(m, 3)),
-        g: fmt(computeIntervalDays(m, 4)),
-        e: fmt(computeIntervalDays(m, 5))
-    };
+    let int = m.interval;
+    let ease = m.ease;
+    let reps = m.reps;
+    let res = {a: 1, h: 1, g: 1, e: 4}; // Default for new cards
+    
+    if (reps === 1) { res = {a: 1, h: 3, g: 6, e: 10}; }
+    else if (reps > 1) {
+        res.a = 1;
+        res.h = Math.max(1, Math.round(int * 1.2)); // Hard = slight increase
+        res.g = Math.max(1, Math.round(int * ease)); // Good = normal ease
+        res.e = Math.max(1, Math.round(int * ease * 1.3)); // Easy = bonus
+    }
+    
+    let fmt = (d) => d === 1 ? `<1d` : `${d}d`;
+    return { a: fmt(res.a), h: fmt(res.h), g: fmt(res.g), e: fmt(res.e) };
 }
 
-/* --- HISTORY TAB --- */
-let selectedHeatmapDate = getLocalISO();
+/* HISTORY RENDER LOGIC */
+let selectedHeatmapDate = new Date().toISOString().split('T')[0];
 
 function renderHistory() {
     renderHeatmap();
@@ -773,23 +493,22 @@ function renderHeatmap() {
     const container = document.getElementById('heatmap-container');
     let html = '';
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
+    
     for (let i = 29; i >= 0; i--) {
         let d = new Date(today);
         d.setDate(today.getDate() - i);
-        let dStr = getLocalISO(d);
+        let dStr = d.toISOString().split('T')[0];
         let count = dailyStats[dStr] || 0;
-
+        
         let level = '';
-        if (count === 1 || count === 2) level = 'level-1';
-        else if (count === 3 || count === 4) level = 'level-2';
-        else if (count >= 5) level = 'level-3';
-
+        if(count === 1 || count === 2) level = 'level-1';
+        else if(count === 3 || count === 4) level = 'level-2';
+        else if(count >= 5) level = 'level-3';
+        
         let monthStr = d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
         let dayStr = d.getDate();
         let isSelected = (dStr === selectedHeatmapDate) ? 'active' : '';
-
+        
         html += `<div class="heatmap-box ${level} ${isSelected}" onclick="selectHeatmapDate('${dStr}')">
             <span class="month">${monthStr}</span>
             <span class="day">${dayStr}</span>
@@ -807,9 +526,9 @@ function selectHeatmapDate(dStr) {
 function updateHeatmapDetails() {
     let div = document.getElementById('heatmap-details');
     let count = dailyStats[selectedHeatmapDate] || 0;
-    let d = parseLocalISO(selectedHeatmapDate) || new Date();
+    let d = new Date(selectedHeatmapDate);
     let formattedDate = d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
-
+    
     if (count === 0) {
         div.innerHTML = `<span style="color:var(--mut)">${formattedDate}: No reviews</span>`;
     } else {
@@ -819,21 +538,21 @@ function updateHeatmapDetails() {
 
 function renderCourseBars() {
     const container = document.getElementById('course-bars-container');
-    let entries = Object.entries(courseReviewCounts).sort((a, b) => b[1] - a[1]);
-
+    let entries = Object.entries(courseReviewCounts).sort((a,b) => b[1] - a[1]);
+    
     if (entries.length === 0) {
         container.innerHTML = '<div style="text-align:center;color:var(--mut);font-size:13px;padding:10px;">No reviews yet. Start reading!</div>';
         return;
     }
-
-    let maxCount = entries[0][1];
+    
+    let maxCount = entries[0][1]; 
     let html = '';
     entries.forEach(([course, count]) => {
-        let percent = Math.max((count / maxCount) * 100, 5);
+        let percent = Math.max((count / maxCount) * 100, 5); 
         html += `<div class="course-bar-row">
             <div class="course-bar-label">
-                <span>${escHtml(course)}</span>
-                <span>${count} review${count === 1 ? '' : 's'}</span>
+                <span>${course}</span>
+                <span>${count} reviews</span>
             </div>
             <div class="course-bar-bg">
                 <div class="course-bar-fill" style="width: ${percent}%;"></div>
@@ -849,943 +568,383 @@ function renderActivityFeed() {
         container.innerHTML = '<div style="text-align:center;color:var(--mut);font-size:13px;padding:10px;">No activity yet.</div>';
         return;
     }
-
+    
     const grouped = {};
     historyLog.forEach(log => {
-        if (!grouped[log.date]) grouped[log.date] = [];
+        if(!grouped[log.date]) grouped[log.date] = [];
         grouped[log.date].push(log);
     });
-
+    
     let html = '';
-    const today = getLocalISO();
-    const yestDate = new Date();
-    yestDate.setDate(yestDate.getDate() - 1);
-    const yesterday = getLocalISO(yestDate);
-
+    const today = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    
     Object.keys(grouped).forEach(dateStr => {
         let dateLabel = dateStr;
         if (dateStr === today) dateLabel = "Today";
         else if (dateStr === yesterday) dateLabel = "Yesterday";
         else {
-            let d = parseLocalISO(dateStr);
-            if (d) dateLabel = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+            let d = new Date(dateStr);
+            dateLabel = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
         }
-
-        const isTodayOpen = dateStr === today ? 'open' : '';
-        const dayEntries = grouped[dateStr];
-
-        html += `<details class="activity-group" ${isTodayOpen}>
-            <summary class="activity-date">
-                <span>
-                    <span class="activity-arrow"></span>📅 ${dateLabel}
-                    <span class="activity-count">(${dayEntries.length})</span>
-                </span>
-            </summary>
-            <div class="activity-list">`;
-
-        dayEntries.forEach(log => {
-            let rClass = "rating-good", rText = "Good";
-            if (log.rating === 0) { rClass = "rating-again"; rText = "Again"; }
-            else if (log.rating === 3) { rClass = "rating-hard"; rText = "Hard"; }
-            else if (log.rating === 5) { rClass = "rating-easy"; rText = "Easy"; }
-            else if (log.rating === 'mastered') { rClass = "rating-mastered"; rText = "Mastered"; }
-
+        
+        html += `<div class="activity-date">📅 ${dateLabel}</div>`;
+        
+        grouped[dateStr].forEach(log => {
+            let rClass = "rating-good";
+            let rText = "Good";
+            if(log.rating === 0) { rClass="rating-again"; rText="Again"; }
+            if(log.rating === 3) { rClass="rating-hard"; rText="Hard"; }
+            if(log.rating === 5) { rClass="rating-easy"; rText="Easy"; }
+            
             html += `<div class="activity-item">
                 <div>
-                    <b>${escHtml(log.course)} ${String(log.number).padStart(2, '0')}</b>
-                    <span class="activity-time">${escHtml(log.time)}</span>
+                    <b>${log.course} ${String(log.number).padStart(2,'0')}</b>
+                    <span class="activity-time">${log.time}</span>
                 </div>
                 <span class="rating-tag ${rClass}">${rText}</span>
             </div>`;
         });
+    });
+    container.innerHTML = html;
+}
 
+/* MODAL LOGIC */
+function openCourseModal(course) {
+    activeModalCourse = course;
+    document.getElementById('modal-course-name').innerText = `Settings: ${course}`;
+    document.getElementById('modal-rename-input').value = course;
+    document.getElementById('modal-date-input').value = courseDates[course] || '';
+    updateModalCountdown();
+    document.getElementById('courseModal').classList.add('show');
+}
+function closeModal(e) {
+    if(e && e.target !== document.getElementById('courseModal')) return;
+    document.getElementById('courseModal').classList.remove('show');
+}
+function updateModalCountdown() {
+    let dateVal = document.getElementById('modal-date-input').value;
+    let div = document.getElementById('modal-countdown');
+    if(!dateVal) { div.innerText = ""; return; }
+    let diff = Math.ceil((new Date(dateVal) - new Date().setHours(0,0,0,0)) / (1000 * 60 * 60 * 24));
+    div.innerHTML = diff < 0 ? `<span style="color:var(--mut)">Date is in the past</span>` : `<span style="color:var(--dng)">⏳ ${diff} days until exam</span>`;
+}
+function modalDateChanged() { updateModalCountdown(); }
+function saveCourseSettings() {
+    let newName = document.getElementById('modal-rename-input').value.toUpperCase().trim();
+    let newDate = document.getElementById('modal-date-input').value;
+    if(!newName) return;
+
+    if(newName !== activeModalCourse) {
+        materials.forEach(m => { if(m.course === activeModalCourse) m.course = newName; });
+        if(courseDates[activeModalCourse]) { courseDates[newName] = courseDates[activeModalCourse]; delete courseDates[activeModalCourse]; }
+        if(focusedCourses[activeModalCourse]) { focusedCourses[newName] = focusedCourses[activeModalCourse]; delete focusedCourses[activeModalCourse]; }
+        if(courseReviewCounts[activeModalCourse]) { courseReviewCounts[newName] = courseReviewCounts[activeModalCourse]; delete courseReviewCounts[activeModalCourse]; }
+    }
+    if(newDate) courseDates[newName] = newDate; else delete courseDates[newName];
+
+    saveData(); updateGlobalAlert(); closeModal();
+}
+function deleteCourseFromModal() {
+    if(!confirm(`Delete entire "${activeModalCourse}" folder?`)) return;
+    materials = materials.filter(m => m.course !== activeModalCourse);
+    delete courseDates[activeModalCourse]; delete focusedCourses[activeModalCourse]; delete courseReviewCounts[activeModalCourse];
+    saveData(); updateGlobalAlert(); closeModal();
+}
+
+/* DASHBOARD & FORCE READ */
+function renderDashboard(){
+    const container = document.getElementById('list-container');
+    const searchQuery = document.getElementById('searchBar').value.toLowerCase().trim();
+    
+    let filtered = materials.filter(m => {
+        const matchSearch = m.course.toLowerCase().includes(searchQuery) || m.title.toLowerCase().includes(searchQuery) || m.number.toString().includes(searchQuery);
+        const matchTrouble = isTroubleMode ? (m.ease < 2.0) : true;
+        return matchSearch && matchTrouble;
+    });
+    
+    document.getElementById('total-count').innerText = `${filtered.length} items`;
+    
+    if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-state">No materials found.</div>';
+        return;
+    }
+    
+    const grouped = {};
+    filtered.forEach(m => { if(!grouped[m.course]) grouped[m.course] = []; grouped[m.course].push(m); });
+    
+    let html = '';
+    Object.keys(grouped).sort().forEach(course => {
+        const safeCourse = course.replace(/'/g, "\\'");
+        const isOpen = (searchQuery.length > 0 || isTroubleMode) ? 'open' : '';
+        const isFocused = isVisuallyFocused(course);
+        const diff = getDiffDays(course);
+        
+        // Calculate Mastery %
+        let masteredCount = grouped[course].filter(m => m.reps >= 2).length;
+        let masteryPct = Math.round((masteredCount / grouped[course].length) * 100);
+        
+        let focusBadge = isLockedIn(course) ? `<span class="focus-pill">🚨 Lock-In</span>` : (focusedCourses[course] ? `<span class="focus-pill">🔥 Focus</span>` : '');
+        let countdownBadge = diff !== null ? `<span style="font-size:11px;color:var(--mut);font-weight:600;">(${diff}d)</span>` : '';
+        
+        html += `<details class="course-group" ${isOpen}>
+            <summary>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span>${course}</span> ${focusBadge} ${countdownBadge}
+                    <div class="mastery-bar-bg" title="${masteryPct}% Mastered"><div class="mastery-bar-fill" style="width:${masteryPct}%"></div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <span class="folder-badge">${grouped[course].length}</span>
+                    <button class="settings-gear" onclick="event.preventDefault(); event.stopPropagation(); openCourseModal('${safeCourse}')">⚙️</button>
+                </div>
+            </summary>
+            <div class="course-content ${isListView ? 'list-view' : ''}">`;
+        
+        grouped[course].sort((a,b) => b.number - a.number);
+        grouped[course].forEach(m => {
+            const isPri = isTopHalf(course, m.id);
+            const cardClass = isFocused ? 'priority-focus' : (isPri ? 'priority-high' : '');
+            const warnBadge = m.ease < 2.0 ? '<span class="warn-badge">⚠️ Review</span>' : '';
+            const starIcon = m.starred ? '⭐' : '☆';
+            
+            html += `<div class="grid-card ${cardClass}">
+                <div>
+                    <div class="code">
+                        <span>
+                            ${m.course} ${String(m.number).padStart(2,'0')} 
+                            <span class="reps-badge">R:${m.reps}</span>
+                            ${warnBadge}
+                        </span>
+                        <span style="cursor:pointer; font-size:16px;" onclick="toggleStar(${m.id}, event)">${starIcon}</span>
+                    </div>
+                    <div class="title">${m.title}</div>
+                </div>
+                <div class="actions">
+                    <button onclick="forceRead(${m.id}, event)" title="Read Now">📖</button>
+                    <button onclick="editMaterial(${m.id})">✏️</button>
+                    <button onclick="deleteMaterial(${m.id})">✕</button>
+                </div>
+            </div>`;
+        });
         html += `</div></details>`;
     });
     container.innerHTML = html;
 }
 
-/* --- COURSE SETTINGS MODAL --- */
-function openCourseModal(course) {
-    activeModalCourse = course;
-    modalFocusState = isManuallyFocused(course);
-    document.getElementById('modal-course-name').innerText = `Settings: ${course}`;
-    document.getElementById('modal-rename-input').value = course;
-    document.getElementById('modal-date-input').value = courseDates[course] || '';
-    updateModalFocusUI();
-    updateModalCountdown();
-    document.getElementById('courseModal').classList.add('show');
-}
-
-function closeModal(e) {
-    if (e && e.target !== document.getElementById('courseModal')) return;
-    document.getElementById('courseModal').classList.remove('show');
-}
-
-function toggleModalFocus() {
-    modalFocusState = !modalFocusState;
-    updateModalFocusUI();
-}
-
-function updateModalFocusUI() {
-    const btn = document.getElementById('modal-focus-btn');
-    const note = document.getElementById('modal-focus-note');
-    const dateVal = document.getElementById('modal-date-input').value;
-
-    btn.classList.toggle('active', modalFocusState);
-    btn.innerHTML = modalFocusState
-        ? `<span>🔥 Focused — ON</span><span style="font-size:11px;">60/40 Priority</span>`
-        : `<span>⚪ Focus — OFF</span><span style="font-size:11px;">Standard Mix</span>`;
-
-    let locked = false;
-    if (dateVal) {
-        const d = parseLocalISO(dateVal);
-        if (d) {
-            const today = new Date(); today.setHours(0, 0, 0, 0);
-            const diff = Math.ceil((d - today) / (1000 * 60 * 60 * 24));
-            if (diff >= 0 && diff <= 7) locked = true;
-        }
-    }
-    note.innerHTML = locked
-        ? `<span style="color:#ef4444;">🚨 Exam ≤7d away — 100% Lock-In overrides manual focus automatically.</span>`
-        : `Pinned to top of Dashboard & prioritized 60/40 in Today's Mix.`;
-}
-
-function updateModalCountdown() {
-    let dateVal = document.getElementById('modal-date-input').value;
-    let div = document.getElementById('modal-countdown');
-    if (!dateVal) { div.innerText = ""; return; }
-    let d = parseLocalISO(dateVal);
-    if (!d) { div.innerText = ""; return; }
-    const today = new Date(); today.setHours(0, 0, 0, 0);
-    let diff = Math.ceil((d - today) / (1000 * 60 * 60 * 24));
-    div.innerHTML = diff < 0
-        ? `<span style="color:var(--mut)">Date is in the past</span>`
-        : `<span style="color:var(--dng)">⏳ ${diff} day${diff === 1 ? '' : 's'} until exam</span>`;
-}
-
-function modalDateChanged() {
-    updateModalCountdown();
-    updateModalFocusUI();
-}
-
-function saveCourseSettings() {
-    let newName = document.getElementById('modal-rename-input').value.toUpperCase().trim();
-    let newDate = document.getElementById('modal-date-input').value;
-    if (!newName) return;
-
-    if (newName !== activeModalCourse) {
-        materials.forEach(m => { if (m.course === activeModalCourse) m.course = newName; });
-        if (courseDates[activeModalCourse]) { courseDates[newName] = courseDates[activeModalCourse]; delete courseDates[activeModalCourse]; }
-        if (focusedCourses[activeModalCourse] !== undefined) { focusedCourses[newName] = focusedCourses[activeModalCourse]; delete focusedCourses[activeModalCourse]; }
-        if (courseReviewCounts[activeModalCourse]) {
-            courseReviewCounts[newName] = (courseReviewCounts[newName] || 0) + courseReviewCounts[activeModalCourse];
-            delete courseReviewCounts[activeModalCourse];
-        }
-        if (openFolders.has(activeModalCourse)) {
-            openFolders.delete(activeModalCourse);
-            openFolders.add(newName);
-            saveOpenFolders();
-        }
-        if (filterOpenFolders.has(activeModalCourse)) {
-            filterOpenFolders.delete(activeModalCourse);
-            filterOpenFolders.add(newName);
-        }
-        if (lastReviewedCourse === activeModalCourse) lastReviewedCourse = newName;
-    }
-
-    if (modalFocusState) focusedCourses[newName] = true;
-    else delete focusedCourses[newName];
-
-    if (newDate) courseDates[newName] = newDate;
-    else delete courseDates[newName];
-
-    saveData();
-    updateGlobalAlert();
-    closeModal();
-    if (activeTab === 'review') renderTodayMix();
-}
-
-function deleteCourseFromModal() {
-    const count = materials.filter(m => m.course === activeModalCourse).length;
-    if (!confirm(`Delete entire "${activeModalCourse}" folder (${count} item${count === 1 ? '' : 's'})? Your review history & course totals will stay intact.`)) return;
-
-    const removedIds = new Set(materials.filter(m => m.course === activeModalCourse).map(m => String(m.id)));
-    materials = materials.filter(m => m.course !== activeModalCourse);
-    dailyQueue.ids = dailyQueue.ids.filter(qid => !removedIds.has(String(qid)));
-    dailyQueue.forcedIds = dailyQueue.forcedIds.filter(qid => !removedIds.has(String(qid)));
-    dailyQueue.bonusIds = dailyQueue.bonusIds.filter(qid => !removedIds.has(String(qid)));
-    removedIds.forEach(id => selectedIds.delete(id));
-
-    delete courseDates[activeModalCourse];
-    delete focusedCourses[activeModalCourse];
-    // Preserve courseReviewCounts, dailyStats, and historyLog so re-importing merges cleanly
-    openFolders.delete(activeModalCourse);
-    filterOpenFolders.delete(activeModalCourse);
-    saveOpenFolders();
-
-    saveData();
-    updateGlobalAlert();
-    updateBatchBar();
-    closeModal();
-}
-
-/* --- MULTI-SELECT BATCH DELETE --- */
-function getFilteredMaterials() {
-    const searchQuery = document.getElementById('searchBar').value.toLowerCase().trim();
-    return materials.filter(m => {
-        const matchSearch = m.course.toLowerCase().includes(searchQuery) ||
-            m.title.toLowerCase().includes(searchQuery) ||
-            String(m.number).includes(searchQuery);
-        const matchTrouble = isTroubleMode ? (m.ease < 2.0) : true;
-        const matchStar = isStarMode ? !!m.starred : true;
-        return matchSearch && matchTrouble && matchStar;
-    });
-}
-
-function updateBatchBar() {
-    const bar = document.getElementById('batch-bar');
-    const btn = document.getElementById('select-mode-btn');
-    const countEl = document.getElementById('selected-count');
-    const delBtn = document.getElementById('delete-selected-btn');
-
-    if (bar) bar.classList.toggle('show', selectMode);
-    if (btn) {
-        btn.classList.toggle('active', selectMode);
-        btn.innerText = selectMode ? 'Done' : '☑️ Select';
-    }
-    if (countEl) countEl.innerText = selectedIds.size;
-    if (delBtn) {
-        delBtn.disabled = selectedIds.size === 0;
-        delBtn.innerText = selectedIds.size > 0 ? `🗑️ Delete (${selectedIds.size})` : '🗑️ Delete';
-    }
-}
-
-function toggleSelectMode() {
-    selectMode = !selectMode;
-    if (!selectMode) selectedIds.clear();
-    updateBatchBar();
-    renderDashboard();
-}
-
-function toggleSelectItem(id) {
-    const key = String(id);
-    if (selectedIds.has(key)) selectedIds.delete(key);
-    else selectedIds.add(key);
-    updateBatchBar();
-    renderDashboard();
-}
-
-function toggleSelectCourse(course) {
-    const courseItems = getFilteredMaterials().filter(m => m.course === course);
-    const allSelected = courseItems.length > 0 && courseItems.every(m => selectedIds.has(String(m.id)));
-    courseItems.forEach(m => {
-        const key = String(m.id);
-        if (allSelected) selectedIds.delete(key);
-        else selectedIds.add(key);
-    });
-    updateBatchBar();
-    renderDashboard();
-}
-
-function deleteSelected() {
-    if (selectedIds.size === 0) return;
-    if (!confirm(`Delete ${selectedIds.size} selected item${selectedIds.size === 1 ? '' : 's'}?`)) return;
-    materials = materials.filter(m => !selectedIds.has(String(m.id)));
-    dailyQueue.ids = dailyQueue.ids.filter(qid => !selectedIds.has(String(qid)));
-    dailyQueue.forcedIds = dailyQueue.forcedIds.filter(qid => !selectedIds.has(String(qid)));
-    dailyQueue.bonusIds = dailyQueue.bonusIds.filter(qid => !selectedIds.has(String(qid)));
-    selectedIds.clear();
-    selectMode = false;
-    cleanupEmptyCourses();
-    saveData();
-    updateGlobalAlert();
-    updateBatchBar();
-}
-
-/* --- DASHBOARD & FOLDER STATE --- */
-function handleFolderToggle(course, isOpen) {
-    if (isRenderingDashboard) return;
-    const searchQuery = document.getElementById('searchBar').value.trim();
-    if (searchQuery.length > 0) return;
-
-    if (isTroubleMode || isStarMode) {
-        if (isOpen) filterOpenFolders.add(course);
-        else filterOpenFolders.delete(course);
-        return;
-    }
-
-    if (isOpen) openFolders.add(course);
-    else openFolders.delete(course);
-    saveOpenFolders();
-}
-
-function renderDashboard() {
-    isRenderingDashboard = true;
-    try {
-        const container = document.getElementById('list-container');
-        const searchQuery = document.getElementById('searchBar').value.toLowerCase().trim();
-        const isFilterActive = isTroubleMode || isStarMode;
-        const filtered = getFilteredMaterials();
-
-        document.getElementById('total-count').innerText = `${filtered.length} items`;
-
-        if (filtered.length === 0) {
-            let emptyMsg = 'No materials found.';
-            if (isStarMode && isTroubleMode && !searchQuery) emptyMsg = 'No starred trouble spots found.';
-            else if (isStarMode && !searchQuery) emptyMsg = 'No starred materials yet.';
-            else if (isTroubleMode && !searchQuery) emptyMsg = 'No trouble spots right now.';
-            container.innerHTML = `<div class="empty-state">${emptyMsg}</div>`;
-            return;
-        }
-
-        const grouped = {};
-        filtered.forEach(m => {
-            if (!grouped[m.course]) grouped[m.course] = [];
-            grouped[m.course].push(m);
-        });
-
-        // Sort folders: Locked-In (<=7d) first, then Manual Focus (by soonest exam), then A-Z
-        const sortedCourses = Object.keys(grouped).sort((a, b) => {
-            const aLock = isLockedIn(a) ? 0 : 1;
-            const bLock = isLockedIn(b) ? 0 : 1;
-            if (aLock !== bLock) return aLock - bLock;
-
-            const aFoc = isManuallyFocused(a) ? 0 : 1;
-            const bFoc = isManuallyFocused(b) ? 0 : 1;
-            if (aFoc !== bFoc) return aFoc - bFoc;
-
-            if (aLock === 0 || aFoc === 0) {
-                const aDiff = getDiffDays(a) ?? 999999;
-                const bDiff = getDiffDays(b) ?? 999999;
-                if (aDiff !== bDiff) return aDiff - bDiff;
-            }
-            return a.localeCompare(b);
-        });
-
-        let html = '';
-        sortedCourses.forEach(course => {
-            const safeCourseJs = escJs(course);
-            const safeCourseHtml = escHtml(course);
-
-            // Search auto-expands; Star/Trouble filters default collapsed (preserving manual taps while active); unfiltered uses saved openFolders
-            let shouldOpen = false;
-            if (searchQuery.length > 0) shouldOpen = true;
-            else if (isFilterActive) shouldOpen = filterOpenFolders.has(course);
-            else shouldOpen = openFolders.has(course);
-
-            const isOpen = shouldOpen ? 'open' : '';
-            const isFocused = isVisuallyFocused(course);
-            const diff = getDiffDays(course);
-
-            let masteryPct = Math.round(getCourseMasteryRatio(course) * 100);
-
-            let focusBadge = isLockedIn(course)
-                ? `<span class="focus-pill">🚨 Lock-In</span>`
-                : (isManuallyFocused(course) ? `<span class="focus-pill">🔥 Focus</span>` : '');
-            let countdownBadge = diff !== null
-                ? `<span style="font-size:11px;color:var(--mut);font-weight:600;">(${diff < 0 ? 'Past' : diff + 'd'})</span>`
-                : '';
-
-            const allCourseSelected = grouped[course].every(m => selectedIds.has(String(m.id)));
-            const selectCourseBtnHtml = selectMode
-                ? `<button class="course-select-btn" onclick="event.preventDefault(); event.stopPropagation(); toggleSelectCourse('${safeCourseJs}')">${allCourseSelected ? 'Unselect' : 'All'}</button>`
-                : '';
-
-            html += `<details class="course-group ${isFocused ? 'focused-folder' : ''}" ${isOpen} ontoggle="handleFolderToggle('${safeCourseJs}', this.open)">
-                <summary>
-                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                        <span>${safeCourseHtml}</span> ${focusBadge} ${countdownBadge}
-                        <div class="mastery-bar-bg" title="${masteryPct}% Mastered"><div class="mastery-bar-fill" style="width:${masteryPct}%"></div></div>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-                        ${selectCourseBtnHtml}
-                        <span class="folder-badge">${grouped[course].length}</span>
-                        <button class="settings-gear" onclick="event.preventDefault(); event.stopPropagation(); openCourseModal('${safeCourseJs}')">⚙️</button>
-                    </div>
-                </summary>
-                <div class="course-content ${isListView ? 'list-view' : ''}">`;
-
-            grouped[course].sort((a, b) => b.number - a.number);
-            grouped[course].forEach(m => {
-                const isPri = isTopHalf(course, m.id);
-                const cardClass = isFocused ? 'priority-focus' : (isPri ? 'priority-high' : '');
-                const isSelected = selectMode && selectedIds.has(String(m.id));
-                const warnBadge = m.ease < 2.0 ? '<span class="warn-badge">⚠️</span>' : '';
-                const starIcon = m.starred ? '⭐' : '☆';
-
-                const cardClick = selectMode ? `onclick="toggleSelectItem('${escJs(m.id)}')"` : '';
-                const topRight = selectMode
-                    ? `<input type="checkbox" class="card-checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleSelectItem('${escJs(m.id)}')">`
-                    : `<span style="cursor:pointer; font-size:15px;" onclick="toggleStar('${escJs(m.id)}', event)">${starIcon}</span>`;
-                const cardActions = selectMode
-                    ? ''
-                    : `<div class="actions">
-                        <button onclick="forceRead('${escJs(m.id)}', event)" title="Read Now">📖</button>
-                        <button onclick="editMaterial('${escJs(m.id)}')" title="Edit">✏️</button>
-                        <button onclick="deleteMaterial('${escJs(m.id)}')" title="Delete">✕</button>
-                    </div>`;
-
-                html += `<div class="grid-card ${cardClass} ${selectMode ? 'selectable' : ''} ${isSelected ? 'selected' : ''}" ${cardClick}>
-                    <div>
-                        <div class="code">
-                            <span>
-                                ${escHtml(m.course)} ${String(m.number).padStart(2, '0')} 
-                                <span class="reps-badge">R:${m.reps}</span>
-                                ${warnBadge}
-                            </span>
-                            ${topRight}
-                        </div>
-                        <div class="title">${escHtml(m.title)}</div>
-                    </div>
-                    ${cardActions}
-                </div>`;
-            });
-            html += `</div></details>`;
-        });
-        container.innerHTML = html;
-    } finally {
-        setTimeout(() => { isRenderingDashboard = false; }, 0);
-    }
-}
-
 function toggleStar(id, event) {
-    if (event) event.stopPropagation();
-    let m = materials.find(x => String(x.id) === String(id));
-    if (m) {
-        m.starred = !m.starred;
-        saveData();
-        if (activeTab === 'review') renderTodayMix();
-    }
+    if(event) event.stopPropagation();
+    let m = materials.find(x => x.id === id);
+    if(m) { m.starred = !m.starred; saveData(); renderDashboard(); }
 }
 
 function forceRead(id, event) {
-    if (event) event.stopPropagation();
-    let m = materials.find(x => String(x.id) === String(id));
-    if (!m) return;
-
-    const key = String(m.id);
-    dailyQueue.ids = dailyQueue.ids.filter(qid => String(qid) !== key);
-    dailyQueue.bonusIds = dailyQueue.bonusIds.filter(qid => String(qid) !== key);
-    if (!dailyQueue.forcedIds.some(qid => String(qid) === key)) {
-        dailyQueue.forcedIds.unshift(m.id);
+    if(event) event.stopPropagation();
+    let m = materials.find(x => x.id === id);
+    if(!m) return;
+    
+    m.nextReview = new Date().toISOString().split('T')[0]; 
+    if(!dailyQueue.ids.includes(m.id)) {
+        dailyQueue.ids.push(m.id);
     }
-
-    saveQueue();
+    
+    saveData();
     showTab('review');
 }
 
-/* --- MANAGE TAB & BULK IMPORT --- */
-function saveMaterial() {
-    const c = document.getElementById('courseCode').value.toUpperCase().trim();
-    const n = parseInt(document.getElementById('itemNumber').value);
-    const t = document.getElementById('title').value.trim();
-    const e = document.getElementById('editId').value;
-    if (!c || isNaN(n) || !t) {
-        document.getElementById('debug-error').innerText = "Fill all fields first.";
-        document.getElementById('debug-error').style.color = '#ef4444';
-        return;
-    }
-    document.getElementById('debug-error').innerText = "";
-    if (e) {
-        const i = materials.findIndex(m => String(m.id) === String(e));
-        if (i > -1) {
-            materials[i].course = c;
-            materials[i].number = n;
-            materials[i].title = t;
-        }
-    } else {
-        materials.push({
-            id: Date.now() + Math.random(),
-            course: c,
-            number: n,
-            title: t,
-            nextReview: getLocalISO(),
-            interval: 1,
-            ease: 2.5,
-            reps: 0,
-            starred: false
-        });
-    }
-    saveData();
-    updateGlobalAlert();
-    showTab('dashboard');
+/* MANAGE TAB & UTILS */
+function saveMaterial(){
+    const c=document.getElementById('courseCode').value.toUpperCase().trim(),n=parseInt(document.getElementById('itemNumber').value),t=document.getElementById('title').value.trim(),e=document.getElementById('editId').value;
+    if(!c||isNaN(n)||!t){document.getElementById('debug-error').innerText="Fill all fields first.";return;}
+    document.getElementById('debug-error').innerText="";
+    if(e){ const i=materials.findIndex(m=>m.id==e); if(i>-1){materials[i].course=c;materials[i].number=n;materials[i].title=t;} }
+    else{ materials.push({id:Date.now(),course:c,number:n,title:t,nextReview:new Date().toISOString().split('T')[0],interval:1,ease:2.5,reps:0,starred:false}); }
+    saveData(); updateGlobalAlert(); showTab('dashboard');
 }
-
-function editMaterial(id) {
-    const m = materials.find(x => String(x.id) === String(id));
-    if (!m) return;
+function editMaterial(id){
+    const m=materials.find(x=>x.id===id); if(!m)return;
+    document.getElementById('courseCode').value=m.course; document.getElementById('itemNumber').value=m.number;
+    document.getElementById('title').value=m.title; document.getElementById('editId').value=m.id;
+    document.getElementById('form-title').innerText="Edit Material"; document.getElementById('save-btn').innerText="Update Material";
     showTab('add');
-    document.getElementById('courseCode').value = m.course;
-    document.getElementById('itemNumber').value = m.number;
-    document.getElementById('title').value = m.title;
-    document.getElementById('editId').value = m.id;
-    document.getElementById('form-title').innerText = "Edit Material";
-    document.getElementById('save-btn').innerText = "Update Material";
 }
-
-function resetForm() {
-    document.getElementById('courseCode').value = '';
-    document.getElementById('itemNumber').value = '';
-    document.getElementById('title').value = '';
-    document.getElementById('editId').value = '';
-    document.getElementById('form-title').innerText = "Add Material";
-    document.getElementById('save-btn').innerText = "Save Material";
+function resetForm(){
+    document.getElementById('courseCode').value=''; document.getElementById('itemNumber').value='';
+    document.getElementById('title').value=''; document.getElementById('editId').value='';
+    document.getElementById('form-title').innerText="Add Material"; document.getElementById('save-btn').innerText="Save Material";
 }
-
-function deleteMaterial(id) {
-    if (!confirm("Delete this item?")) return;
-    const key = String(id);
-    selectedIds.delete(key);
-    dailyQueue.ids = dailyQueue.ids.filter(qid => String(qid) !== key);
-    dailyQueue.forcedIds = dailyQueue.forcedIds.filter(qid => String(qid) !== key);
-    dailyQueue.bonusIds = dailyQueue.bonusIds.filter(qid => String(qid) !== key);
-    materials = materials.filter(m => String(m.id) !== key);
-    cleanupEmptyCourses();
-    saveData();
-    updateGlobalAlert();
-    updateBatchBar();
+function deleteMaterial(id){
+    if(!confirm("Delete this item?")) return;
+    dailyQueue.ids = dailyQueue.ids.filter(qid => String(qid) !== String(id));
+    materials=materials.filter(m=>m.id!==id); saveData(); updateGlobalAlert();
 }
-
-function bulkImport() {
-    const text = document.getElementById('bulkData').value;
-    if (!text) return;
-
-    let added = 0;
-    let currentCourse = "GEN";
-    const todayISO = getLocalISO();
-    const lines = text.replace(/[\u200B-\u200D\uFEFF]/g, '').replace(/\r/g, '').split('\n');
-
-    lines.forEach(l => {
-        let t = l.trim();
-        if (!t) return;
-
-        // Topic lines start with a number followed by a separator (., ), -, :, or space) and text
-        let itemMatch = t.match(/^(\d+)[\s\.\-\)\:]+(.+)$/);
-        if (itemMatch) {
-            let num = parseInt(itemMatch[1], 10);
-            let title = itemMatch[2].replace(/^[\s\.\-\)\:]+/, '').replace(/[✅✓]/g, '').trim();
-            if (title && !materials.some(m => m.course === currentCourse && m.number === num)) {
-                materials.push({
-                    id: Date.now() + Math.random(),
-                    course: currentCourse,
-                    number: num,
-                    title: title,
-                    nextReview: todayISO,
-                    interval: 1,
-                    ease: 2.5,
-                    reps: 0,
-                    starred: false
-                });
+function bulkImport(){
+    const text=document.getElementById('bulkData').value; if(!text)return;
+    let added=0, currentCourse="GEN";
+    const lines=text.replace(/[\u200B-\u200D\uFEFF]/g,'').replace(/\r/g,'').split('\n');
+    lines.forEach(l=>{
+        let t=l.trim(); if(!t)return;
+        if(/^[A-Za-z]{2,4}$/.test(t)){currentCourse=t.toUpperCase();return;}
+        let numMatch=t.match(/(\d+)/);
+        if(numMatch){
+            let num=parseInt(numMatch[1]);
+            let remainder=t.substring(numMatch.index+numMatch[1].length).replace(/^[\s\.\-\)]+/,'');
+            let title=remainder.replace(/[✅✓]/g,'').trim();
+            if(title && !materials.some(m=>m.course===currentCourse&&m.number===num)){
+                materials.push({id:Date.now()+Math.random(),course:currentCourse,number:num,title:title,nextReview:new Date().toISOString().split('T')[0],interval:1,ease:2.5,reps:0,starred:false});
                 added++;
             }
-        } else if (!/^\d+$/.test(t)) {
-            // Any non-numbered line (spaces, 5+ letters, alphanumeric like "CPT 1ST CA") sets the folder name
-            let folderName = t.replace(/[✅✓]/g, '').replace(/[:\-]+$/, '').trim().toUpperCase();
-            if (folderName) currentCourse = folderName;
         }
     });
-
-    saveData();
-    updateGlobalAlert();
-    document.getElementById('bulkData').value = '';
-    document.getElementById('debug-error').innerText = `✅ Imported ${added} item${added === 1 ? '' : 's'}!`;
-    document.getElementById('debug-error').style.color = 'var(--suc)';
+    saveData(); updateGlobalAlert(); document.getElementById('bulkData').value='';
+    document.getElementById('debug-error').innerText=`✅ Imported ${added} items!`; document.getElementById('debug-error').style.color='var(--suc)';
     showTab('dashboard');
 }
+function exportData(){ navigator.clipboard.writeText(JSON.stringify(materials)).then(()=>{ document.getElementById('debug-error').innerText="✅ Copied to clipboard!"; document.getElementById('debug-error').style.color='var(--suc)'; }); }
+function importData(){
+    const d=prompt("Paste backup code:"); if(!d) return;
+    try { const p=JSON.parse(d); if(Array.isArray(p)){ p.forEach(m => { if(m.starred === undefined) m.starred = false; }); materials=p; dailyQueue={date:new Date().toDateString(),ids:[],cram:isCramMode,lockKey:''}; saveData(); updateGlobalAlert(); showTab('dashboard'); } } catch(e){}
+}
+function deleteAllData(){
+    if(!confirm("Delete ALL materials, dates, history, and reset focus?")) return;
+    materials=[]; courseDates={}; focusedCourses={}; dailyQueue={date:new Date().toDateString(),ids:[],cram:false,lockKey:''}; stats={date:new Date().toDateString(),reviewed:0,streak:0};
+    historyLog=[]; courseReviewCounts={}; dailyStats={};
+    saveData(); updateGlobalAlert(); renderDashboard();
+}
 
-function exportData() {
-    const data = JSON.stringify(materials);
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(data).then(() => {
-            document.getElementById('debug-error').innerText = "✅ Copied to clipboard!";
-            document.getElementById('debug-error').style.color = 'var(--suc)';
-        }).catch(() => { prompt("Copy your backup data:", data); });
-    } else {
-        prompt("Copy your backup data:", data);
+/* TODAY'S MIX & ALGORITHMS */
+function toggleCramMode(){
+    isCramMode=!isCramMode;
+    const btn=document.getElementById('cram-btn');
+    btn.innerText=`Cram Mode: ${isCramMode?'ON':'OFF'}`; btn.style.background=isCramMode?'var(--pri)':'#475569';
+    dailyQueue.ids=[]; dailyQueue.cram=isCramMode; saveQueue(); renderTodayMix();
+}
+function updateGoal(){ localStorage.setItem('medSRS_goal',document.getElementById('dailyGoal').value); renderTodayMix(); }
+
+function getDiverseItems(pool,count,usedCourses){
+    if(count<=0||!pool||pool.length===0)return[];
+    let result=[], tempPool=[...pool];
+    let allCourses=[...new Set(tempPool.map(m=>m.course))];
+    let freshCourses=allCourses.filter(c=>!usedCourses.includes(c));
+    let courses=freshCourses.length>0?freshCourses:allCourses;
+    let idx=0;
+    while(result.length<count&&tempPool.length>0){
+        if(courses.length===0){ courses=[...new Set(tempPool.map(m=>m.course))]; if(courses.length===0)break; }
+        let course=courses[idx%courses.length];
+        let itemIdx=tempPool.findIndex(m=>m.course===course);
+        if(itemIdx>-1){ let item=tempPool.splice(itemIdx,1)[0]; result.push(item); if(!usedCourses.includes(item.course))usedCourses.push(item.course); idx++; }
+        else{ courses.splice(idx%courses.length,1); }
     }
-}
-
-function importData() {
-    const d = prompt("Paste backup code:");
-    if (!d) return;
-    try {
-        const p = JSON.parse(d);
-        if (Array.isArray(p)) {
-            p.forEach(m => {
-                if (m.starred === undefined) m.starred = false;
-                if (m.reps === undefined) m.reps = 0;
-                if (m.interval === undefined) m.interval = 1;
-                if (m.ease === undefined) m.ease = 2.5;
-                if (!m.nextReview) m.nextReview = getLocalISO();
-            });
-            materials = p;
-            dailyQueue = { date: new Date().toDateString(), ids: [], forcedIds: [], bonusIds: [], cram: isCramMode, lockKey: '', focusKey: '' };
-            saveData();
-            updateGlobalAlert();
-            showTab('dashboard');
-        }
-    } catch (e) {
-        document.getElementById('debug-error').innerText = "Invalid backup data.";
-        document.getElementById('debug-error').style.color = '#ef4444';
-    }
-}
-
-function deleteAllData() {
-    if (!confirm("Delete ALL materials, dates, history, and reset focus?")) return;
-    materials = [];
-    courseDates = {};
-    focusedCourses = {};
-    selectedIds.clear();
-    selectMode = false;
-    openFolders.clear();
-    filterOpenFolders.clear();
-    saveOpenFolders();
-    dailyQueue = { date: new Date().toDateString(), ids: [], forcedIds: [], bonusIds: [], cram: false, lockKey: '', focusKey: '' };
-    stats = { date: new Date().toDateString(), reviewed: 0, streak: 0 };
-    historyLog = [];
-    courseReviewCounts = {};
-    dailyStats = {};
-    lastReviewedCourse = '';
-    saveData();
-    updateGlobalAlert();
-    updateBatchBar();
-    renderDashboard();
-}
-
-/* --- TODAY'S MIX & FAIR COURSE ROTATION ENGINE --- */
-function toggleCramMode() {
-    isCramMode = !isCramMode;
-    const btn = document.getElementById('cram-btn');
-    btn.innerText = `Cram Mode: ${isCramMode ? 'ON' : 'OFF'}`;
-    btn.style.background = isCramMode ? 'var(--pri)' : '#475569';
-    dailyQueue.ids = [];
-    dailyQueue.cram = isCramMode;
-    saveQueue();
-    renderTodayMix();
-}
-
-function updateGoal() {
-    const val = Math.max(1, parseInt(document.getElementById('dailyGoal').value, 10) || 1);
-    document.getElementById('dailyGoal').value = val;
-    try { localStorage.setItem('medSRS_goal', String(val)); } catch (e) {}
-    renderTodayMix();
-}
-
-// Rank courses fairly: Fresh (not in today's mix) -> Longest Untouched -> Lowest Mastery % -> Random tie-breaker
-function rankCoursesFairly(courseNames, usedCourses) {
-    const meta = courseNames.map(c => ({
-        course: c,
-        alreadyUsed: usedCourses.includes(c) ? 1 : 0,
-        untouchedRank: getCourseUntouchedRank(c),
-        masteryRatio: getCourseMasteryRatio(c),
-        rand: Math.random()
-    }));
-
-    meta.sort((a, b) => {
-        if (a.alreadyUsed !== b.alreadyUsed) return a.alreadyUsed - b.alreadyUsed;
-        if (a.untouchedRank !== b.untouchedRank) {
-            if (a.untouchedRank === Infinity) return -1;
-            if (b.untouchedRank === Infinity) return 1;
-            return b.untouchedRank - a.untouchedRank;
-        }
-        if (Math.abs(a.masteryRatio - b.masteryRatio) > 1e-6) return a.masteryRatio - b.masteryRatio;
-        return a.rand - b.rand;
-    });
-
-    return meta.map(m => m.course);
-}
-
-function getDiverseItems(pool, count, usedCourses, excludeIds) {
-    if (count <= 0 || !pool || pool.length === 0) return [];
-    let result = [];
-    let tempPool = pool.filter(m => !excludeIds.has(String(m.id)));
-    if (tempPool.length === 0) return [];
-
-    // Bucket available cards by course, prioritized by Trouble Spots -> Starred -> Highest Lecture #
-    const buckets = {};
-    tempPool.forEach(m => {
-        if (!buckets[m.course]) buckets[m.course] = [];
-        buckets[m.course].push(m);
-    });
-    Object.keys(buckets).forEach(c => buckets[c].sort(compareCardsByPriority));
-
-    let orderedCourses = rankCoursesFairly(Object.keys(buckets), usedCourses);
-    let idx = 0;
-
-    while (result.length < count && orderedCourses.length > 0) {
-        let course = orderedCourses[idx % orderedCourses.length];
-        let bucket = buckets[course];
-        if (bucket && bucket.length > 0) {
-            let item = bucket.shift();
-            result.push(item);
-            excludeIds.add(String(item.id));
-            if (!usedCourses.includes(course)) usedCourses.push(course);
-            if (bucket.length === 0) {
-                orderedCourses.splice(idx % orderedCourses.length, 1);
-            } else {
-                idx++;
-            }
-        } else {
-            orderedCourses.splice(idx % orderedCourses.length, 1);
-        }
-    }
-
+    if(result.length<count) result=result.concat(tempPool.slice(0,count-result.length));
     return result;
 }
 
-function pickBalancedRecency(pool, count, existingItems, excludeIds, usedCourses) {
-    if (count <= 0 || !pool || pool.length === 0) return [];
-    let available = pool.filter(m => !excludeIds.has(String(m.id)));
-    if (available.length === 0) return [];
-
-    let highPool = available.filter(m => isTopHalf(m.course, m.id));
-    let lowPool = available.filter(m => !isTopHalf(m.course, m.id));
-
-    let totalTarget = existingItems.length + count;
-    let existingNew = existingItems.filter(m => isTopHalf(m.course, m.id)).length;
-    let targetNew = totalTarget === 1 ? 1 : Math.floor(totalTarget / 2);
-    let newNeeded = Math.max(0, Math.min(count, targetNew - existingNew));
-    let oldNeeded = count - newNeeded;
-
-    let picked = getDiverseItems(highPool, newNeeded, usedCourses, excludeIds);
-    if (picked.length < newNeeded) {
-        picked = picked.concat(getDiverseItems(lowPool, newNeeded - picked.length, usedCourses, excludeIds));
-    }
-    picked = picked.concat(getDiverseItems(lowPool, oldNeeded, usedCourses, excludeIds));
-    if (picked.length < count) {
-        picked = picked.concat(getDiverseItems(available, count - picked.length, usedCourses, excludeIds));
-    }
-    return picked;
-}
-
-function readBonusDoc() {
-    const todayISO = getLocalISO();
-    let due = isCramMode ? [...materials] : materials.filter(m => m.nextReview <= todayISO);
-
-    const lockedCourses = [...new Set(materials.map(m => m.course))].filter(c => isLockedIn(c));
-    if (lockedCourses.length > 0) {
-        due = due.filter(m => lockedCourses.includes(m.course));
-    }
-
-    const alreadyInQueue = new Set([
-        ...dailyQueue.ids.map(String),
-        ...dailyQueue.forcedIds.map(String),
-        ...dailyQueue.bonusIds.map(String)
-    ]);
-    let candidates = due.filter(m => !alreadyInQueue.has(String(m.id)));
-    if (candidates.length === 0) {
-        document.getElementById('debug-error').innerText = "No more due documents left for a bonus!";
-        document.getElementById('debug-error').style.color = 'var(--mut)';
+function renderTodayMix(){
+    const area=document.getElementById('review-area');
+    const today=new Date().toISOString().split('T')[0], todayStr=new Date().toDateString();
+    const goal=parseInt(document.getElementById('dailyGoal').value)||2;
+    let due=isCramMode?[...materials]:materials.filter(m=>m.nextReview<=today);
+    
+    document.getElementById('streak-count').innerText=stats.streak;
+    document.getElementById('reviewed-count').innerText=stats.reviewed;
+    document.getElementById('goal-count').innerText=goal;
+    document.getElementById('progress-bar').style.width=`${Math.min((stats.reviewed/goal)*100,100)}%`;
+    
+    if(due.length===0){ area.innerHTML='<div class="empty-state"><h3>All caught up! 🎉</h3></div>'; return; }
+    
+    let quota=goal-stats.reviewed;
+    if(bonusMode){ quota=1; bonusMode=false; if(stats.reviewed>=goal){stats.reviewed=goal-1; saveData();} }
+    
+    if(quota<=0&&!isCramMode){
+        dailyQueue.ids=[]; saveQueue();
+        area.innerHTML='<div class="empty-state"><h3>Daily Goal Met! ✅</h3><button class="btn" style="margin-top:20px;background:var(--pri)" onclick="bonusMode=true;renderTodayMix();">➕ Read a Bonus Document</button></div>';
         return;
     }
+    if(quota<=0&&isCramMode) quota=goal;
 
-    // Prefer courses other than lastReviewedCourse
-    let diverseCandidates = lastReviewedCourse
-        ? candidates.filter(m => m.course !== lastReviewedCourse)
-        : candidates;
-    if (diverseCandidates.length === 0) diverseCandidates = candidates;
-
-    // If manual focus is active and no lock-in, favor focused course if it's not the one just reviewed
-    const manualFocus = [...new Set(materials.map(m => m.course))].filter(c => isManuallyFocused(c));
-    let pickPool = diverseCandidates;
-    if (lockedCourses.length === 0 && manualFocus.length > 0) {
-        let focCandidates = diverseCandidates.filter(m => manualFocus.includes(m.course));
-        if (focCandidates.length > 0) pickPool = focCandidates;
-    }
-
-    let excludeIds = new Set(alreadyInQueue);
-    let usedCourses = lastReviewedCourse ? [lastReviewedCourse] : [];
-    let picked = pickBalancedRecency(pickPool, 1, [], excludeIds, usedCourses);
-    if (picked.length > 0) {
-        dailyQueue.bonusIds.push(picked[0].id);
-        saveQueue();
-        renderTodayMix();
-    }
-}
-
-function renderTodayMix() {
-    const area = document.getElementById('review-area');
-    const todayISO = getLocalISO();
-    const todayStr = new Date().toDateString();
-    const goal = Math.max(1, parseInt(document.getElementById('dailyGoal').value, 10) || 2);
-
-    document.getElementById('streak-count').innerText = stats.streak;
-    document.getElementById('reviewed-count').innerText = stats.reviewed;
-    document.getElementById('goal-count').innerText = goal;
-    document.getElementById('progress-bar').style.width = `${Math.min((stats.reviewed / goal) * 100, 100)}%`;
-
-    const matById = new Map(materials.map(m => [String(m.id), m]));
-
-    // 1. Resolve Lock-In & Manual Focus keys
-    const allCourses = [...new Set(materials.map(m => m.course))];
-    const lockedCourses = allCourses.filter(c => isLockedIn(c)).sort();
-    const manualFocus = allCourses.filter(c => isManuallyFocused(c)).sort();
-    const lockKey = lockedCourses.join(',');
-    const focusKey = manualFocus.join(',');
-
-    // 2. Reset queue when day/cram/lock changes (or focus changes before any reviews today)
-    if (dailyQueue.date !== todayStr) {
-        dailyQueue = { date: todayStr, ids: [], forcedIds: [], bonusIds: [], cram: isCramMode, lockKey, focusKey };
-    } else if (dailyQueue.cram !== isCramMode || dailyQueue.lockKey !== lockKey || (stats.reviewed === 0 && dailyQueue.focusKey !== focusKey)) {
-        dailyQueue.ids = [];
-        dailyQueue.cram = isCramMode;
-        dailyQueue.lockKey = lockKey;
-        dailyQueue.focusKey = focusKey;
-    }
-
-    // 3. Always preserve valid Forced and Bonus items (never trimmed by Daily Goal)
-    const forcedMix = [];
-    const bonusMix = [];
-    const pinnedIds = new Set();
-
-    dailyQueue.forcedIds = dailyQueue.forcedIds.filter(qid => {
-        const key = String(qid);
-        if (matById.has(key) && !pinnedIds.has(key)) {
-            forcedMix.push(matById.get(key));
-            pinnedIds.add(key);
-            return true;
-        }
-        return false;
-    });
-
-    dailyQueue.bonusIds = dailyQueue.bonusIds.filter(qid => {
-        const key = String(qid);
-        if (matById.has(key) && !pinnedIds.has(key)) {
-            bonusMix.push(matById.get(key));
-            pinnedIds.add(key);
-            return true;
-        }
-        return false;
-    });
-
-    // 4. Determine due pool for normal queue
-    let due = isCramMode ? [...materials] : materials.filter(m => m.nextReview <= todayISO);
-    if (lockedCourses.length > 0) {
-        due = due.filter(m => lockedCourses.includes(m.course));
-    }
-
-    let quota = goal - stats.reviewed;
-    if (quota <= 0 && isCramMode) quota = goal;
-
-    // 5. Build or maintain locked normalMix
-    let normalMix = [];
-    if (quota > 0 && due.length > 0) {
-        const dueById = new Map(due.map(m => [String(m.id), m]));
-        const queuedIdSet = new Set([...pinnedIds]);
-
-        dailyQueue.ids.forEach(qid => {
-            const key = String(qid);
-            if (dueById.has(key) && !queuedIdSet.has(key)) {
-                normalMix.push(dueById.get(key));
-                queuedIdSet.add(key);
+    let lockedCourses = [...new Set(materials.map(m=>m.course))].filter(c=>isLockedIn(c));
+    
+    if(lockedCourses.length > 0) {
+        due = due.filter(m=>lockedCourses.includes(m.course));
+    } else {
+        let manualFocus = [...new Set(materials.map(m=>m.course))].filter(c=>isManuallyFocused(c));
+        if(manualFocus.length > 0) {
+            let focusPool = due.filter(m => manualFocus.includes(m.course));
+            let otherPool = due.filter(m => !manualFocus.includes(m.course));
+            
+            let focusQuota = Math.ceil(quota * 0.7);
+            let otherQuota = quota - focusQuota;
+            
+            let focusItems = getDiverseItems(focusPool, focusQuota, []);
+            let otherItems = getDiverseItems(otherPool, otherQuota, focusItems.map(m=>m.course));
+            
+            if(focusItems.length < focusQuota) {
+                let remNeeded = focusQuota - focusItems.length;
+                otherItems = otherItems.concat(getDiverseItems(otherPool, remNeeded, otherItems.map(m=>m.course)));
+            } else if (otherItems.length < otherQuota) {
+                let remNeeded = otherQuota - otherItems.length;
+                focusItems = focusItems.concat(getDiverseItems(focusPool, remNeeded, focusItems.map(m=>m.course)));
             }
-        });
-
-        // Trim from bottom if Daily Goal was lowered
-        if (normalMix.length > quota) {
-            normalMix = normalMix.slice(0, quota);
-        }
-
-        // Top up only missing slots (initial load, raised goal, deleted item, or cram top-up)
-        if (normalMix.length < quota) {
-            const missing = quota - normalMix.length;
-            const excludeIds = new Set([...pinnedIds, ...normalMix.map(m => String(m.id))]);
-            let remainingDue = due.filter(m => !excludeIds.has(String(m.id)));
-            let usedCourses = [...new Set(normalMix.map(m => m.course))];
-
-            let added = [];
-            if (lockedCourses.length === 0 && manualFocus.length > 0) {
-                // 60/40 Manual Focus split: Math.round(quota * 0.6)
-                const targetFocus = Math.round(quota * 0.6);
-                const existingFocus = normalMix.filter(m => manualFocus.includes(m.course)).length;
-                let focusNeeded = Math.max(0, Math.min(missing, targetFocus - existingFocus));
-                let otherNeeded = missing - focusNeeded;
-
-                const focusPool = remainingDue.filter(m => manualFocus.includes(m.course));
-                const otherPool = remainingDue.filter(m => !manualFocus.includes(m.course));
-
-                let focusPicked = pickBalancedRecency(focusPool, focusNeeded, normalMix, excludeIds, usedCourses);
-                let otherPicked = pickBalancedRecency(otherPool, otherNeeded, [...normalMix, ...focusPicked], excludeIds, usedCourses);
-
-                // Fallback cleanly using excludeIds so no duplicates can ever happen
-                if (focusPicked.length < focusNeeded) {
-                    let shortage = focusNeeded - focusPicked.length;
-                    let extraOther = pickBalancedRecency(otherPool, shortage, [...normalMix, ...focusPicked, ...otherPicked], excludeIds, usedCourses);
-                    otherPicked = otherPicked.concat(extraOther);
-                }
-                if (otherPicked.length < otherNeeded) {
-                    let shortage = otherNeeded - otherPicked.length;
-                    let extraFocus = pickBalancedRecency(focusPool, shortage, [...normalMix, ...focusPicked, ...otherPicked], excludeIds, usedCourses);
-                    focusPicked = focusPicked.concat(extraFocus);
-                }
-
-                added = focusPicked.concat(otherPicked);
-            } else {
-                added = pickBalancedRecency(remainingDue, missing, normalMix, excludeIds, usedCourses);
-            }
-
-            normalMix = normalMix.concat(added);
+            
+            due = focusItems.concat(otherItems);
         }
     }
 
-    dailyQueue.ids = normalMix.map(m => m.id);
-    saveQueue();
+    const lockKey=lockedCourses.join(',');
+    if(dailyQueue.date!==todayStr||dailyQueue.cram!==isCramMode||dailyQueue.lockKey!==lockKey) dailyQueue={date:todayStr,ids:[],cram:isCramMode,lockKey:lockKey};
+    
+    const dueById=new Map(due.map(m=>[String(m.id),m]));
+    let dailyMix=[]; const queuedIdSet=new Set();
+    dailyQueue.ids.forEach(qid=>{ const key=String(qid); if(dueById.has(key)&&!queuedIdSet.has(key)){ dailyMix.push(dueById.get(key)); queuedIdSet.add(key); } });
+    if(dailyMix.length>quota) dailyMix=dailyMix.slice(0,quota);
 
-    // 6. Render Cards (Forced -> Bonus -> Normal Mix)
-    const displayList = [
-        ...forcedMix.map(m => ({ item: m, type: 'forced' })),
-        ...bonusMix.map(m => ({ item: m, type: 'bonus' })),
-        ...normalMix.map(m => ({ item: m, type: 'normal' }))
-    ];
-
-    if (displayList.length === 0) {
-        if (due.length === 0) {
-            area.innerHTML = '<div class="empty-state"><h3>All caught up! 🎉</h3><p>You have finished everything due today.</p></div>';
-        } else {
-            area.innerHTML = `<div class="empty-state">
-                <h3>Daily Goal Met! ✅</h3>
-                <p>You hit your goal of ${goal} doc${goal === 1 ? '' : 's'} today.</p>
-                <button class="btn" style="margin-top:15px;background:var(--pri)" onclick="readBonusDoc()">➕ Read a Bonus Document</button>
-            </div>`;
-        }
-        return;
+    if(dailyMix.length<quota){
+        const missing=quota-dailyMix.length; const currentIdSet=new Set(dailyMix.map(m=>String(m.id)));
+        let remainingDue=due.filter(m=>!currentIdSet.has(String(m.id))); remainingDue.sort((a,b)=>b.number-a.number);
+        let highPool=remainingDue.filter(m=>isTopHalf(m.course,m.id)), lowPool=remainingDue.filter(m=>!isTopHalf(m.course,m.id));
+        let existingNew=dailyMix.filter(m=>isTopHalf(m.course,m.id)).length, targetNew=quota===1?1:Math.floor(quota/2);
+        let newNeeded=Math.max(0,Math.min(missing,targetNew-existingNew)), oldNeeded=missing-newNeeded;
+        let usedTracker=[...new Set(dailyMix.map(m=>m.course))];
+        
+        let added=getDiverseItems(highPool,newNeeded,usedTracker); let addedIds=new Set(added.map(m=>String(m.id)));
+        let remLow=lowPool.filter(m=>!addedIds.has(String(m.id)));
+        if(added.length<newNeeded){ let extra=getDiverseItems(remLow,newNeeded-added.length,usedTracker); extra.forEach(m=>addedIds.add(String(m.id))); added=added.concat(extra); remLow=lowPool.filter(m=>!addedIds.has(String(m.id))); }
+        let oldMix=getDiverseItems(remLow,oldNeeded,usedTracker); oldMix.forEach(m=>addedIds.add(String(m.id))); added=added.concat(oldMix);
+        if(added.length<missing){ let remDue=remainingDue.filter(m=>!addedIds.has(String(m.id))); added=added.concat(getDiverseItems(remDue,missing-added.length,usedTracker)); }
+        dailyMix=dailyMix.concat(added);
     }
 
-    let html = `<h2 style="color:var(--new);font-size:14px;margin-bottom:10px;">📋 YOUR MIX (${displayList.length})</h2>`;
-    displayList.forEach(({ item: m, type }) => {
-        const isPri = isTopHalf(m.course, m.id);
-        const isFocused = isVisuallyFocused(m.course);
-        const cardClass = isFocused ? 'priority-focus' : (isPri ? 'priority-high' : '');
-        const warnBadge = m.ease < 2.0 ? '<span class="warn-badge">⚠️ Review</span>' : '';
-        const starIcon = m.starred ? '⭐' : '☆';
+    dailyQueue.ids=dailyMix.map(m=>m.id); saveQueue();
+    
+    let html=`<h2 style="color:var(--new);font-size:14px;margin-bottom:10px;">📋 YOUR MIX (${dailyMix.length})</h2>`;
+    dailyMix.forEach(m=>{
+        const isPri=isTopHalf(m.course,m.id), isFocused=isVisuallyFocused(m.course);
+        const cardClass=isFocused?'priority-focus':(isPri?'priority-high':'');
+        const warnBadge=m.ease<2.0?'<span class="warn-badge">⚠️ Review</span>':'';
+        const starIcon=m.starred?'⭐':'☆';
+        let examBadge="";
+        if(isLockedIn(m.course)) examBadge='<span class="warn-badge" style="background:var(--dng);color:#fff;">🚨 LOCK-IN</span>';
+        else if(isFocused) examBadge='<span class="warn-badge" style="background:var(--dng);color:#fff;">🔥 FOCUS</span>';
 
-        let statusBadge = "";
-        if (type === 'forced') statusBadge = '<span class="forced-badge">📌 FORCED</span>';
-        else if (type === 'bonus') statusBadge = '<span class="bonus-badge">✨ BONUS</span>';
-        else if (isLockedIn(m.course)) statusBadge = '<span class="warn-badge" style="background:var(--dng);color:#fff;">🚨 LOCK-IN</span>';
-        else if (isFocused) statusBadge = '<span class="warn-badge" style="background:var(--dng);color:#fff;">🔥 FOCUS</span>';
+        let ints = getIntervals(m);
 
-        const ints = getIntervals(m);
-        const safeId = escJs(m.id);
-
-        html += `<div class="mix-card ${cardClass}">
+        html+=`<div class="mix-card ${cardClass}">
             <div class="mix-header">
                 <div style="font-weight:700;font-size:16px;color:#fff;">
-                    ${escHtml(m.course)} ${String(m.number).padStart(2, '0')} 
+                    ${m.course} ${String(m.number).padStart(2,'0')} 
                     <span class="reps-badge" style="margin-left:5px;">Reps: ${m.reps}</span>
                     ${warnBadge}
                 </div>
-                <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
-                    ${statusBadge}
-                    <span style="cursor:pointer;font-size:18px;" onclick="toggleStar('${safeId}', event)">${starIcon}</span>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    ${examBadge}
+                    <span style="cursor:pointer;font-size:18px;" onclick="toggleStar(${m.id},event)">${starIcon}</span>
                 </div>
             </div>
-            <div class="mix-title">${escHtml(m.title)}</div>
+            <div class="mix-title">${m.title}</div>
             <div class="mix-actions">
-                <button class="mix-btn" style="background:var(--dng);" onclick="processReview('${safeId}',0)">Again</button>
-                <button class="mix-btn" style="background:var(--new);" onclick="processReview('${safeId}',3)">Hard</button>
-                <button class="mix-btn" style="background:var(--pri);" onclick="processReview('${safeId}',4)">Good</button>
-                <button class="mix-btn" style="background:var(--suc);" onclick="processReview('${safeId}',5)">Easy</button>
+                <button class="mix-btn" style="background:var(--dng);" onclick="processReview(${m.id},0)">Again</button>
+                <button class="mix-btn" style="background:var(--new);" onclick="processReview(${m.id},3)">Hard</button>
+                <button class="mix-btn" style="background:var(--pri);" onclick="processReview(${m.id},4)">Good</button>
+                <button class="mix-btn" style="background:var(--suc);" onclick="processReview(${m.id},5)">Easy</button>
             </div>
             <div class="interval-row">
                 <span>${ints.a}</span>
@@ -1794,86 +953,64 @@ function renderTodayMix() {
                 <span>${ints.e}</span>
             </div>
             <div style="text-align:right; margin-top:10px;">
-                <button class="btn btn-grey mini-btn" style="width:auto; display:inline-block;" onclick="markMastered('${safeId}')">✓ Mark as Mastered</button>
+                <button class="btn btn-grey mini-btn" style="width:auto; padding:5px 10px; font-size:11px; display:inline-block; margin:0;" onclick="markMastered(${m.id})">✓ Mark as Mastered</button>
             </div>
         </div>`;
     });
-
-    if (quota <= 0 && !isCramMode && due.length > 0) {
-        html += `<div style="text-align:center;margin-top:12px;">
-            <small style="color:var(--suc);font-weight:600;display:block;margin-bottom:8px;">Daily Goal Met ✅</small>
-            <button class="btn" style="margin-top:0;background:var(--pri)" onclick="readBonusDoc()">➕ Read Another Bonus Document</button>
-        </div>`;
-    }
-
-    area.innerHTML = html;
+    area.innerHTML=html;
 }
 
-/* --- REVIEW & MASTERY LOGGING --- */
-function logReviewActivity(m, rating) {
-    if (stats.reviewed === 0) stats.streak++;
+function markMastered(id) {
+    let m=materials.find(x=>x.id===id); if(!m)return;
+    
+    let next = new Date(); next.setDate(next.getDate() + 60);
+    m.nextReview = next.toISOString().split('T')[0];
+    m.reps = 5; 
+    m.ease = 2.5;
+    
+    dailyQueue.ids = dailyQueue.ids.filter(qid => String(qid) !== String(id));
+    
+    saveData(); 
+    renderTodayMix();
+}
+
+function processReview(id,q){
+    let m=materials.find(x=>x.id===id); if(!m)return;
+    
+    if(q>=3){ if(m.reps===0)m.interval=1; else if(m.reps===1)m.interval=6; else m.interval=Math.round(m.interval*m.ease); m.reps++; }
+    else{ m.reps=0; m.interval=1; }
+    m.ease=m.ease+(0.1-(5-q)*(0.08+(5-q)*0.02)); if(m.ease<1.3)m.ease=1.3;
+    let next=new Date(); next.setDate(next.getDate()+m.interval); m.nextReview=next.toISOString().split('T')[0];
+    
+    if(stats.reviewed===0) stats.streak++;
     stats.reviewed++;
-
-    const today = getLocalISO();
-    const nowTime = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-
+    
+    let today = new Date().toISOString().split('T')[0];
+    let nowTime = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    
     dailyStats[today] = (dailyStats[today] || 0) + 1;
     courseReviewCounts[m.course] = (courseReviewCounts[m.course] || 0) + 1;
-
+    
     historyLog.unshift({
         date: today,
         time: nowTime,
         course: m.course,
         number: m.number,
         title: m.title,
-        rating: rating
+        rating: q
     });
-    if (historyLog.length > 500) historyLog.length = 500;
-
-    lastReviewedCourse = m.course;
-
-    const key = String(m.id);
-    dailyQueue.ids = dailyQueue.ids.filter(qid => String(qid) !== key);
-    dailyQueue.forcedIds = dailyQueue.forcedIds.filter(qid => String(qid) !== key);
-    dailyQueue.bonusIds = dailyQueue.bonusIds.filter(qid => String(qid) !== key);
-}
-
-function markMastered(id) {
-    let m = materials.find(x => String(x.id) === String(id));
-    if (!m) return;
-
-    m.interval = 60;
-    m.nextReview = addDaysISO(60);
-    m.reps = Math.max(5, (m.reps || 0) + 1);
-    m.ease = Math.max(2.5, m.ease || 2.5);
-
-    logReviewActivity(m, 'mastered');
-    saveData();
+    if(historyLog.length > 50) historyLog.pop(); 
+    
+    lastReviewedCourse = m.course; 
+    dailyQueue.ids=dailyQueue.ids.filter(qid=>String(qid)!==String(id));
+    
+    saveData(); 
     renderTodayMix();
 }
 
-function processReview(id, q) {
-    let m = materials.find(x => String(x.id) === String(id));
-    if (!m) return;
-
-    const nextInterval = computeIntervalDays(m, q);
-    m.interval = nextInterval;
-    if (q >= 3) m.reps = (m.reps || 0) + 1;
-    else m.reps = 0;
-
-    m.ease = (m.ease || 2.5) + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
-    if (m.ease < 1.3) m.ease = 1.3;
-    m.nextReview = addDaysISO(nextInterval);
-
-    logReviewActivity(m, q);
-    saveData();
-    renderTodayMix();
-}
-
-/* --- BOOT --- */
-document.getElementById('view-btn').innerText = isListView ? '⊞' : '☰';
+// BOOT
 updateGlobalAlert();
-showTab(activeTab);
+renderDashboard();
 </script>
 </body>
 </html>
